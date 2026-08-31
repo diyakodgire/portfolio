@@ -74,6 +74,11 @@ img { max-width: 100%; display: block; }
 
 .nav-links a:hover { color: var(--gold); }
 
+.nav-links a.active {
+  color: var(--gold);
+  border-bottom: 1px solid var(--gold);
+}
+
 .nav-toggle {
   display: none;
   flex-direction: column;
@@ -110,6 +115,13 @@ img { max-width: 100%; display: block; }
   margin: 0 0 2.5rem;
 }
 
+.section-heading.center {
+  text-align: center;
+  max-width: 1100px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
 /* ---------- Hero ---------- */
 .hero {
   min-height: 90vh;
@@ -120,6 +132,10 @@ img { max-width: 100%; display: block; }
   background:
     radial-gradient(ellipse at center, rgba(255,255,255,0.04), transparent 60%),
     linear-gradient(160deg, var(--maroon-light), var(--maroon-deep));
+}
+
+.hero--landing {
+  min-height: 70vh;
 }
 
 .hero-title {
@@ -147,6 +163,48 @@ img { max-width: 100%; display: block; }
   -webkit-text-stroke: 1.5px var(--cream);
   margin: 1.5rem 0 0;
   transform: rotate(-2deg);
+}
+
+/* ---------- Explore (landing page nav grid) ---------- */
+.explore {
+  background: var(--maroon-deep);
+}
+
+.explore-grid {
+  max-width: 1100px;
+  margin: 2.5rem auto 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 1.5rem;
+}
+
+.explore-card {
+  display: block;
+  background: rgba(242, 232, 212, 0.06);
+  border: 1px solid rgba(203, 178, 122, 0.35);
+  border-radius: 6px;
+  padding: 1.75rem;
+  text-decoration: none;
+  color: var(--cream);
+  transition: transform 0.2s ease, background 0.2s ease, border-color 0.2s ease;
+}
+
+.explore-card:hover {
+  transform: translateY(-4px);
+  background: rgba(242, 232, 212, 0.12);
+  border-color: var(--gold);
+}
+
+.explore-card h3 {
+  font-family: var(--font-display);
+  margin: 0 0 0.6rem;
+  color: var(--gold);
+}
+
+.explore-card p {
+  margin: 0;
+  opacity: 0.85;
+  line-height: 1.5;
 }
 
 /* ---------- About ---------- */
