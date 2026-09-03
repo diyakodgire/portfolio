@@ -141,10 +141,11 @@ img { max-width: 100%; display: block; }
 .hero-title {
   font-family: var(--font-display);
   font-weight: 900;
-  font-size: clamp(3rem, 9vw, 7rem);
+  font-size: clamp(4rem, 13vw, 10rem);
   margin: 0;
   color: var(--cream);
   text-shadow: 3px 3px 0 rgba(0,0,0,0.35);
+  line-height: 1;
 }
 
 .hero-subtitle {
@@ -152,17 +153,8 @@ img { max-width: 100%; display: block; }
   letter-spacing: 0.18em;
   text-transform: uppercase;
   font-size: clamp(0.85rem, 1.6vw, 1.3rem);
-  margin: 1rem 0 0;
-  color: var(--cream-dim);
-}
-
-.hero-stamp {
-  font-family: var(--font-script);
-  font-size: clamp(2.5rem, 6vw, 4.5rem);
-  color: var(--maroon);
-  -webkit-text-stroke: 1.5px var(--cream);
   margin: 1.5rem 0 0;
-  transform: rotate(-2deg);
+  color: var(--cream-dim);
 }
 
 /* ---------- Explore (landing page nav grid) ---------- */
