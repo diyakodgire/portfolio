@@ -167,9 +167,11 @@
     var previousHtmlOverflow = document.documentElement.style.overflow;
 
     var doneCalled = false;
+    var resizeHandler = null;
     function finish() {
       if (doneCalled) return;
       doneCalled = true;
+      if (resizeHandler) window.removeEventListener('resize', resizeHandler);
       overlay.setAttribute('data-stage', 'hidden');
       document.body.classList.remove('door-transition-lock');
       document.body.style.overflow = previousBodyOverflow;
@@ -191,26 +193,72 @@
 
     var gsap = window.gsap;
     var scene = overlay.querySelector('.door-transition__scene');
+    var frame = overlay.querySelector('.door-transition__frame');
     var leftDoor = overlay.querySelector('.door-transition__door--left');
     var rightDoor = overlay.querySelector('.door-transition__door--right');
     var leftShadow = leftDoor.querySelector('.door-transition__door-shadow');
     var rightShadow = rightDoor.querySelector('.door-transition__door-shadow');
 
+    // Cut a precise, pixel-accurate archway hole through the frame, matched
+    // exactly to the doors' own rendered bounds (inset slightly so the
+    // frame's stone trim still reads as a ring around the doors). Because
+    // this uses the doors' real geometry, whatever sits behind — the doors
+    // while closed, the real page once they swing open — lines up exactly;
+    // there is no separate placeholder scene to keep in sync.
+    var RING = 16; // px — must stay in sync with .door-transition__arch-trim's box-shadow spread
+    function updateFrameClip() {
+      var frameRect = frame.getBoundingClientRect();
+      var leftRect = leftDoor.getBoundingClientRect();
+      var rightRect = rightDoor.getBoundingClientRect();
+
+      var left = leftRect.left + RING - frameRect.left;
+      var right = rightRect.right - RING - frameRect.left;
+      var top = Math.min(leftRect.top, rightRect.top) + RING - frameRect.top;
+      var bottom = Math.max(leftRect.bottom, rightRect.bottom) - frameRect.top;
+
+      var rx = (right - left) / 2;
+      var ry = (bottom - top) * 0.34;
+      var br = 4;
+
+      var arch =
+        'M' + left + ',' + (bottom - br) +
+        ' A' + br + ',' + br + ' 0 0 1 ' + (left + br) + ',' + bottom +
+        ' L' + (right - br) + ',' + bottom +
+        ' A' + br + ',' + br + ' 0 0 1 ' + right + ',' + (bottom - br) +
+        ' L' + right + ',' + (top + ry) +
+        ' A' + rx + ',' + ry + ' 0 0 0 ' + left + ',' + (top + ry) +
+        ' Z';
+      var outer = 'M0,0 H' + frameRect.width + ' V' + frameRect.height + ' H0 Z';
+
+      frame.style.clipPath = 'path(evenodd, "' + outer + ' ' + arch + '")';
+    }
+
+    updateFrameClip();
+    resizeHandler = updateFrameClip;
+    window.addEventListener('resize', resizeHandler);
+
     var timeline = gsap.timeline({
       paused: true,
-      onComplete: function () {
-        overlay.setAttribute('data-stage', 'revealing');
-        // matches the CSS transition on .door-transition__scene
-        window.setTimeout(finish, 780);
-      },
+      onComplete: finish,
     });
 
     timeline
       .set(overlay, { attr: { 'data-stage': 'opening' } })
+      // 1. Doors swing open on their outer hinges — the real page is
+      //    already visible through the frame's opening the instant each
+      //    door rotates clear of it, since the opening is a real hole.
       .to(leftDoor, { rotateY: -108, duration: 1.3, ease: 'power3.inOut' }, 0)
       .to(rightDoor, { rotateY: 108, duration: 1.3, ease: 'power3.inOut' }, 0)
       .to([leftShadow, rightShadow], { opacity: 1, duration: 0.5, ease: 'power1.out' }, 0.05)
-      .to([leftShadow, rightShadow], { opacity: 0, duration: 0.6, ease: 'power1.in' }, 0.85);
+      .to([leftShadow, rightShadow], { opacity: 0, duration: 0.6, ease: 'power1.in' }, 0.85)
+      // 2. Hold on the open doorway with the page visible through it.
+      // 3. Continuous camera push: scale the whole scene (backdrop, frame,
+      //    and the now-open doors together) outward until it clears the
+      //    viewport. transform only, no opacity — this is a push-through,
+      //    not a crossfade. The real page is never itself transformed, so
+      //    what's revealed as the opening grows is always in perfect,
+      //    unscaled alignment with the final full-screen page.
+      .to(scene, { scale: 3, duration: 1.1, ease: 'power2.in' }, 1.7);
 
     var started = false;
     function start() {
@@ -222,8 +270,7 @@
     function skip() {
       if (doneCalled) return;
       timeline.kill();
-      overlay.setAttribute('data-stage', 'revealing');
-      window.setTimeout(finish, 200);
+      finish();
     }
 
     overlay.querySelectorAll('[data-dt-skip]').forEach(function (el) {

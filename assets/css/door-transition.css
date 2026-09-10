@@ -33,24 +33,11 @@
   display: none;
 }
 
-/* A clean, brand-matched backdrop — not an attempt at a photographic wall.
-   Hides the destination page until the doors actually open, and fades away
-   with the reveal so the crossfade into the real hero (same maroon family)
-   feels seamless rather than like a hard cut. */
-.door-transition::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  z-index: 0;
-  background:
-    radial-gradient(ellipse 90% 70% at 50% 38%, var(--dt-maroon-light) 0%, var(--dt-maroon) 45%, var(--dt-maroon-deep) 100%);
-  transition: opacity 0.5s ease;
-}
-
-.door-transition[data-stage="revealing"]::before {
-  opacity: 0;
-}
-
+/* .scene is the single element the "camera push through" animates (via
+   GSAP, transform only — no opacity/fade). Its own background is the
+   brand-matched backdrop for the thin margin around the doorway; because
+   it's part of the same element that scales, it exits the viewport
+   together with the frame instead of being left behind as a static border. */
 .door-transition__scene {
   position: absolute;
   inset: 0;
@@ -58,29 +45,30 @@
   align-items: center;
   justify-content: center;
   perspective: 2400px;
-  transform-origin: 50% 44%;
-  transition: transform 0.75s cubic-bezier(.45, 0, .2, 1), opacity 0.75s ease;
-}
-
-.door-transition[data-stage="revealing"] .door-transition__scene {
-  transform: scale(2.3);
-  opacity: 0;
+  background:
+    radial-gradient(ellipse 90% 70% at 50% 38%, var(--dt-maroon-light) 0%, var(--dt-maroon) 45%, var(--dt-maroon-deep) 100%);
 }
 
 .door-transition__stage {
   position: relative;
-  height: min(78vh, 620px);
-  aspect-ratio: 3 / 4.5;
+  height: min(92vh, 880px);
+  aspect-ratio: 3 / 3.8;
   width: auto;
-  max-width: 88vw;
+  max-width: 92vw;
 }
 
-/* ---------- Layer 1: stationary frame ---------- */
+/* ---------- Layer 1: stationary frame ----------
+   Fills the whole stage with real stone material; a JS-computed clip-path
+   (matched exactly to the doors' rendered bounds) cuts the archway opening
+   out of it, so whatever is behind — the doors, then the real page — is
+   genuinely visible through the opening, not a placeholder. */
 .door-transition__frame {
   position: absolute;
   inset: 0;
   z-index: 3;
   pointer-events: none;
+  background: linear-gradient(155deg, var(--dt-stone) 0%, var(--dt-stone-mid) 55%, var(--dt-stone-dark) 100%);
+  box-shadow: 0 30px 70px rgba(0, 0, 0, 0.5);
 }
 
 .door-transition__frame img {
