@@ -34,10 +34,8 @@
 }
 
 /* .scene is the single element the "camera push through" animates (via
-   GSAP, transform only — no opacity/fade). Its own background is the
-   brand-matched backdrop for the thin margin around the doorway; because
-   it's part of the same element that scales, it exits the viewport
-   together with the frame instead of being left behind as a static border. */
+   GSAP, transform only — no opacity/fade); it has no background of its
+   own so it can never sit between the opening and the real page. */
 .door-transition__scene {
   position: absolute;
   inset: 0;
@@ -45,12 +43,26 @@
   align-items: center;
   justify-content: center;
   perspective: 2400px;
+}
+
+/* Brand-matched backdrop for the thin margin around the doorway. This is a
+   SEPARATE layer (not .scene's own background) because it needs its own
+   clip-path hole, computed the same way as .frame's — otherwise it would
+   sit between the archway opening and the real page and the "reveal"
+   would show this gradient instead of the actual landing page. It's
+   still a child of .scene, so it scales/exits together with everything
+   else during the push-through. */
+.door-transition__backdrop {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
   background:
     radial-gradient(ellipse 90% 70% at 50% 38%, var(--dt-maroon-light) 0%, var(--dt-maroon) 45%, var(--dt-maroon-deep) 100%);
 }
 
 .door-transition__stage {
   position: relative;
+  z-index: 1;
   height: min(92vh, 880px);
   aspect-ratio: 3 / 3.8;
   width: auto;
@@ -293,41 +305,7 @@
   border: 2px solid rgba(80, 70, 60, 0.6);
 }
 
-/* ---------- Enter prompt & skip ---------- */
-.door-transition__prompt {
-  position: absolute;
-  bottom: -9%;
-  left: 50%;
-  transform: translateX(-50%);
-  z-index: 4;
-  text-align: center;
-  color: var(--dt-cream);
-  font-family: var(--font-display, Georgia, serif);
-  font-style: italic;
-  font-size: clamp(0.95rem, 2vw, 1.1rem);
-  letter-spacing: 0.08em;
-  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.7);
-  animation: door-transition-pulse 2.2s ease-in-out infinite;
-  white-space: nowrap;
-  cursor: pointer;
-}
-
-.door-transition__prompt span {
-  display: block;
-  font-family: var(--font-body, Georgia, serif);
-  font-style: normal;
-  font-size: 0.65rem;
-  letter-spacing: 0.2em;
-  text-transform: uppercase;
-  opacity: 0.8;
-  margin-top: 0.3rem;
-}
-
-@keyframes door-transition-pulse {
-  0%, 100% { opacity: 0.7; }
-  50% { opacity: 1; }
-}
-
+/* ---------- Skip ---------- */
 .door-transition__skip {
   position: absolute;
   top: max(1.25rem, env(safe-area-inset-top));
@@ -348,9 +326,7 @@
 .door-transition__skip:hover { background: rgba(20, 16, 10, 0.55); }
 .door-transition__skip:focus-visible { outline: 2px solid var(--dt-gold); outline-offset: 2px; }
 
-.door-transition[data-stage="opening"] .door-transition__prompt,
 .door-transition[data-stage="opening"] .door-transition__skip,
-.door-transition[data-stage="revealing"] .door-transition__prompt,
 .door-transition[data-stage="revealing"] .door-transition__skip {
   opacity: 0;
   pointer-events: none;

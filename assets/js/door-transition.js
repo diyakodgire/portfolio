@@ -126,11 +126,11 @@
 
     return (
       '<div class="door-transition__scene">' +
+      '<div class="door-transition__backdrop"></div>' +
       '<div class="door-transition__stage">' +
       '<div class="door-transition__door door-transition__door--left">' + doorLeftContent + '</div>' +
       '<div class="door-transition__door door-transition__door--right">' + doorRightContent + '</div>' +
       '<div class="door-transition__frame">' + buildFrameInner(assets.frame) + '</div>' +
-      '<p class="door-transition__prompt" data-dt-skip>Enter<span>Click to skip</span></p>' +
       '</div>' +
       '</div>' +
       '<button type="button" class="door-transition__skip" data-dt-skip>Skip intro</button>'
@@ -193,28 +193,32 @@
 
     var gsap = window.gsap;
     var scene = overlay.querySelector('.door-transition__scene');
+    var backdrop = overlay.querySelector('.door-transition__backdrop');
     var frame = overlay.querySelector('.door-transition__frame');
     var leftDoor = overlay.querySelector('.door-transition__door--left');
     var rightDoor = overlay.querySelector('.door-transition__door--right');
     var leftShadow = leftDoor.querySelector('.door-transition__door-shadow');
     var rightShadow = rightDoor.querySelector('.door-transition__door-shadow');
 
-    // Cut a precise, pixel-accurate archway hole through the frame, matched
-    // exactly to the doors' own rendered bounds (inset slightly so the
-    // frame's stone trim still reads as a ring around the doors). Because
-    // this uses the doors' real geometry, whatever sits behind — the doors
-    // while closed, the real page once they swing open — lines up exactly;
-    // there is no separate placeholder scene to keep in sync.
+    // Cut a precise, pixel-accurate archway hole matched exactly to the
+    // doors' own rendered bounds — through BOTH the frame (inset slightly
+    // so its stone trim still reads as a ring around the doors) AND the
+    // backdrop behind it (same hole, no inset). Both layers need this: if
+    // only the frame were clipped, the backdrop would still sit between
+    // the opening and the real page, and the "reveal" would show this
+    // gradient instead of the actual landing page. Because this uses the
+    // doors' real geometry, whatever sits behind — the doors while
+    // closed, the real page once they swing open — lines up exactly.
     var RING = 16; // px — must stay in sync with .door-transition__arch-trim's box-shadow spread
-    function updateFrameClip() {
-      var frameRect = frame.getBoundingClientRect();
+    function clipToDoors(el, inset) {
+      var elRect = el.getBoundingClientRect();
       var leftRect = leftDoor.getBoundingClientRect();
       var rightRect = rightDoor.getBoundingClientRect();
 
-      var left = leftRect.left + RING - frameRect.left;
-      var right = rightRect.right - RING - frameRect.left;
-      var top = Math.min(leftRect.top, rightRect.top) + RING - frameRect.top;
-      var bottom = Math.max(leftRect.bottom, rightRect.bottom) - frameRect.top;
+      var left = leftRect.left + inset - elRect.left;
+      var right = rightRect.right - inset - elRect.left;
+      var top = Math.min(leftRect.top, rightRect.top) + inset - elRect.top;
+      var bottom = Math.max(leftRect.bottom, rightRect.bottom) - elRect.top;
 
       var rx = (right - left) / 2;
       var ry = (bottom - top) * 0.34;
@@ -228,9 +232,14 @@
         ' L' + right + ',' + (top + ry) +
         ' A' + rx + ',' + ry + ' 0 0 0 ' + left + ',' + (top + ry) +
         ' Z';
-      var outer = 'M0,0 H' + frameRect.width + ' V' + frameRect.height + ' H0 Z';
+      var outer = 'M0,0 H' + elRect.width + ' V' + elRect.height + ' H0 Z';
 
-      frame.style.clipPath = 'path(evenodd, "' + outer + ' ' + arch + '")';
+      el.style.clipPath = 'path(evenodd, "' + outer + ' ' + arch + '")';
+    }
+
+    function updateFrameClip() {
+      clipToDoors(frame, RING);
+      clipToDoors(backdrop, 0);
     }
 
     updateFrameClip();
@@ -258,7 +267,7 @@
       //    not a crossfade. The real page is never itself transformed, so
       //    what's revealed as the opening grows is always in perfect,
       //    unscaled alignment with the final full-screen page.
-      .to(scene, { scale: 3, duration: 1.1, ease: 'power2.in' }, 1.7);
+      .to(scene, { scale: 5, duration: 1.2, ease: 'power2.in' }, 1.7);
 
     var started = false;
     function start() {
