@@ -37,16 +37,25 @@ img { max-width: 100%; display: block; }
   border-bottom: 1px solid rgba(203, 178, 122, 0.25);
 }
 
+/* .nav-inner is centered with a max-width for the link group, which also
+   pins .nav-brand inline with that centered container. Taking the brand out
+   of this flow and anchoring it straight to .navbar (its nearest positioned
+   ancestor) keeps it a fixed distance from the true viewport edge instead of
+   the centered container's edge. */
 .nav-inner {
   max-width: 1200px;
   margin: 0 auto;
-  padding: 0.9rem 1.5rem 0.9rem clamp(0.75rem, 3vw, 1rem);
+  padding: 0.9rem 1.5rem;
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: flex-end;
 }
 
 .nav-brand {
+  position: absolute;
+  left: 24px;
+  top: 50%;
+  transform: translateY(-50%);
   font-family: var(--font-display);
   font-weight: 700;
   color: var(--cream);
@@ -514,6 +523,7 @@ img { max-width: 100%; display: block; }
   .polaroid { max-width: 320px; margin: 0 auto; }
   .skills-grid { grid-template-columns: 1fr; }
 
+  .nav-brand { left: 16px; }
   .nav-toggle { display: flex; }
   .nav-links {
     position: absolute;
