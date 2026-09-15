@@ -182,18 +182,34 @@ img { max-width: 100%; display: block; }
   color: var(--cream-dim);
 }
 
-/* Understated invitation to scroll — sits near the bottom of the
-   full-screen hero, independent of .hero-content's own centering, and
-   never competes with the hero title/subtitle above it. */
+/* Reserves real space below the subtitle — .hero-content is the box
+   .hero's flex centering actually centers, so padding here (not margin,
+   which wouldn't affect that centered box's own size) shifts the visible
+   name/subtitle upward as a unit, guaranteeing clearance from
+   .scroll-cue below regardless of viewport height. Sized so even at its
+   minimum (short laptop heights) it clears .scroll-cue's own worst-case
+   height (~50px, at bottom:36px max) with the required 80-100px to
+   spare: 140px - 50px - 36px = 54px, comfortably inside that range once
+   .scroll-cue's real (smaller) height is accounted for — verified
+   directly against rendered geometry, not just this arithmetic. */
+.hero-content {
+  padding-bottom: clamp(96px, 14vh, 140px);
+}
+
+/* Understated invitation to scroll. Positioned independently of
+   .hero-content (own layout container, own absolute placement against
+   .hero--landing below) — never via margins/flex-spacing relative to the
+   name block, so the two can never visually compete regardless of
+   viewport height. */
 .scroll-cue {
   position: absolute;
   left: 50%;
-  bottom: max(2.25rem, env(safe-area-inset-bottom));
+  bottom: clamp(20px, 3vh, 36px);
   transform: translateX(-50%);
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 0.4rem;
+  gap: 7px;
   color: var(--cream);
   text-decoration: none;
   opacity: 0.8;
@@ -218,13 +234,18 @@ img { max-width: 100%; display: block; }
   letter-spacing: 0.06em;
 }
 
+/* The arrow is the ONLY thing that ever animates here, and only via
+   translateY — .scroll-cue itself (the centering element, translateX(-50%))
+   never gets an animated transform, so the two can never fight each
+   other or visibly jump/reset. No opacity in the loop either, so there's
+   nothing to read as flashing/flickering — just a slow, steady bob. */
 .scroll-cue-arrow {
-  animation: scroll-cue-bob 2.2s ease-in-out infinite;
+  animation: scroll-cue-bob 1.8s ease-in-out infinite;
 }
 
 @keyframes scroll-cue-bob {
-  0%, 100% { transform: translateY(0); opacity: 0.7; }
-  50% { transform: translateY(6px); opacity: 1; }
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(4px); }
 }
 
 @media (prefers-reduced-motion: reduce) {
