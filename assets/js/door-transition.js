@@ -242,10 +242,6 @@
     options = options || {};
     var assets = options.assets || {};
     var onComplete = typeof options.onComplete === 'function' ? options.onComplete : null;
-    // Optional hook, called at each phase of the interaction
-    // ('ready'|'clicked'|'opening'|'opened'|'pushing') — used by the
-    // preview to show live status text. No-op in production.
-    var onStatus = typeof options.onStatus === 'function' ? options.onStatus : function () {};
 
     var alreadyPlayed = false;
     try {
@@ -711,7 +707,6 @@
     // native WAAPI tween doing the exact same job — the doorway itself
     // never depends on this either way.
     function startPush() {
-      onStatus('pushing');
       if (hasGSAP) {
         gsap.to(scene, {
           scale: function () { return finalScale; },
@@ -750,7 +745,6 @@
       });
       window.clearTimeout(pulseTimer1);
       window.clearTimeout(pulseTimer2);
-      onStatus('clicked');
 
       if (reduced) {
         // No door swing, no camera push — a calm cross-fade is the whole
@@ -783,7 +777,6 @@
     // pure CSS, keyed off the same attribute — nothing here schedules
     // them individually. This whole mechanism works with or without GSAP.
     function openDoors() {
-      onStatus('opening');
       overlay.setAttribute('data-stage', 'opening');
 
       var settled = false;
@@ -791,7 +784,6 @@
         if (settled) return;
         settled = true;
         leftSwing.removeEventListener('transitionend', onTransitionEnd);
-        onStatus('opened');
         window.setTimeout(startPush, HOLD_MS);
       }
       function onTransitionEnd(e) {
@@ -824,7 +816,6 @@
     // themselves.
     overlay.style.visibility = '';
     overlay.style.opacity = '';
-    onStatus('ready');
 
     } catch (err) {
       if (window.console) console.error('DoorTransition failed, revealing page:', err);
