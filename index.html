@@ -21,12 +21,12 @@
     </button>
     <ul class="nav-links" id="navLinks">
       <li><a href="index.html">Home</a></li>
-      <li><a href="about.html">About Me!</a></li>
-      <li><a href="skills.html">Expertise &amp; Skills</a></li>
-      <li><a href="content-creation.html">Content Creation</a></li>
+      <li><a href="about.html">About</a></li>
+      <li><a href="skills.html">Skills</a></li>
+      <li><a href="content-creation.html">Content</a></li>
       <li><a href="projects.html">Projects</a></li>
-      <li><a href="marketing-campaigns.html">Marketing Campaigns</a></li>
-      <li><a href="contact.html">Contact Me!</a></li>
+      <li><a href="marketing-campaigns.html">Campaigns</a></li>
+      <li><a href="contact.html">Contact</a></li>
     </ul>
   </nav>
 </header>
@@ -38,34 +38,53 @@
       <h1 class="hero-title">Diya Kodgire</h1>
       <p class="hero-subtitle">Content Creation&nbsp;|&nbsp;Digital Marketing&nbsp;|&nbsp;Advertising</p>
     </div>
+    <a class="scroll-cue" href="#explore">
+      <span class="scroll-cue-label">Explore my work</span>
+      <svg class="scroll-cue-arrow" viewBox="0 0 24 24" width="20" height="20" aria-hidden="true" focusable="false">
+        <path d="M4 9 L12 17 L20 9" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" />
+      </svg>
+    </a>
   </section>
 
-  <section class="section explore">
+  <!-- Selected Work: reserved for real project titles/descriptions/images
+       (see assets/images/README.md) — deliberately not rendered until
+       there's real completed work to show, rather than placeholder cards.
+       Once ready, it belongs here, between the hero and .explore below,
+       as a <section class="section selected-work" id="selected-work">
+       matching the section/heading pattern used throughout this page. -->
+
+  <section class="section explore" id="explore">
     <h2 class="section-heading center">Take a look around</h2>
     <div class="explore-grid">
       <a class="explore-card" href="about.html">
         <h3>About Me!</h3>
         <p>My background, what I'm studying, and what drives me.</p>
+        <span class="explore-card-arrow" aria-hidden="true">&rarr;</span>
       </a>
       <a class="explore-card" href="skills.html">
         <h3>Expertise &amp; Skills</h3>
         <p>What I bring to the table, ranked out of 10.</p>
+        <span class="explore-card-arrow" aria-hidden="true">&rarr;</span>
       </a>
       <a class="explore-card" href="content-creation.html">
         <h3>Content Creation</h3>
         <p>Pinterest-worthy content and UGC work.</p>
+        <span class="explore-card-arrow" aria-hidden="true">&rarr;</span>
       </a>
       <a class="explore-card" href="projects.html">
         <h3>Projects</h3>
         <p>Case studies from my marketing and content work.</p>
+        <span class="explore-card-arrow" aria-hidden="true">&rarr;</span>
       </a>
       <a class="explore-card" href="marketing-campaigns.html">
         <h3>Marketing Campaigns</h3>
         <p>Campaigns I've helped plan, execute, and grow.</p>
+        <span class="explore-card-arrow" aria-hidden="true">&rarr;</span>
       </a>
       <a class="explore-card" href="contact.html">
         <h3>Contact Me!</h3>
         <p>Let's connect — reach out here.</p>
+        <span class="explore-card-arrow" aria-hidden="true">&rarr;</span>
       </a>
     </div>
   </section>
@@ -97,6 +116,19 @@
 
   var replayBtn = document.getElementById('replayIntro');
 
+  // The Replay button's visibility depends on two independent things: the
+  // intro must be finished/skipped (introReady), AND the footer must not
+  // be in view (so the fixed bottom-right button never sits inside the
+  // footer bar, even though it wouldn't visually overlap the centered
+  // copyright text there — it just shouldn't share that space at all).
+  // Both funnel through this one update so neither can show it while the
+  // other says not to.
+  var introReady = false;
+  var footerInView = false;
+  function updateReplayVisibility() {
+    replayBtn.hidden = !introReady || footerInView;
+  }
+
   // Starts (or restarts) the intro. init() builds an entirely fresh
   // overlay/listeners each call and tears its own down on completion
   // (see door-transition.js), so calling this again for a replay never
@@ -105,11 +137,13 @@
   // run's onComplete fires — whether from a real finish, Skip, or a
   // reduced-motion fade.
   function startDoorIntro() {
-    replayBtn.hidden = true;
+    introReady = false;
+    updateReplayVisibility();
     DoorTransition.init({
       assets: DOOR_ASSETS,
       onComplete: function () {
-        replayBtn.hidden = false;
+        introReady = true;
+        updateReplayVisibility();
       },
     });
   }
@@ -118,6 +152,15 @@
     window.scrollTo(0, 0);
     startDoorIntro();
   });
+
+  var footerEl = document.querySelector('.site-footer');
+  if (footerEl && 'IntersectionObserver' in window) {
+    var footerObserver = new IntersectionObserver(function (entries) {
+      footerInView = entries[0].isIntersecting;
+      updateReplayVisibility();
+    });
+    footerObserver.observe(footerEl);
+  }
 
   startDoorIntro();
 </script>

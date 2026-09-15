@@ -24,6 +24,10 @@
 * { box-sizing: border-box; }
 html { scroll-behavior: smooth; }
 
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+}
+
 body {
   margin: 0;
   font-family: var(--font-body);
@@ -152,8 +156,10 @@ img { max-width: 100%; display: block; }
    hero+navbar together occupy the full screen on load and no part of the
    next section is visible until the user scrolls — sized via calc()
    against the navbar's real measured height (see main.js), not a fixed
-   spacer element. */
+   spacer element. .scroll-cue below anchors to this, not .hero, so it
+   only ever appears on the full-screen landing hero. */
 .hero--landing {
+  position: relative;
   min-height: calc(100svh - var(--nav-h));
 }
 
@@ -176,6 +182,55 @@ img { max-width: 100%; display: block; }
   color: var(--cream-dim);
 }
 
+/* Understated invitation to scroll — sits near the bottom of the
+   full-screen hero, independent of .hero-content's own centering, and
+   never competes with the hero title/subtitle above it. */
+.scroll-cue {
+  position: absolute;
+  left: 50%;
+  bottom: max(2.25rem, env(safe-area-inset-bottom));
+  transform: translateX(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.4rem;
+  color: var(--cream);
+  text-decoration: none;
+  opacity: 0.8;
+  transition: opacity 0.25s ease;
+}
+
+.scroll-cue:hover,
+.scroll-cue:focus-visible {
+  opacity: 1;
+}
+
+.scroll-cue:focus-visible {
+  outline: 2px solid var(--gold);
+  outline-offset: 6px;
+  border-radius: 4px;
+}
+
+.scroll-cue-label {
+  font-family: var(--font-body);
+  font-style: italic;
+  font-size: 0.92rem;
+  letter-spacing: 0.06em;
+}
+
+.scroll-cue-arrow {
+  animation: scroll-cue-bob 2.2s ease-in-out infinite;
+}
+
+@keyframes scroll-cue-bob {
+  0%, 100% { transform: translateY(0); opacity: 0.7; }
+  50% { transform: translateY(6px); opacity: 1; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .scroll-cue-arrow { animation: none; }
+}
+
 /* ---------- Explore (landing page nav grid) ---------- */
 .explore {
   background: var(--maroon-deep);
@@ -190,20 +245,27 @@ img { max-width: 100%; display: block; }
 }
 
 .explore-card {
+  position: relative;
   display: block;
   background: rgba(242, 232, 212, 0.06);
   border: 1px solid rgba(203, 178, 122, 0.35);
   border-radius: 6px;
-  padding: 1.75rem;
+  padding: 1.75rem 2.75rem 1.75rem 1.75rem;
   text-decoration: none;
   color: var(--cream);
-  transition: transform 0.2s ease, background 0.2s ease, border-color 0.2s ease;
+  transition: transform 0.3s ease, background 0.3s ease, border-color 0.3s ease;
 }
 
-.explore-card:hover {
+.explore-card:hover,
+.explore-card:focus-visible {
   transform: translateY(-4px);
   background: rgba(242, 232, 212, 0.12);
   border-color: var(--gold);
+}
+
+.explore-card:focus-visible {
+  outline: 2px solid var(--gold);
+  outline-offset: 3px;
 }
 
 .explore-card h3 {
@@ -214,8 +276,31 @@ img { max-width: 100%; display: block; }
 
 .explore-card p {
   margin: 0;
-  opacity: 0.85;
+  color: var(--cream);
+  opacity: 0.95;
   line-height: 1.5;
+}
+
+.explore-card-arrow {
+  position: absolute;
+  right: 1.5rem;
+  top: 50%;
+  transform: translate(0, -50%);
+  color: var(--gold);
+  font-size: 1.15rem;
+  transition: transform 0.3s ease;
+}
+
+.explore-card:hover .explore-card-arrow,
+.explore-card:focus-visible .explore-card-arrow {
+  transform: translate(4px, -50%);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .explore-card,
+  .explore-card-arrow {
+    transition: none;
+  }
 }
 
 /* ---------- About ---------- */
