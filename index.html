@@ -7,7 +7,7 @@
 <meta name="description" content="Diya Kodgire — Content Creation, Digital Marketing &amp; Advertising portfolio." />
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;700;900&family=EB+Garamond:ital,wght@0,400;0,600;1,400&family=Caveat:wght@600;700&family=Special+Elite&display=swap" rel="stylesheet" />
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;700;900&family=EB+Garamond:ital,wght@0,400;0,600;1,400&family=Caveat:wght@600;700&family=Special+Elite&family=Allura&display=swap" rel="stylesheet" />
 <link rel="stylesheet" href="assets/css/style.css" />
 <link rel="stylesheet" href="assets/css/door-transition.css" />
 </head>
@@ -80,7 +80,17 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
 <script src="assets/js/door-transition.js"></script>
 <script>
-  DoorTransition.init();
+  DoorTransition.init({
+    assets: {
+      frame: 'assets/images/door/frame.png',
+      doorLeft: 'assets/images/door/door-left.png',
+      doorRight: 'assets/images/door/door-right.png',
+      facadeWide: 'assets/images/door/facade-wide.png',
+      frameWide: 'assets/images/door/frame-wide.png',
+      doorLeftWide: 'assets/images/door/door-left-wide.png',
+      doorRightWide: 'assets/images/door/door-right-wide.png',
+    },
+  });
 </script>
 </body>
 </html>

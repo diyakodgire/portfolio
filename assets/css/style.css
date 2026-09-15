@@ -14,6 +14,11 @@
   --font-body: 'EB Garamond', Georgia, serif;
   --font-script: 'Caveat', cursive;
   --font-mono: 'Special Elite', monospace;
+
+  /* Approximate fallback for the sticky navbar's height, used only until
+     main.js measures the real value on load (see setNavHeight()) — keeps
+     .hero--landing correctly sized even before that first script tick. */
+  --nav-h: 58px;
 }
 
 * { box-sizing: border-box; }
@@ -143,8 +148,13 @@ img { max-width: 100%; display: block; }
     linear-gradient(160deg, var(--maroon-light), var(--maroon-deep));
 }
 
+/* Fills exactly the viewport space left below the sticky navbar, so the
+   hero+navbar together occupy the full screen on load and no part of the
+   next section is visible until the user scrolls — sized via calc()
+   against the navbar's real measured height (see main.js), not a fixed
+   spacer element. */
 .hero--landing {
-  min-height: 70vh;
+  min-height: calc(100svh - var(--nav-h));
 }
 
 .hero-title {

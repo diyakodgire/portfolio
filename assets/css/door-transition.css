@@ -39,48 +39,113 @@
 .door-transition__scene {
   position: absolute;
   inset: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  width: 100vw;
+  height: 100svh;
   perspective: 2400px;
 }
 
-/* Brand-matched backdrop for the thin margin around the doorway. This is a
-   SEPARATE layer (not .scene's own background) because it needs its own
-   clip-path hole, computed the same way as .frame's — otherwise it would
-   sit between the archway opening and the real page and the "reveal"
-   would show this gradient instead of the actual landing page. It's
-   still a child of .scene, so it scales/exits together with everything
-   else during the push-through. */
+/* Fallback color, only ever visible if .facade has no image (illustrated
+   mode, or the facade asset failed to load) — a SEPARATE layer (not
+   .scene's own background) because it needs its own clip-path hole,
+   computed the same way as .frame's, otherwise it would sit between the
+   archway opening and the real page and the "reveal" would show this
+   gradient instead of the actual landing page. */
 .door-transition__backdrop {
   position: absolute;
   inset: 0;
-  z-index: 0;
+  z-index: -1;
+  overflow: hidden;
   background:
     radial-gradient(ellipse 90% 70% at 50% 38%, var(--dt-maroon-light) 0%, var(--dt-maroon) 45%, var(--dt-maroon-deep) 100%);
 }
 
-.door-transition__stage {
-  position: relative;
-  z-index: 1;
-  height: min(92vh, 880px);
-  aspect-ratio: 3 / 3.8;
-  width: auto;
-  max-width: 92vw;
+/* Full architectural facade environment, object-fit: cover, filling
+   100vw x 100svh, sat directly behind .stage. In wide-bundle mode this
+   shows frame-wide.png — the facade photo with its own archway opening
+   already cut transparent in its alpha channel, so it plays both the
+   "environment" and "frame" roles at once: no separate clip-path, no
+   separate close-up frame layer, nothing to cross-fade. In non-bundle
+   mode this is empty and .door-transition__frame (below) does the job
+   instead, clipped by JS to match the doors' rendered bounds. */
+.door-transition__facade {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  overflow: hidden;
 }
 
-/* ---------- Layer 1: stationary frame ----------
+.door-transition__facade img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Fixed at frame.png's native 690x1200 pixel size — the single coordinate
+   system both doors (and, in non-bundle mode, .frame) are laid out
+   against (see their percentages below). JS positions and scales this
+   box — either centered at a plain contain-fit scale (no facade bundle),
+   or aligned exactly over the doorway as it appears inside the wide
+   facade photo — so the doorway is always shown whole, at its true
+   proportions, never independently stretched. */
+.door-transition__stage {
+  position: absolute;
+  z-index: 1;
+  left: 0;
+  top: 0;
+  width: 690px;
+  height: 1200px;
+  transform-origin: top left;
+}
+
+/* Bundle mode only (see buildMarkup) — an opaque catch-all directly behind
+   the two door leaves, clipped to the exact archway opening in setup()
+   (door-transition.js). Sits above .facade's own z-index:0 but below the
+   doors' z-index:2, so it is only ever visible through a gap BETWEEN the
+   leaves — a mis-registered sub-pixel seam at rest, or the deliberate
+   few-px hover seam-gap — never once the doors have actually opened. */
+.door-transition__doorway-backing {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background: var(--dt-maroon-deep);
+  pointer-events: none;
+  opacity: 1;
+  transition: opacity 350ms ease-out;
+}
+/* Stays fully opaque through rest/hover and the very start of the click,
+   then fades once the doors have visibly begun swinging (a real,
+   deliberate gap — not hover's few-px seam) — a plain CSS transition
+   with a delay, never GSAP or a JS timer. */
+.door-transition[data-stage="opening"] .door-transition__doorway-backing {
+  transition-delay: 200ms;
+  opacity: 0;
+}
+
+/* ---------- Non-bundle mode only: stationary frame ----------
    Fills the whole stage with real stone material; a JS-computed clip-path
    (matched exactly to the doors' rendered bounds) cuts the archway opening
    out of it, so whatever is behind — the doors, then the real page — is
-   genuinely visible through the opening, not a placeholder. */
+   genuinely visible through the opening, not a placeholder. A soft-edged
+   mask blends its rectangular boundary into the backdrop behind it rather
+   than cutting a hard-edged patch (only relevant here: in bundle mode
+   there is no separate .frame element to mask). */
 .door-transition__frame {
   position: absolute;
   inset: 0;
   z-index: 3;
   pointer-events: none;
-  background: linear-gradient(155deg, var(--dt-stone) 0%, var(--dt-stone-mid) 55%, var(--dt-stone-dark) 100%);
   box-shadow: 0 30px 70px rgba(0, 0, 0, 0.5);
+  -webkit-mask-image: radial-gradient(ellipse 92% 94% at 50% 50%, black 86%, transparent 100%);
+  mask-image: radial-gradient(ellipse 92% 94% at 50% 50%, black 86%, transparent 100%);
+}
+
+/* Illustrated-only material — frame.png already carries a real transparent
+   archway cutout, so this gradient would otherwise bleed through the photo's
+   own opening wherever it sits outside the JS clip-path's hole. */
+.door-transition__frame:not(:has(img)) {
+  background: linear-gradient(155deg, var(--dt-stone) 0%, var(--dt-stone-mid) 55%, var(--dt-stone-dark) 100%);
 }
 
 .door-transition__frame img {
@@ -177,56 +242,207 @@
 .door-transition__bollard--left { left: 2%; }
 .door-transition__bollard--right { right: 2%; }
 
-/* ---------- Layers 2 & 3: door leaves ---------- */
+/* ---------- Layers 2 & 3: door leaves ----------
+   Sized and positioned to match door-left.png/door-right.png's own pixel
+   geometry against frame.png's archway opening exactly (measured from the
+   source photo crops: each leaf is 240x863 against a 690x1200 frame). */
 .door-transition__door {
   position: absolute;
-  bottom: 5%;
-  height: 69%;
-  width: 37%;
+  bottom: 4.33%;
+  height: 71.92%;
+  width: 34.78%;
   overflow: hidden;
+  will-change: transform;
+  z-index: 2;
+  /* Hover-only: seam-gap (translateX) + pop-forward (scale) + brightness/
+     saturation (filter). Native CSS transition, never GSAP — see
+     [data-hover="on"] below. Rest state (no transform/filter) needs no
+     rule of its own; this is just the transition timing. */
+  transition: transform 300ms ease, filter 300ms ease;
+}
+
+/* Illustrated-only material — door-left.png/door-right.png (and their
+   wide-bundle counterparts) already carry the real arched leaf silhouette
+   in their own alpha channel, transparent in the top corners outside the
+   curve. Scoping this fallback color/shadow to the no-img case (matching
+   .door-transition__frame's own pattern above) keeps it from showing
+   through those transparent corners as a false maroon patch above the
+   doorway. */
+.door-transition__door:not(:has(img)) {
   background:
     repeating-linear-gradient(100deg, rgba(0, 0, 0, 0.05) 0 1px, transparent 1px 3px),
     linear-gradient(100deg, rgba(255, 255, 255, 0.16) 0%, transparent 16%),
     linear-gradient(120deg, var(--dt-maroon-light) 0%, var(--dt-maroon) 45%, var(--dt-maroon-panel) 100%);
   box-shadow: inset 0 0 50px rgba(0, 0, 0, 0.45);
-  will-change: transform;
-  z-index: 2;
 }
 
 .door-transition__door img {
   width: 100%;
   height: 100%;
-  object-fit: cover;
+  object-fit: contain;
 }
 
 .door-transition__door--left {
-  left: 13%;
-  transform-origin: left center;
-  border-top-left-radius: 100% 34%;
-  border-right: 2px solid var(--dt-stone-shadow);
+  left: 15.51%;
 }
 
 .door-transition__door--right {
   left: 50%;
+}
+
+/* The INNER swing wrapper — rotateY, and ONLY rotateY, ever animates this
+   element (hover's small inward tilt AND the real door-open transition
+   alike), via plain native CSS transitions (see [data-hover="on"] and
+   [data-stage="opening"] below) — never GSAP, so the doors open even if
+   the CDN script fails to load. Same size as the outer
+   .door-transition__door it lives in; only its transform-origin differs
+   per side, so it hinges on the doorway's true outer edge exactly like the
+   outer wrapper used to. */
+.door-transition__door-swing {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  transform: rotateY(0deg);
+  transition: transform 300ms ease;
+}
+
+.door-transition__door--left .door-transition__door-swing {
+  transform-origin: left center;
+}
+
+.door-transition__door--right .door-transition__door-swing {
   transform-origin: right center;
+}
+
+/* ---------- Hover preview — entirely CSS, never GSAP ---------- */
+.door-transition[data-hover="on"] .door-transition__door--left {
+  transform: translateX(-4px) scale(1.015);
+  filter: brightness(1.08) saturate(1.15);
+}
+.door-transition[data-hover="on"] .door-transition__door--right {
+  transform: translateX(4px) scale(1.015);
+  filter: brightness(1.08) saturate(1.15);
+}
+.door-transition[data-hover="on"] .door-transition__door--left .door-transition__door-swing {
+  transform: rotateY(-5deg);
+}
+.door-transition[data-hover="on"] .door-transition__door--right .door-transition__door-swing {
+  transform: rotateY(5deg);
+}
+.door-transition[data-hover="on"] .door-transition__door-shadow {
+  opacity: 0.6;
+}
+.door-transition[data-hover="on"] .door-transition__door-depth {
+  opacity: 1;
+}
+
+/* ---------- The real door-open animation — entirely CSS, never GSAP ----------
+   Triggered simply by setting data-stage="opening" on the overlay
+   (door-transition.js). This is the ONLY rule that moves the doors during
+   the real opening; nothing else touches .door-transition__door-swing's
+   transform once this attribute is set, so there is nothing for GSAP (or
+   its absence) to interfere with. If data-hover="on" was still set the
+   instant this fires, JS has already removed it in the same tick, so the
+   transition retargets smoothly from wherever the hover tilt currently is
+   toward this new target — no snap back to closed first. */
+.door-transition[data-stage="opening"] .door-transition__door--left .door-transition__door-swing {
+  transition-duration: 1000ms;
+  transform: rotateY(-105deg);
+}
+.door-transition[data-stage="opening"] .door-transition__door--right .door-transition__door-swing {
+  transition-duration: 1000ms;
+  transform: rotateY(105deg);
+}
+/* The outer wrapper's own hover pop eases back to rest the instant the
+   real opening begins, so it never lingers through the swing. */
+.door-transition[data-stage="opening"] .door-transition__door--left,
+.door-transition[data-stage="opening"] .door-transition__door--right {
+  transform: none;
+  filter: none;
+  transition: transform 300ms ease, filter 300ms ease;
+}
+.door-transition[data-stage="opening"] .door-transition__door-depth {
+  opacity: 0;
+  transition: opacity 300ms ease;
+}
+/* Cast shadow deepens then fades over the course of the swing — a single
+   declarative keyframe animation, timed to the same 1000ms as the swing
+   itself. */
+@keyframes dt-door-shadow-pulse {
+  0% { opacity: 0; }
+  30% { opacity: 1; }
+  90% { opacity: 0; }
+  100% { opacity: 0; }
+}
+.door-transition[data-stage="opening"] .door-transition__door-shadow {
+  animation: dt-door-shadow-pulse 1000ms ease-out forwards;
+}
+
+/* Illustrated-only shape hacks: door-left.png/door-right.png already carry
+   their real arched silhouette (and the seam between them) in their own
+   alpha channel, so faking one with border-radius/border would only risk
+   clipping the real photo's edge or drawing a mismatched extra seam line. */
+.door-transition__door--left:has(.door-transition__panel-arch) {
+  border-top-left-radius: 100% 34%;
+  border-right: 2px solid var(--dt-stone-shadow);
+}
+
+.door-transition__door--right:has(.door-transition__panel-arch) {
   border-top-right-radius: 100% 34%;
   border-left: 2px solid var(--dt-stone-shadow);
 }
 
-/* Cast shadow that deepens mid-swing, faded in/out via opacity only */
+/* Cast shadow that deepens mid-swing, faded in/out via opacity only.
+   door-left.png/door-right.png (photo mode) are transparent in their own
+   top corners outside the arch curve — the CONTAINER stays a plain
+   rectangle (matching the real photo's edge exactly, per the comment
+   above), but this overlay's OWN top-outer corner is rounded to
+   approximate that same curve, so its gradient/shadow doesn't bleed into
+   the stone through those transparent corners the way a flat rectangle
+   would. */
 .door-transition__door-shadow {
   position: absolute;
   inset: 0;
   opacity: 0;
   pointer-events: none;
+  transition: opacity 300ms ease;
 }
 
 .door-transition__door--left .door-transition__door-shadow {
+  border-top-left-radius: 100% 34%;
   background: linear-gradient(to left, rgba(0, 0, 0, 0.55), transparent 60%);
 }
 
 .door-transition__door--right .door-transition__door-shadow {
+  border-top-right-radius: 100% 34%;
   background: linear-gradient(to right, rgba(0, 0, 0, 0.55), transparent 60%);
+}
+
+/* Dark, realistic hover/focus depth cue — opacity-only (0 -> 1), a plain
+   CSS transition like the shadow above. A drop shadow at the outer
+   (hinge) edge plus an inset shadow at the seam edge reads as the door
+   leaf lifting/popping forward off the stone, distinct per side. */
+.door-transition__door-depth {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 300ms ease;
+}
+
+.door-transition__door--left .door-transition__door-depth {
+  border-top-left-radius: 100% 34%;
+  box-shadow:
+    -14px 6px 30px rgba(0, 0, 0, 0.55),
+    inset 8px 0 18px rgba(0, 0, 0, 0.45);
+}
+
+.door-transition__door--right .door-transition__door-depth {
+  border-top-right-radius: 100% 34%;
+  box-shadow:
+    14px 6px 30px rgba(0, 0, 0, 0.55),
+    inset -8px 0 18px rgba(0, 0, 0, 0.45);
 }
 
 .door-transition__panel-arch {
@@ -303,6 +519,159 @@
   inset: 5px;
   border-radius: 50%;
   border: 2px solid rgba(80, 70, 60, 0.6);
+}
+
+/* ---------- Layer 4: the interactive doorway ----------
+   A transparent, real <button> exactly covering both door leaves — the
+   single hit target for pointer, touch and keyboard. It sits above the
+   doors (and, in non-bundle mode, .frame) so it alone receives hover/
+   focus/click; the visible leaves underneath respond via pure CSS (see
+   [data-hover="on"]/[data-stage="opening"] above), never GSAP.
+
+   Every default browser button affordance is explicitly stripped — border,
+   background, box-shadow, native appearance, and the mobile tap-highlight
+   flash — so a mouse click never paints a visible rectangle over the
+   photo. `:focus:not(:focus-visible)` additionally suppresses browsers
+   that still apply a plain :focus outline on click in some configurations;
+   a real custom outline remains for keyboard users via :focus-visible. */
+.door-transition__enter {
+  all: unset;
+  position: absolute;
+  left: 15.51%;
+  width: 69.27%;
+  bottom: 4.33%;
+  height: 71.92%;
+  z-index: 4;
+  cursor: pointer;
+  display: block;
+  appearance: none;
+  -webkit-appearance: none;
+  border: 0;
+  background: transparent;
+  box-shadow: none;
+  outline: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.door-transition__enter:disabled {
+  cursor: default;
+}
+
+.door-transition__enter:focus:not(:focus-visible) {
+  outline: none;
+}
+
+.door-transition__enter:focus-visible {
+  outline: 2px solid var(--dt-gold);
+  outline-offset: 6px;
+  border-radius: 50% 50% 6px 6px / 30% 30% 6px 6px;
+}
+
+/* "Step into my world" — a SECOND, separate button anchored to the true
+   viewport (a sibling of .scene, not inside it — .scene itself carries the
+   camera-push scale transform even at rest, so anything inside it is not
+   in stable screen space). Its exact position is set in setup()
+   (updatePhrasePosition in door-transition.js), directly below the doors'
+   own computed on-screen bottom edge — an editorial caption sitting over
+   the pavement, never overlapping the doors, carvings or crest. Same
+   display face as the hero name (--font-display) at a medium weight, in
+   the same deep maroon as the doors/landing page — deliberately plain, no
+   shadow/gradient/glow/pill/box. Opacity fades via a plain CSS transition
+   once the doors are substantially open (see [data-stage="opening"]
+   below), finishing well before the camera push — never GSAP. Same
+   button-chrome stripping as .door-transition__enter above, for the same
+   reason (no visible click outline). */
+.door-transition__phrase {
+  all: unset;
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%) translateY(0);
+  z-index: 4;
+  cursor: pointer;
+  white-space: nowrap;
+  opacity: 0.94;
+  transition: transform 0.25s ease, opacity 0.25s ease;
+  appearance: none;
+  -webkit-appearance: none;
+  border: 0;
+  background: transparent;
+  box-shadow: none;
+  outline: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.door-transition__phrase:disabled {
+  cursor: default;
+}
+
+/* Hover/focus lift lives on the OUTER button only, so it composes
+   cleanly with the inner span's horizontal scale below instead of
+   fighting it. */
+.door-transition__phrase:hover,
+.door-transition__phrase:focus-visible {
+  transform: translateX(-50%) translateY(-3px);
+  opacity: 1;
+}
+
+.door-transition__phrase:focus:not(:focus-visible) {
+  outline: none;
+}
+
+.door-transition__phrase:focus-visible {
+  outline: 2px solid var(--dt-maroon-deep);
+  outline-offset: 6px;
+  border-radius: 4px;
+}
+
+.door-transition[data-stage="opening"] .door-transition__phrase {
+  transition-delay: 700ms;
+  opacity: 0;
+  pointer-events: none;
+  transform: translateX(-50%) translateY(0);
+}
+
+/* Typography: Allura. Sized/weighted/stretched via the inner span (not
+   the button) so the outer button's own translateY hover-lift never has
+   to compose against a horizontal transform. Allura ships one weight
+   only — presence comes from the text-stroke, not a fake bold — and the
+   scaleX stretch (not letter-spacing) widens it, since large artificial
+   letter-spacing would break the connected cursive strokes. */
+.door-transition__phrase-text {
+  display: inline-block;
+  font-family: 'Allura', cursive;
+  font-weight: 400;
+  font-style: normal;
+  text-transform: none;
+  font-size: clamp(3rem, 5vw, 5.25rem);
+  line-height: 0.95;
+  letter-spacing: 0;
+  color: #4a1017;
+  -webkit-text-stroke: 0.3px currentColor;
+  text-shadow: 0 1px 3px rgba(74, 16, 23, 0.16);
+  transform: scaleX(1.12);
+  transform-origin: center;
+}
+
+@media (max-width: 600px) {
+  .door-transition__phrase {
+    white-space: normal;
+    text-align: center;
+    max-width: 92vw;
+  }
+  /* Sized to comfortably fit on one line on most phones (that's the goal
+     whenever width allows it) — wrapping to two lines is still available
+     as a fallback for the narrowest devices, where it's unavoidable at a
+     readable size. */
+  .door-transition__phrase-text {
+    display: inline-block;
+    /* Without an explicit width, this shrink-to-fit inline-block can wrap
+       to two lines even when its natural single-line width would fit —
+       max-content forces it to measure (and wrap) against its own actual
+       text width instead, so it only wraps when genuinely necessary. */
+    width: max-content;
+    max-width: 100%;
+    font-size: clamp(2rem, 9vw, 2.75rem);
+  }
 }
 
 /* ---------- Skip ---------- */
