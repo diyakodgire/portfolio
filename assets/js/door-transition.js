@@ -25,24 +25,30 @@
  *       frameWide: 'assets/images/door/frame-wide.png',
  *       doorLeftWide: 'assets/images/door/door-left-wide.png',
  *       doorRightWide: 'assets/images/door/door-right-wide.png',
- *     }
+ *     },
+ *     // Optional — fires once the overlay is fully gone (real completion,
+ *     // Skip, or a reduced-motion fade all funnel through this). Calling
+ *     // init() again (e.g. from a page's own "Replay intro" control) starts
+ *     // a fresh, independent run — nothing here is shared/global state
+ *     // across calls, so repeated replays never leak listeners or overlays.
+ *     onComplete: function () {},
  *   });
  *
- * Runs once per browser session (sessionStorage) and locks page scroll
- * while active. The doorway never opens automatically — it is a real,
- * keyboard-reachable <button> the visitor must click/tap/press Enter or
- * Space on; under prefers-reduced-motion the door-swing/camera-push
- * animation is skipped in favor of a simple cross-fade, but activation is
- * still required. The door leaves themselves open via plain native CSS
- * transitions (door-transition.css), independent of GSAP entirely, so
- * they work even if the CDN script fails to load or is blocked; only the
- * final camera-push scale on .scene prefers GSAP when present, falling
- * back to the native Web Animations API when it's not.
+ * Locks page scroll while active. The doorway never opens automatically —
+ * it is a real, keyboard-reachable <button> the visitor must click/tap/
+ * press Enter or Space on; under prefers-reduced-motion the door-swing/
+ * camera-push animation is skipped in favor of a simple cross-fade, but
+ * activation is still required. The door leaves themselves open via plain
+ * native CSS transitions (door-transition.css), independent of GSAP
+ * entirely, so they work even if the CDN script fails to load or is
+ * blocked; only the final camera-push scale on .scene prefers GSAP when
+ * present, falling back to the native Web Animations API when it's not.
+ * Plays on every full load of the page it's initialized on — nothing here
+ * gates a repeat run (a page wiring this up decides for itself whether/
+ * how to offer a replay).
  */
 (function () {
   'use strict';
-
-  var STORAGE_KEY = 'dk-door-transition-played';
 
   // Waits for the image to be fully DECODED (not just loaded) so it can be
   // painted with zero extra work the instant it's used — decode() covers
@@ -243,13 +249,12 @@
     var assets = options.assets || {};
     var onComplete = typeof options.onComplete === 'function' ? options.onComplete : null;
 
-    var alreadyPlayed = false;
+    // A stale value from the old once-per-session gate (removed) would
+    // otherwise sit in storage forever for returning visitors — nothing
+    // reads this key anymore, but clear it so it's not lingering.
     try {
-      alreadyPlayed = sessionStorage.getItem(STORAGE_KEY) === '1';
-    } catch (e) {
-      /* sessionStorage unavailable (e.g. privacy mode) — just play once per load */
-    }
-    if (alreadyPlayed) return;
+      sessionStorage.removeItem('dk-door-transition-played');
+    } catch (e) {}
 
     // The doorway assets (frame/doorLeft/doorRight) are all-or-nothing — a
     // partial set falls back to the illustrated doorway entirely rather than
@@ -314,9 +319,6 @@
       document.body.classList.remove('door-transition-lock');
       document.body.style.overflow = previousBodyOverflow;
       document.documentElement.style.overflow = previousHtmlOverflow;
-      try {
-        sessionStorage.setItem(STORAGE_KEY, '1');
-      } catch (e) {}
       window.setTimeout(function () {
         if (overlay.parentNode) overlay.parentNode.removeChild(overlay);
       }, 50);

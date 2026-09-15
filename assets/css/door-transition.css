@@ -714,3 +714,55 @@ body.door-transition-lock {
     padding: 0.45rem 0.85rem;
   }
 }
+
+/* ---------- Replay intro ----------
+   Lives on the landing page itself, OUTSIDE the door-transition overlay
+   (which is removed from the DOM once the intro finishes), so it stays
+   reachable afterward. Hidden by default/while the intro is active —
+   index.html shows it only once the overlay's onComplete fires (a real
+   completion, Skip, or a reduced-motion fade all funnel through it) and
+   hides it again the instant it's clicked. Matches the portfolio's own
+   maroon/gold/cream palette, not the plain black preview-only status bar
+   used during development. */
+.replay-intro {
+  position: fixed;
+  right: max(1.25rem, env(safe-area-inset-right));
+  bottom: max(1.25rem, env(safe-area-inset-bottom));
+  z-index: 50;
+  appearance: none;
+  -webkit-appearance: none;
+  border: 1px solid rgba(203, 178, 122, 0.5);
+  background: rgba(74, 16, 23, 0.88);
+  color: var(--cream, #f2e8d4);
+  font-family: var(--font-display, Georgia, serif);
+  font-size: 0.85rem;
+  letter-spacing: 0.03em;
+  padding: 0.55rem 1.15rem;
+  border-radius: 999px;
+  cursor: pointer;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.25);
+  transition: background 0.2s ease, transform 0.2s ease, opacity 0.2s ease;
+}
+
+.replay-intro:hover {
+  background: rgba(74, 16, 23, 1);
+  transform: translateY(-1px);
+}
+
+.replay-intro:focus-visible {
+  outline: 2px solid var(--gold, #cbb27a);
+  outline-offset: 3px;
+}
+
+.replay-intro[hidden] {
+  display: none;
+}
+
+@media (max-width: 640px) {
+  .replay-intro {
+    right: max(0.85rem, env(safe-area-inset-right));
+    bottom: max(0.85rem, env(safe-area-inset-bottom));
+    font-size: 0.78rem;
+    padding: 0.5rem 0.95rem;
+  }
+}

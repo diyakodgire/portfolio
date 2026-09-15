@@ -76,21 +76,50 @@
   <p>&copy; <span id="year"></span> Diya Kodgire</p>
 </footer>
 
+<!-- Lives outside the door-transition overlay (which is removed from the
+     DOM once the intro finishes), so it stays reachable afterward. Hidden
+     until the intro completes or is skipped — see the script below. -->
+<button type="button" id="replayIntro" class="replay-intro" hidden>Replay intro</button>
+
 <script src="assets/js/main.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
 <script src="assets/js/door-transition.js"></script>
 <script>
-  DoorTransition.init({
-    assets: {
-      frame: 'assets/images/door/frame.png',
-      doorLeft: 'assets/images/door/door-left.png',
-      doorRight: 'assets/images/door/door-right.png',
-      facadeWide: 'assets/images/door/facade-wide.png',
-      frameWide: 'assets/images/door/frame-wide.png',
-      doorLeftWide: 'assets/images/door/door-left-wide.png',
-      doorRightWide: 'assets/images/door/door-right-wide.png',
-    },
+  var DOOR_ASSETS = {
+    frame: 'assets/images/door/frame.png',
+    doorLeft: 'assets/images/door/door-left.png',
+    doorRight: 'assets/images/door/door-right.png',
+    facadeWide: 'assets/images/door/facade-wide.png',
+    frameWide: 'assets/images/door/frame-wide.png',
+    doorLeftWide: 'assets/images/door/door-left-wide.png',
+    doorRightWide: 'assets/images/door/door-right-wide.png',
+  };
+
+  var replayBtn = document.getElementById('replayIntro');
+
+  // Starts (or restarts) the intro. init() builds an entirely fresh
+  // overlay/listeners each call and tears its own down on completion
+  // (see door-transition.js), so calling this again for a replay never
+  // leaves a duplicate overlay or duplicate listeners behind. The Replay
+  // button stays hidden for the whole run and only reappears once this
+  // run's onComplete fires — whether from a real finish, Skip, or a
+  // reduced-motion fade.
+  function startDoorIntro() {
+    replayBtn.hidden = true;
+    DoorTransition.init({
+      assets: DOOR_ASSETS,
+      onComplete: function () {
+        replayBtn.hidden = false;
+      },
+    });
+  }
+
+  replayBtn.addEventListener('click', function () {
+    window.scrollTo(0, 0);
+    startDoorIntro();
   });
+
+  startDoorIntro();
 </script>
 </body>
 </html>
