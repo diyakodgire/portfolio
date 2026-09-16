@@ -34,3 +34,21 @@ navLinks.querySelectorAll('a').forEach((link) => {
     navToggle.setAttribute('aria-expanded', 'false');
   });
 });
+
+// Returning to the homepage via the Home link or the DK logo — from any
+// page, index.html included — shouldn't force the visitor back through
+// the doorway intro. This sets a one-time flag that index.html's own
+// script reads and immediately clears on load, so it only ever skips
+// the very next load it causes: a direct visit, a manual reload, and
+// Replay Intro are all untouched, since none of them go through this
+// click handler.
+const navBrand = document.querySelector('.nav-brand');
+const homeLink = navLinks.querySelector('a[href="index.html"]');
+[navBrand, homeLink].forEach((link) => {
+  if (!link) return;
+  link.addEventListener('click', () => {
+    try {
+      sessionStorage.setItem('skipDoorIntroOnce', '1');
+    } catch (e) {}
+  });
+});

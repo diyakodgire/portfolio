@@ -1,0 +1,728 @@
+/* ==========================================================================
+   Projects overview + case-study pages.
+   Builds entirely on the design tokens already defined in style.css
+   (--maroon*, --cream*, --gold, --ink, --font-display, --font-body) —
+   no new palette introduced here. Zeher's own brand colors (red, coral,
+   blue, black) are never added as UI chrome; they only ever appear
+   naturally inside the project photography/graphics themselves.
+   ========================================================================== */
+
+/* ---------- Shared: back link ---------- */
+.back-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-family: var(--font-display);
+  font-size: 0.95rem;
+  letter-spacing: 0.03em;
+  color: var(--cream-dim);
+  text-decoration: none;
+  transition: color 0.25s ease, transform 0.25s ease;
+}
+
+.back-link:hover,
+.back-link:focus-visible {
+  color: var(--gold);
+}
+
+.back-link:hover .back-link-arrow,
+.back-link:focus-visible .back-link-arrow {
+  transform: translateX(-3px);
+}
+
+.back-link-arrow {
+  display: inline-block;
+  transition: transform 0.25s ease;
+}
+
+.back-link:focus-visible {
+  outline: 2px solid var(--gold);
+  outline-offset: 4px;
+  border-radius: 4px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .back-link,
+  .back-link-arrow {
+    transition: none;
+  }
+}
+
+/* ---------- Projects overview ---------- */
+.projects-overview {
+  background: var(--maroon-deep);
+}
+
+.projects-intro {
+  max-width: 640px;
+  margin: 0.75rem auto 3rem;
+  text-align: center;
+  font-size: 1.08rem;
+  line-height: 1.7;
+  color: var(--cream);
+  opacity: 0.95;
+}
+
+/* The large editorial Zeher feature — image-led, whole card clickable.
+   A single <a> wrapping both the image and the text is the simplest way
+   to get a fully clickable card with a real, native keyboard-focusable
+   target — no click-delegation JS needed. */
+.project-feature {
+  display: block;
+  max-width: 1100px;
+  margin: 0 auto;
+  text-decoration: none;
+  color: var(--cream);
+  border: 1px solid rgba(203, 178, 122, 0.3);
+  border-radius: 10px;
+  overflow: hidden;
+  background: rgba(242, 232, 212, 0.04);
+  transition: border-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.project-feature:hover,
+.project-feature:focus-visible {
+  border-color: var(--gold);
+  transform: translateY(-4px);
+  box-shadow: 0 18px 40px rgba(0, 0, 0, 0.35);
+}
+
+.project-feature:focus-visible {
+  outline: 2px solid var(--gold);
+  outline-offset: 4px;
+}
+
+.project-feature-media {
+  overflow: hidden;
+  aspect-ratio: 16 / 10;
+}
+
+.project-feature-media img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: 50% 18%;
+  transition: transform 0.4s ease;
+}
+
+.project-feature:hover .project-feature-media img,
+.project-feature:focus-visible .project-feature-media img {
+  transform: scale(1.035);
+}
+
+.project-feature-body {
+  padding: 2.25rem 2.5rem 2.5rem;
+}
+
+.project-feature-eyebrow {
+  font-family: var(--font-display);
+  font-size: 0.82rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin: 0 0 0.6rem;
+}
+
+.project-feature-title {
+  font-family: var(--font-display);
+  font-weight: 900;
+  font-size: clamp(1.8rem, 3.2vw, 2.6rem);
+  margin: 0 0 0.75rem;
+  color: var(--cream);
+}
+
+.project-feature-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem 1.25rem;
+  font-family: var(--font-body);
+  font-size: 0.92rem;
+  color: var(--cream-dim);
+  margin: 0 0 1.1rem;
+}
+
+.project-feature-desc {
+  font-size: 1.05rem;
+  line-height: 1.7;
+  color: var(--cream);
+  opacity: 0.95;
+  max-width: 65ch;
+  margin: 0 0 1.4rem;
+}
+
+.project-feature-cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-family: var(--font-display);
+  font-size: 1rem;
+  letter-spacing: 0.03em;
+  color: var(--gold);
+}
+
+.project-feature-cta-arrow {
+  transition: transform 0.3s ease;
+}
+
+.project-feature:hover .project-feature-cta-arrow,
+.project-feature:focus-visible .project-feature-cta-arrow {
+  transform: translateX(5px);
+}
+
+@media (min-width: 760px) {
+  .project-feature {
+    display: grid;
+    grid-template-columns: 1.1fr 1fr;
+    align-items: stretch;
+  }
+  .project-feature-media {
+    aspect-ratio: auto;
+  }
+  .project-feature-body {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .project-feature,
+  .project-feature-media img,
+  .project-feature-cta-arrow {
+    transition: none;
+  }
+}
+
+/* ---------- Case-study hero ---------- */
+.case-study-hero {
+  background: var(--maroon-deep);
+  padding-top: 2.5rem;
+}
+
+.case-study-back {
+  max-width: 1100px;
+  margin: 0 auto 1.75rem;
+}
+
+.case-study-hero-media {
+  max-width: 1100px;
+  margin: 0 auto 2rem;
+  border-radius: 10px;
+  overflow: hidden;
+  aspect-ratio: 16 / 9;
+}
+
+.case-study-hero-media img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: 50% 15%;
+}
+
+.case-study-hero-content {
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+.case-study-title {
+  font-family: var(--font-display);
+  font-weight: 900;
+  font-size: clamp(2.4rem, 6vw, 4.2rem);
+  color: var(--cream);
+  margin: 0 0 0.6rem;
+  line-height: 1.05;
+}
+
+.case-study-subtitle {
+  font-size: 1.2rem;
+  line-height: 1.6;
+  color: var(--cream);
+  opacity: 0.95;
+  max-width: 60ch;
+  margin: 0 0 2rem;
+}
+
+.case-study-meta {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 1.25rem;
+  padding-top: 1.75rem;
+  border-top: 1px solid rgba(203, 178, 122, 0.3);
+}
+
+.case-study-meta dt {
+  font-family: var(--font-display);
+  font-size: 0.78rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin: 0 0 0.35rem;
+}
+
+.case-study-meta dd {
+  font-size: 0.98rem;
+  line-height: 1.5;
+  color: var(--cream);
+  margin: 0;
+}
+
+/* ---------- Case-study body sections ---------- */
+.case-study-section {
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+.case-study-section-heading {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: clamp(1.6rem, 3vw, 2.2rem);
+  color: var(--cream);
+  margin: 0 0 1rem;
+}
+
+.case-study-section-intro {
+  font-size: 1.05rem;
+  line-height: 1.75;
+  color: var(--cream);
+  opacity: 0.95;
+  max-width: 72ch;
+  margin: 0 0 2.5rem;
+}
+
+.case-study-overview .case-study-section-intro {
+  margin-bottom: 0;
+}
+
+/* ---------- Impact strip ---------- */
+/* Explicit column counts (not auto-fit) — with exactly 6 stats, auto-fit
+   fits 5 per row at most widths and stretches the lone 6th tile across
+   the whole remaining row width, which reads as a layout bug rather
+   than a deliberate wide tile. 3x2 divides evenly at every width this
+   is tested at. */
+.impact-strip {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1px;
+  background: rgba(203, 178, 122, 0.25);
+  border: 1px solid rgba(203, 178, 122, 0.25);
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+@media (max-width: 760px) {
+  .impact-strip {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 460px) {
+  .impact-strip {
+    grid-template-columns: 1fr;
+  }
+}
+
+.impact-stat {
+  background: var(--maroon-deep);
+  padding: 1.75rem 1.5rem;
+  text-align: center;
+}
+
+.impact-stat-value {
+  display: block;
+  font-family: var(--font-display);
+  font-weight: 900;
+  font-size: clamp(1.5rem, 3vw, 2.1rem);
+  color: var(--gold);
+  line-height: 1.1;
+  margin-bottom: 0.5rem;
+  font-variant-numeric: tabular-nums;
+}
+
+.impact-stat-label {
+  display: block;
+  font-size: 0.88rem;
+  line-height: 1.4;
+  color: var(--cream-dim);
+}
+
+/* ---------- Galleries ---------- */
+.gallery-primary {
+  columns: 3 280px;
+  column-gap: 1.5rem;
+}
+
+.gallery-secondary {
+  columns: 4 220px;
+  column-gap: 1.25rem;
+  margin-top: 1.5rem;
+}
+
+.gallery-item {
+  break-inside: avoid;
+  margin: 0 0 1.5rem;
+  display: block;
+  border: none;
+  background: none;
+  padding: 0;
+  cursor: zoom-in;
+  width: 100%;
+  text-align: left;
+}
+
+.gallery-secondary .gallery-item {
+  margin-bottom: 1.25rem;
+}
+
+.gallery-item-frame {
+  position: relative;
+  overflow: hidden;
+  border-radius: 8px;
+  border: 1px solid rgba(203, 178, 122, 0.25);
+  transition: border-color 0.3s ease, transform 0.3s ease;
+}
+
+.gallery-item:hover .gallery-item-frame,
+.gallery-item:focus-visible .gallery-item-frame {
+  border-color: var(--gold);
+  transform: translateY(-3px);
+}
+
+.gallery-item:focus-visible {
+  outline: 2px solid var(--gold);
+  outline-offset: 4px;
+  border-radius: 8px;
+}
+
+.gallery-item img {
+  display: block;
+  width: 100%;
+  height: auto;
+  transition: transform 0.4s ease;
+}
+
+.gallery-item:hover img,
+.gallery-item:focus-visible img {
+  transform: scale(1.04);
+}
+
+.gallery-item-caption {
+  font-family: var(--font-body);
+  font-size: 0.85rem;
+  color: var(--cream-dim);
+  padding: 0.6rem 0.1rem 0;
+  line-height: 1.4;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .gallery-item-frame,
+  .gallery-item img {
+    transition: none;
+  }
+}
+
+/* ---------- Lightbox ---------- */
+.lightbox {
+  position: fixed;
+  inset: 0;
+  z-index: 500;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+  background: rgba(10, 6, 5, 0.92);
+}
+
+.lightbox[hidden] {
+  display: none;
+}
+
+.lightbox-figure {
+  max-width: min(1000px, 100%);
+  max-height: 100%;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.9rem;
+}
+
+.lightbox-figure img {
+  max-width: 100%;
+  max-height: 78vh;
+  width: auto;
+  height: auto;
+  border-radius: 6px;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+}
+
+.lightbox-caption {
+  font-family: var(--font-body);
+  color: var(--cream-dim);
+  font-size: 0.95rem;
+  text-align: center;
+}
+
+.lightbox-close {
+  position: fixed;
+  top: max(1.25rem, env(safe-area-inset-top));
+  right: max(1.25rem, env(safe-area-inset-right));
+  z-index: 501;
+  appearance: none;
+  border: 1px solid rgba(242, 232, 212, 0.4);
+  background: rgba(20, 16, 10, 0.55);
+  color: var(--cream);
+  font-family: var(--font-display);
+  font-size: 0.85rem;
+  letter-spacing: 0.04em;
+  padding: 0.5rem 1.1rem;
+  border-radius: 999px;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.lightbox-close:hover {
+  background: rgba(20, 16, 10, 0.8);
+}
+
+.lightbox-close:focus-visible {
+  outline: 2px solid var(--gold);
+  outline-offset: 3px;
+}
+
+.lightbox-nav {
+  position: fixed;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 501;
+  appearance: none;
+  border: 1px solid rgba(242, 232, 212, 0.4);
+  background: rgba(20, 16, 10, 0.55);
+  color: var(--cream);
+  font-size: 1.4rem;
+  line-height: 1;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.lightbox-nav:hover {
+  background: rgba(20, 16, 10, 0.8);
+}
+
+.lightbox-nav:focus-visible {
+  outline: 2px solid var(--gold);
+  outline-offset: 3px;
+}
+
+.lightbox-prev {
+  left: max(1rem, env(safe-area-inset-left));
+}
+
+.lightbox-next {
+  right: max(1rem, env(safe-area-inset-right));
+}
+
+@media (max-width: 640px) {
+  .lightbox-nav {
+    width: 38px;
+    height: 38px;
+    font-size: 1.2rem;
+  }
+}
+
+/* ---------- Social content / video ---------- */
+.video-lead {
+  margin-bottom: 2.5rem;
+}
+
+.video-lead-frame {
+  border-radius: 10px;
+  overflow: hidden;
+  border: 1px solid rgba(203, 178, 122, 0.3);
+  max-width: 420px;
+  margin: 0 auto 1rem;
+}
+
+.video-lead-frame video {
+  display: block;
+  width: 100%;
+  height: auto;
+  background: #000;
+}
+
+.video-lead-label {
+  display: inline-block;
+  font-family: var(--font-display);
+  font-size: 0.78rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--maroon-deep);
+  background: var(--gold);
+  padding: 0.3rem 0.85rem;
+  border-radius: 999px;
+  margin: 0 0 0.9rem;
+}
+
+.video-lead-body {
+  max-width: 640px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.video-metrics {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.6rem 1.6rem;
+  margin: 1rem 0 1.1rem;
+  font-family: var(--font-body);
+}
+
+.video-metrics li {
+  font-size: 0.95rem;
+  color: var(--cream);
+}
+
+.video-metrics strong {
+  color: var(--gold);
+  font-variant-numeric: tabular-nums;
+}
+
+.video-lead-note {
+  font-size: 0.88rem;
+  font-style: italic;
+  color: var(--cream-dim);
+  max-width: 55ch;
+  margin: 0 auto;
+  line-height: 1.6;
+}
+
+.video-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+  gap: 1.5rem;
+  max-width: 900px;
+  margin: 0 auto;
+  /* The featured clips mix portrait and landscape source video — without
+     this, grid's default row-stretch pads the shorter (landscape) card
+     with empty space at the bottom to match its taller siblings instead
+     of each card hugging its own content. */
+  align-items: start;
+}
+
+.video-card {
+  border-radius: 10px;
+  overflow: hidden;
+  border: 1px solid rgba(203, 178, 122, 0.25);
+  background: rgba(242, 232, 212, 0.04);
+}
+
+.video-card video {
+  display: block;
+  width: 100%;
+  height: auto;
+  background: #000;
+}
+
+.video-card-caption {
+  font-family: var(--font-body);
+  font-size: 0.85rem;
+  color: var(--cream-dim);
+  padding: 0.6rem 0.85rem 0.85rem;
+  line-height: 1.4;
+}
+
+/* ---------- Strategy pillars ---------- */
+.strategy-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 1.75rem;
+}
+
+.strategy-pillar {
+  border-left: 2px solid var(--gold);
+  padding-left: 1.5rem;
+}
+
+.strategy-pillar h3 {
+  font-family: var(--font-display);
+  font-size: 1.25rem;
+  color: var(--gold);
+  margin: 0 0 0.6rem;
+}
+
+.strategy-pillar p {
+  font-size: 0.98rem;
+  line-height: 1.65;
+  color: var(--cream);
+  opacity: 0.95;
+  margin: 0;
+}
+
+/* ---------- Reflection ---------- */
+.case-study-reflection {
+  text-align: center;
+}
+
+.case-study-reflection p {
+  max-width: 65ch;
+  margin: 0 auto;
+  font-size: 1.1rem;
+  line-height: 1.8;
+  font-style: italic;
+  color: var(--cream);
+  opacity: 0.95;
+}
+
+/* ---------- Bottom nav ---------- */
+.case-study-footer-nav {
+  max-width: 1100px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+/* ---------- Scroll reveal (generic, reused by any case-study page) ---------- */
+/* Mechanism only — which elements get the class and their stagger timing
+   is a theme-file decision (see case-study-zeher.css). Individual elements
+   are observed rather than a shared group delay, so items already in the
+   viewport on load, or scrolled to quickly, still land correctly: the
+   reveal follows the element crossing the viewport, not a clock. */
+.reveal-on-scroll {
+  opacity: 0;
+  transform: translateY(18px);
+  transition: opacity 0.6s ease, transform 0.6s ease;
+}
+
+.reveal-on-scroll.is-visible {
+  opacity: 1;
+  transform: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .reveal-on-scroll {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+}
+
+/* ---------- Responsive ---------- */
+@media (max-width: 640px) {
+  .project-feature-body {
+    padding: 1.75rem 1.5rem 2rem;
+  }
+  .case-study-meta {
+    grid-template-columns: 1fr 1fr;
+  }
+  .gallery-primary {
+    columns: 1;
+  }
+  .gallery-secondary {
+    columns: 2 160px;
+  }
+  .lightbox {
+    padding: 1rem;
+  }
+}

@@ -162,7 +162,26 @@
     footerObserver.observe(footerEl);
   }
 
-  startDoorIntro();
+  // A one-time flag set by the Home/DK nav links on every OTHER page (see
+  // main.js) — clicking "back to the portfolio" from an internal page
+  // shouldn't force the visitor through the doorway again, but a direct
+  // visit, a manual reload, and Replay Intro all still should. Reading it
+  // here and removing it immediately makes it self-consuming: it can
+  // never affect a later reload or a future visit, only this one load.
+  var skipDoorIntroOnce = false;
+  try {
+    skipDoorIntroOnce = sessionStorage.getItem('skipDoorIntroOnce') === '1';
+    sessionStorage.removeItem('skipDoorIntroOnce');
+  } catch (e) {}
+
+  if (skipDoorIntroOnce) {
+    // Go straight to the landing page — DoorTransition.init() is never
+    // called, so no overlay, no scroll-lock, nothing to tear down.
+    introReady = true;
+    updateReplayVisibility();
+  } else {
+    startDoorIntro();
+  }
 </script>
 </body>
 </html>

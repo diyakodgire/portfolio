@@ -1,0 +1,332 @@
+/* ==========================================================================
+   USC Zeher case study — theme file.
+   Loaded only on projects/zeher.html, after the theme-agnostic
+   assets/css/projects.css (grid mechanics, lightbox, gallery/video
+   structure, reveal-on-scroll mechanism). Everything here is the
+   "show program" reading of the page: playbill typography (Caveat for
+   handwritten annotations, Special Elite for printed ticket text),
+   a perforated credential stub, a scrapbook gallery, a contact-sheet
+   video treatment, and asymmetrical growth stats. Zeher's own red/coral/
+   blue/black brand colors are never introduced here — only the site's
+   existing maroon/cream/gold tokens, same as the base file.
+   ========================================================================== */
+
+/* ---------- Program annotations ---------- */
+.stub-label {
+  display: inline-block;
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--cream-dim);
+  margin: 0 0 0.85rem;
+}
+
+.act-label {
+  display: inline-block;
+  font-family: var(--font-script);
+  font-size: 1.4rem;
+  line-height: 1;
+  color: var(--gold);
+  margin: 0 0 0.3rem;
+}
+
+.act-label--stage { transform: rotate(-2deg); }
+.act-label--feed { transform: rotate(1.5deg); }
+.act-label--motion { transform: rotate(-1.5deg); }
+.act-label--momentum { transform: rotate(2deg); }
+.act-label--encore { transform: rotate(-1.5deg); }
+
+/* ---------- Opening Act: hero credential stub ---------- */
+.case-study-meta {
+  position: relative;
+  border-top: none;
+  padding-top: 1.85rem;
+}
+
+.case-study-meta::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background-image: repeating-linear-gradient(to right,
+    rgba(203, 178, 122, 0.55) 0 7px, transparent 7px 15px);
+}
+
+/* ---------- Choreographing the Feed: scrapbook gallery ---------- */
+.gallery-primary .gallery-item,
+.gallery-secondary .gallery-item {
+  position: relative;
+}
+
+.gallery-primary .gallery-item::before,
+.gallery-secondary .gallery-item::before {
+  content: "";
+  position: absolute;
+  top: -7px;
+  left: 14%;
+  width: 40px;
+  height: 17px;
+  background: linear-gradient(115deg, rgba(203, 178, 122, 0.6), rgba(226, 213, 184, 0.35));
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+  transform: rotate(-6deg);
+  z-index: 2;
+  pointer-events: none;
+}
+
+.gallery-primary .gallery-item:nth-child(even)::before,
+.gallery-secondary .gallery-item:nth-child(even)::before {
+  left: auto;
+  right: 16%;
+  transform: rotate(6deg);
+}
+
+.gallery-item-frame {
+  transform: rotate(var(--tilt, 0deg));
+}
+
+.gallery-item:hover .gallery-item-frame,
+.gallery-item:focus-visible .gallery-item-frame {
+  transform: translateY(-4px) rotate(var(--tilt, 0deg));
+}
+
+.gallery-primary .gallery-item:nth-child(1) { --tilt: -2deg; margin-top: 0; transition-delay: 0ms; }
+.gallery-primary .gallery-item:nth-child(2) { --tilt: 1.5deg; margin-top: 1.75rem; transition-delay: 90ms; }
+.gallery-primary .gallery-item:nth-child(3) { --tilt: -1deg; margin-top: 0.5rem; transition-delay: 180ms; }
+.gallery-primary .gallery-item:nth-child(4) { --tilt: 2deg; margin-top: 1.25rem; transition-delay: 270ms; }
+.gallery-primary .gallery-item:nth-child(5) { --tilt: -1.5deg; margin-top: 0; transition-delay: 360ms; }
+
+.gallery-secondary .gallery-item:nth-child(1) { --tilt: 1.5deg; margin-top: 0; transition-delay: 0ms; }
+.gallery-secondary .gallery-item:nth-child(2) { --tilt: -2deg; margin-top: 1.5rem; transition-delay: 90ms; }
+.gallery-secondary .gallery-item:nth-child(3) { --tilt: 1deg; margin-top: 0.5rem; transition-delay: 180ms; }
+.gallery-secondary .gallery-item:nth-child(4) { --tilt: -1.5deg; margin-top: 1.75rem; transition-delay: 270ms; }
+
+@media (max-width: 640px) {
+  .gallery-primary .gallery-item,
+  .gallery-secondary .gallery-item {
+    margin-top: 0 !important;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .gallery-item-frame,
+  .gallery-item:hover .gallery-item-frame,
+  .gallery-item:focus-visible .gallery-item-frame {
+    transform: none;
+  }
+}
+
+/* ---------- In Motion: contact-sheet video treatment ---------- */
+.video-lead-label {
+  font-family: var(--font-mono);
+  letter-spacing: 0.06em;
+}
+
+.video-lead-frame {
+  padding: 6px;
+  background: var(--maroon-deep);
+  box-shadow: inset 0 0 0 1px rgba(203, 178, 122, 0.2);
+}
+
+.video-lead-frame video {
+  border-radius: 5px;
+}
+
+.video-grid .video-card {
+  position: relative;
+  padding: 6px;
+  background: var(--maroon-deep);
+  box-shadow: inset 0 0 0 1px rgba(203, 178, 122, 0.15);
+}
+
+.video-grid .video-card video {
+  border-radius: 5px;
+}
+
+.video-card-take {
+  position: absolute;
+  top: 0.9rem;
+  left: 0.9rem;
+  z-index: 2;
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  letter-spacing: 0.06em;
+  color: var(--cream);
+  background: rgba(10, 6, 5, 0.6);
+  padding: 0.2rem 0.55rem;
+  border-radius: 3px;
+  border: 1px solid rgba(203, 178, 122, 0.4);
+}
+
+.video-grid .video-card:nth-child(1) { transition-delay: 0ms; }
+.video-grid .video-card:nth-child(2) { transition-delay: 100ms; }
+.video-grid .video-card:nth-child(3) { transition-delay: 200ms; }
+.video-grid .video-card:nth-child(4) { transition-delay: 300ms; }
+
+/* ---------- Setting the Stage: pillar stagger ---------- */
+.stage-pillars .strategy-pillar:nth-child(1) { transition-delay: 0ms; }
+.stage-pillars .strategy-pillar:nth-child(2) { transition-delay: 120ms; }
+.stage-pillars .strategy-pillar:nth-child(3) { transition-delay: 240ms; }
+
+/* ---------- Building Momentum: asymmetrical stat program ---------- */
+.momentum-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  grid-template-areas:
+    "views   views   growth growth"
+    "shares  sponsor growth growth"
+    "revenue revenue growth growth";
+  gap: 1.25rem;
+}
+
+.momentum-tile {
+  background: var(--maroon-deep);
+  border: 1px solid rgba(203, 178, 122, 0.25);
+  border-radius: 10px;
+  padding: 1.5rem 1.4rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.momentum-tile--views {
+  grid-area: views;
+  border-color: rgba(203, 178, 122, 0.5);
+  background: linear-gradient(160deg, rgba(203, 178, 122, 0.1), var(--maroon-deep) 65%);
+}
+
+.momentum-tile--shares { grid-area: shares; }
+.momentum-tile--sponsor { grid-area: sponsor; }
+.momentum-tile--revenue { grid-area: revenue; }
+
+.momentum-value {
+  display: block;
+  font-family: var(--font-display);
+  font-weight: 900;
+  color: var(--gold);
+  line-height: 1.05;
+  margin-bottom: 0.5rem;
+  font-variant-numeric: tabular-nums;
+}
+
+.momentum-tile--views .momentum-value {
+  font-size: clamp(2.5rem, 5vw, 3.6rem);
+}
+
+.momentum-tile--shares .momentum-value,
+.momentum-tile--sponsor .momentum-value {
+  font-size: clamp(1.6rem, 3vw, 2.1rem);
+}
+
+.momentum-tile--revenue .momentum-value {
+  font-size: clamp(1.25rem, 2.2vw, 1.6rem);
+}
+
+.momentum-label {
+  display: block;
+  font-size: 0.86rem;
+  line-height: 1.4;
+  color: var(--cream-dim);
+}
+
+.momentum-growth {
+  grid-area: growth;
+  position: relative;
+  background: var(--maroon-deep);
+  border: 1px solid rgba(203, 178, 122, 0.25);
+  border-radius: 10px;
+  padding: 1.75rem 1.5rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 0.75rem;
+}
+
+.momentum-growth-label {
+  font-size: 1.1rem;
+  margin-bottom: 0.25rem;
+}
+
+.momentum-value--growth {
+  font-size: clamp(1.35rem, 2.4vw, 1.8rem);
+}
+
+.momentum-arrow {
+  color: var(--cream-dim);
+  font-weight: 400;
+}
+
+.momentum-growth-line {
+  display: block;
+  width: 100%;
+  height: 44px;
+  overflow: visible;
+}
+
+.momentum-growth-line polyline {
+  fill: none;
+  stroke: var(--gold);
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+@media (max-width: 760px) {
+  .momentum-grid {
+    grid-template-columns: 1fr;
+    grid-template-areas:
+      "views"
+      "growth"
+      "shares"
+      "sponsor"
+      "revenue";
+  }
+}
+
+.momentum-tile:nth-of-type(1) { transition-delay: 0ms; }
+.momentum-tile--shares { transition-delay: 100ms; }
+.momentum-tile--sponsor { transition-delay: 180ms; }
+.momentum-tile--revenue { transition-delay: 260ms; }
+.momentum-growth { transition-delay: 140ms; }
+
+/* ---------- The Encore: pull quote ---------- */
+.encore-quote {
+  position: relative;
+  max-width: 65ch;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.encore-quote p {
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: clamp(1.2rem, 2.2vw, 1.45rem);
+  line-height: 1.75;
+  color: var(--cream);
+  opacity: 0.95;
+  margin: 0 0 1.1rem;
+}
+
+.encore-flourish {
+  display: block;
+  width: 110px;
+  height: 16px;
+  margin: 0 auto;
+}
+
+.encore-flourish path {
+  fill: none;
+  stroke: var(--gold);
+  stroke-width: 2;
+  stroke-linecap: round;
+}
+
+/* ---------- Responsive ---------- */
+@media (max-width: 640px) {
+  .momentum-tile,
+  .momentum-growth {
+    padding: 1.25rem 1.1rem;
+  }
+}
