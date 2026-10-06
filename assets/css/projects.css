@@ -63,132 +63,276 @@
   opacity: 0.95;
 }
 
-/* The large editorial Zeher feature — image-led, whole card clickable.
-   A single <a> wrapping both the image and the text is the simplest way
-   to get a fully clickable card with a real, native keyboard-focusable
-   target — no click-delegation JS needed. */
-.project-feature {
-  display: block;
+/* .project-preview-list exists purely so multiple project entries stack
+   with consistent spacing once there's more than one (PCT, the
+   internship) — each entry is free to use its own card treatment, as
+   Zeher's vintage label below does. */
+.project-preview-list {
   max-width: 1100px;
   margin: 0 auto;
-  text-decoration: none;
-  color: var(--cream);
-  border: 1px solid rgba(203, 178, 122, 0.3);
-  border-radius: 10px;
-  overflow: hidden;
-  background: rgba(242, 232, 212, 0.04);
-  transition: border-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
+  display: flex;
+  flex-direction: column;
+  gap: 2.5rem;
 }
 
-.project-feature:hover,
-.project-feature:focus-visible {
-  border-color: var(--gold);
+/* ---------- Zeher preview: vintage Western label ----------
+   One large label, not a photo card — two full-bleed panels (cream for
+   the horse-Z, maroon for the project copy) inside a single continuous
+   outer border, in the Projects page's own maroon/cream/gold palette and
+   serif type. No photography, video stills or collage artwork, and the
+   actual Zeher project page (its own Western-editorial theme) is
+   untouched by this.
+
+   .project-label-left/-right are the REAL panels (actual background
+   color, actual content) — not a decorative layer standing in for them
+   — so there's never a sync gap between what's colored and what holds
+   the content. Each panel clips only its own OUTER corners (the ones on
+   the label's perimeter) to the notch shape; the seam between the two
+   panels stays a plain straight edge. .project-label-border/-frame are
+   separate, fill-less overlays purely for the continuous outer border
+   and the inner gold line.
+
+   clip-path on an element clips its outline too, so none of that
+   clipping ever touches .project-label itself (the focusable <a>) — it
+   stays a plain rectangle so its native :focus-visible outline always
+   renders in full. */
+.project-label {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  text-decoration: none;
+  color: var(--cream);
+  min-height: clamp(460px, 40vw, 560px);
+  box-sizing: border-box;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.project-label-border {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  border: 9px double var(--cream);
+  box-sizing: border-box;
+  clip-path: polygon(
+    22px 0, calc(100% - 22px) 0, 100% 22px,
+    100% calc(100% - 22px), calc(100% - 22px) 100%, 22px 100%,
+    0 calc(100% - 22px), 0 22px
+  );
+  pointer-events: none;
+}
+
+/* Restrained gold border detail, inset from the cream double line — its
+   own smaller notch keeps the corners consistent with the outer clip. */
+.project-label-frame {
+  position: absolute;
+  inset: 18px;
+  z-index: 2;
+  border: 1px solid rgba(203, 178, 122, 0.55);
+  clip-path: polygon(
+    14px 0, calc(100% - 14px) 0, 100% 14px,
+    100% calc(100% - 14px), calc(100% - 14px) 100%, 14px 100%,
+    0 calc(100% - 14px), 0 14px
+  );
+  pointer-events: none;
+}
+
+.project-label:hover,
+.project-label:focus-visible {
   transform: translateY(-4px);
   box-shadow: 0 18px 40px rgba(0, 0, 0, 0.35);
 }
 
-.project-feature:focus-visible {
+.project-label:focus-visible {
   outline: 2px solid var(--gold);
-  outline-offset: 4px;
+  outline-offset: 6px;
 }
 
-.project-feature-media {
-  overflow: hidden;
-  aspect-ratio: 16 / 10;
+/* Cream panel, full-bleed top-to-bottom on its side — the red horse-Z
+   sits directly on it, no inner card/patch/border of its own. Mobile
+   (column layout, the default): this is the top band, so only its top
+   two corners are notched. */
+.project-label-left {
+  flex: 0 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  padding: clamp(28px, 6vw, 44px);
+  background:
+    repeating-linear-gradient(115deg, rgba(74, 16, 23, 0.025) 0 2px, transparent 2px 6px),
+    var(--cream);
+  clip-path: polygon(
+    22px 0, calc(100% - 22px) 0,
+    100% 22px, 100% 100%, 0 100%, 0 22px
+  );
 }
 
-.project-feature-media img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  object-position: 50% 18%;
-  transition: transform 0.4s ease;
+.project-label-mark-img {
+  display: block;
+  width: min(230px, 60%);
+  height: auto;
 }
 
-.project-feature:hover .project-feature-media img,
-.project-feature:focus-visible .project-feature-media img {
-  transform: scale(1.035);
+/* Maroon panel, full-bleed — holds the project copy. Mobile: bottom
+   band, only its bottom two corners notched. */
+.project-label-right {
+  position: relative;
+  flex: 1 1 auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  box-sizing: border-box;
+  padding: clamp(32px, 6vw, 48px) clamp(28px, 5vw, 48px);
+  background:
+    repeating-linear-gradient(115deg, rgba(242, 232, 212, 0.025) 0 2px, transparent 2px 6px),
+    repeating-linear-gradient(25deg, rgba(0, 0, 0, 0.05) 0 1px, transparent 1px 5px),
+    var(--maroon-deep);
+  clip-path: polygon(
+    0 0, 100% 0, 100% calc(100% - 22px),
+    calc(100% - 22px) 100%, 22px 100%, 0 calc(100% - 22px)
+  );
 }
 
-.project-feature-body {
-  padding: 2.25rem 2.5rem 2.5rem;
+.project-label-copy {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  max-width: 46rem;
+  text-align: center;
 }
 
-.project-feature-eyebrow {
-  font-family: var(--font-display);
-  font-size: 0.82rem;
-  letter-spacing: 0.1em;
+.project-label-welcome {
+  font-family: 'Rye', var(--font-display);
+  font-size: clamp(0.95rem, 1.6vw, 1.2rem);
+  letter-spacing: 0.08em;
   text-transform: uppercase;
   color: var(--gold);
+  margin-bottom: 0.6rem;
+}
+
+.project-label-title {
+  font-family: var(--font-display);
+  font-weight: 900;
+  font-size: clamp(2rem, 4vw, 2.9rem);
+  color: var(--cream);
   margin: 0 0 0.6rem;
 }
 
-.project-feature-title {
+.project-label-eyebrow {
   font-family: var(--font-display);
-  font-weight: 900;
-  font-size: clamp(1.8rem, 3.2vw, 2.6rem);
-  margin: 0 0 0.75rem;
-  color: var(--cream);
+  font-size: 0.8rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin: 0;
 }
 
-.project-feature-meta {
+.project-label-rule {
+  display: block;
+  width: 64px;
+  height: 1px;
+  background: rgba(203, 178, 122, 0.55);
+  margin: 1.1rem 0;
+}
+
+.project-label-meta {
   display: flex;
   flex-wrap: wrap;
-  gap: 0.4rem 1.25rem;
+  justify-content: center;
+  align-items: center;
+  gap: 0.5rem 0.9rem;
   font-family: var(--font-body);
-  font-size: 0.92rem;
+  font-size: 0.9rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
   color: var(--cream-dim);
-  margin: 0 0 1.1rem;
+  margin: 0 0 1.25rem;
 }
 
-.project-feature-desc {
-  font-size: 1.05rem;
-  line-height: 1.7;
+.project-label-star {
+  color: var(--gold);
+  font-size: 0.7rem;
+}
+
+.project-label-desc {
+  font-family: var(--font-body);
+  font-size: 1.02rem;
+  line-height: 1.6;
   color: var(--cream);
   opacity: 0.95;
-  max-width: 65ch;
+  max-width: 48ch;
   margin: 0 0 1.4rem;
 }
 
-.project-feature-cta {
+.project-label-cta {
   display: inline-flex;
   align-items: center;
   gap: 0.5rem;
   font-family: var(--font-display);
-  font-size: 1rem;
-  letter-spacing: 0.03em;
+  font-size: 0.98rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
   color: var(--gold);
 }
 
-.project-feature-cta-arrow {
+.project-label-cta-arrow {
   transition: transform 0.3s ease;
 }
 
-.project-feature:hover .project-feature-cta-arrow,
-.project-feature:focus-visible .project-feature-cta-arrow {
+.project-label:hover .project-label-cta-arrow,
+.project-label:focus-visible .project-label-cta-arrow {
   transform: translateX(5px);
 }
 
+.project-label-tag {
+  position: absolute;
+  z-index: 1;
+  right: clamp(18px, 3vw, 30px);
+  bottom: clamp(14px, 2.5vw, 22px);
+  font-family: var(--font-body);
+  font-size: 0.72rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--cream-dim);
+  opacity: 0.65;
+}
+
+/* Row layout: the left panel becomes a fixed-width column on the
+   label's left edge, so its notch moves from the top two corners to
+   the left two; the right panel mirrors that onto its right two. */
 @media (min-width: 760px) {
-  .project-feature {
-    display: grid;
-    grid-template-columns: 1.1fr 1fr;
-    align-items: stretch;
+  .project-label {
+    flex-direction: row;
   }
-  .project-feature-media {
-    aspect-ratio: auto;
+  .project-label-left {
+    flex: 0 0 38%;
+    padding: clamp(28px, 4vw, 44px);
+    clip-path: polygon(
+      22px 0, 100% 0, 100% 100%,
+      22px 100%, 0 calc(100% - 22px), 0 22px
+    );
   }
-  .project-feature-body {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
+  .project-label-right {
+    padding: clamp(40px, 5vw, 64px) clamp(40px, 6vw, 72px);
+    clip-path: polygon(
+      0 0, calc(100% - 22px) 0, 100% 22px,
+      100% calc(100% - 22px), calc(100% - 22px) 100%, 0 100%
+    );
+  }
+  .project-label-copy {
+    align-items: flex-start;
+    text-align: left;
+  }
+  .project-label-meta {
+    justify-content: flex-start;
   }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .project-feature,
-  .project-feature-media img,
-  .project-feature-cta-arrow {
+  .project-label,
+  .project-label-cta-arrow {
     transition: none;
   }
 }
@@ -710,9 +854,6 @@
 
 /* ---------- Responsive ---------- */
 @media (max-width: 640px) {
-  .project-feature-body {
-    padding: 1.75rem 1.5rem 2rem;
-  }
   .case-study-meta {
     grid-template-columns: 1fr 1fr;
   }
