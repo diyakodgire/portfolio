@@ -10,8 +10,9 @@
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;700;900&family=EB+Garamond:ital,wght@0,400;0,600;1,400&family=Caveat:wght@600;700&family=Special+Elite&family=Allura&display=swap" rel="stylesheet" />
 <link rel="stylesheet" href="assets/css/style.css" />
 <link rel="stylesheet" href="assets/css/door-transition.css" />
+<link rel="stylesheet" href="assets/css/home.css" />
 </head>
-<body>
+<body class="home-page">
 
 <header class="navbar">
   <nav class="nav-inner">
@@ -129,6 +130,27 @@
     replayBtn.hidden = !introReady || footerInView;
   }
 
+  // Once-per-session gate: set the instant the visitor has actually
+  // entered the portfolio — the real door-open finishing, Skip Intro, and
+  // the reduced-motion fade all funnel through DoorTransition's single
+  // onComplete callback (see door-transition.js's finish()), so marking
+  // entered there covers all three triggers identically. sessionStorage
+  // (not localStorage, no query param) means a genuinely new browser
+  // session is eligible again, while reloads, internal navigation, and
+  // back/forward within this session all stay gated — none of those
+  // mechanisms touch sessionStorage, so the flag persists through all of
+  // them automatically. Only ever set, never cleared — Replay Intro calls
+  // startDoorIntro() directly (below) and re-marking an already-entered
+  // session is a harmless no-op, so replaying can never un-gate later
+  // normal Home visits.
+  var DOOR_ENTERED_KEY = 'doorIntroEntered';
+  function markEntered() {
+    try { sessionStorage.setItem(DOOR_ENTERED_KEY, '1'); } catch (e) {}
+  }
+  function hasEnteredThisSession() {
+    try { return sessionStorage.getItem(DOOR_ENTERED_KEY) === '1'; } catch (e) { return false; }
+  }
+
   // Starts (or restarts) the intro. init() builds an entirely fresh
   // overlay/listeners each call and tears its own down on completion
   // (see door-transition.js), so calling this again for a replay never
@@ -142,6 +164,7 @@
     DoorTransition.init({
       assets: DOOR_ASSETS,
       onComplete: function () {
+        markEntered();
         introReady = true;
         updateReplayVisibility();
       },
@@ -162,21 +185,11 @@
     footerObserver.observe(footerEl);
   }
 
-  // A one-time flag set by the Home/DK nav links on every OTHER page (see
-  // main.js) — clicking "back to the portfolio" from an internal page
-  // shouldn't force the visitor through the doorway again, but a direct
-  // visit, a manual reload, and Replay Intro all still should. Reading it
-  // here and removing it immediately makes it self-consuming: it can
-  // never affect a later reload or a future visit, only this one load.
-  var skipDoorIntroOnce = false;
-  try {
-    skipDoorIntroOnce = sessionStorage.getItem('skipDoorIntroOnce') === '1';
-    sessionStorage.removeItem('skipDoorIntroOnce');
-  } catch (e) {}
-
-  if (skipDoorIntroOnce) {
+  if (hasEnteredThisSession()) {
     // Go straight to the landing page — DoorTransition.init() is never
-    // called, so no overlay, no scroll-lock, nothing to tear down.
+    // called, so no overlay, no scroll-lock, no flash of the facade,
+    // nothing to tear down. Covers reload, internal nav back to Home, and
+    // browser back/forward alike, since none of them clear sessionStorage.
     introReady = true;
     updateReplayVisibility();
   } else {
