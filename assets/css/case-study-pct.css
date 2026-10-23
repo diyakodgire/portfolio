@@ -54,18 +54,36 @@
   .pct-theme main { padding: 18px 10px 48px; }
 }
 
-/* Reuse the site's shared .back-link structure, reskinned for the board. */
+/* Reuse the site's shared .back-link structure, reskinned for the board:
+   a clean purple label with a thin gold marker-underline, placed on its
+   own line below the closing statement (see .wb-section-09 below) so it
+   reads as a deliberate return action, not a buried footnote. */
 .pct-theme .back-link {
-  font-family: 'Inter', sans-serif;
-  font-size: 0.72rem;
-  font-weight: 600;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  color: var(--pct-navy);
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4em;
+  font-family: 'Archivo Black', sans-serif;
+  font-size: 0.85rem;
+  letter-spacing: 0.01em;
+  color: var(--pct-purple);
+  text-decoration: underline;
+  text-decoration-color: var(--pct-gold);
+  text-decoration-thickness: 2px;
+  text-underline-offset: 5px;
+  padding: 10px 2px;
+  border-radius: 4px;
+  transition: transform 0.2s ease, color 0.2s ease;
 }
 .pct-theme .back-link:hover,
-.pct-theme .back-link:focus-visible { color: var(--pct-purple); }
-.pct-theme .back-link:focus-visible { outline: 2px solid var(--pct-gold); }
+.pct-theme .back-link:focus-visible {
+  color: var(--pct-purple-deep);
+  transform: translateX(-4px);
+}
+.pct-theme .back-link:focus-visible {
+  outline: 2px solid var(--pct-gold);
+  outline-offset: 4px;
+  text-decoration: none;
+}
 
 /* Neutralize the shared .gallery-item defaults (width:100%/margin-bottom)
    that assume a stacked masonry layout — this page pins items at fixed
@@ -652,8 +670,8 @@
 
 /* ============== SECTION 09 — CLOSING ============== */
 .pct-theme .wb-section-09 {
-  display: flex; justify-content: space-between; align-items: baseline;
-  flex-wrap: wrap; gap: 14px; padding-bottom: 6px;
+  display: flex; flex-direction: column; align-items: flex-start;
+  gap: 10px; padding-bottom: 6px;
 }
 .pct-theme .closing-line { font-family: 'Cormorant Garamond', serif; font-size: 1.32rem; color: var(--pct-navy); }
 .pct-theme .closing-line em { color: var(--pct-purple); font-style: italic; font-weight: 600; }
