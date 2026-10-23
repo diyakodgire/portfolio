@@ -337,6 +337,157 @@
   }
 }
 
+/* ---------- Phi Chi Theta preview: embossed membership card ----------
+   Reuses the same two-zone layout proportions and responsive breakpoint
+   as .project-label (so the page's rhythm stays cohesive) but in an
+   entirely different material: cream card stock, a restrained gold
+   border/corner seam instead of a notched double line, and the chapter's
+   own deep purple for the crest/Greek-letter emblem — never Zeher's
+   maroon or Western styling. The purple here is a local token, scoped to
+   this component only, since it belongs to PCT's identity, not the
+   site's shared palette. */
+.project-card-pct {
+  --pct-card-purple: #360049;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  text-decoration: none;
+  color: var(--pct-card-purple);
+  background: var(--cream);
+  border: 1px solid rgba(203, 178, 122, 0.55);
+  border-radius: 10px;
+  box-shadow: 0 1px 0 rgba(255, 255, 255, 0.6) inset, 0 14px 30px rgba(0, 0, 0, 0.18);
+  overflow: hidden;
+  transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+}
+
+.project-card-pct:hover,
+.project-card-pct:focus-visible {
+  transform: translateY(-4px);
+  border-color: var(--gold);
+  box-shadow: 0 1px 0 rgba(255, 255, 255, 0.6) inset, 0 20px 40px rgba(0, 0, 0, 0.28);
+}
+
+.project-card-pct:focus-visible {
+  outline: 2px solid var(--pct-card-purple);
+  outline-offset: 4px;
+}
+
+.project-card-pct-emblem {
+  flex: 0 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  padding: clamp(28px, 6vw, 40px);
+  background:
+    repeating-linear-gradient(115deg, rgba(54, 0, 73, 0.03) 0 2px, transparent 2px 7px),
+    var(--cream);
+  border-bottom: 1px solid rgba(203, 178, 122, 0.4);
+}
+
+.project-card-pct-emblem img {
+  width: 56px;
+  height: auto;
+}
+
+.project-card-pct-letters {
+  font-family: 'Archivo', sans-serif;
+  font-weight: 900;
+  font-size: clamp(2.6rem, 6vw, 3.4rem);
+  letter-spacing: 0.04em;
+  color: var(--pct-card-purple);
+  line-height: 1;
+}
+
+.project-card-pct-body {
+  padding: clamp(28px, 5vw, 40px);
+}
+
+.project-card-pct-eyebrow {
+  font-family: var(--font-display);
+  font-size: 0.78rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--pct-card-purple);
+  opacity: 0.65;
+  margin: 0 0 0.6rem;
+}
+
+.project-card-pct-title {
+  font-family: var(--font-display);
+  font-weight: 900;
+  font-size: clamp(1.7rem, 3vw, 2.2rem);
+  color: var(--pct-card-purple);
+  margin: 0 0 0.75rem;
+}
+
+.project-card-pct-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem 1.25rem;
+  font-family: var(--font-body);
+  font-size: 0.9rem;
+  color: var(--pct-card-purple);
+  opacity: 0.75;
+  margin: 0 0 1rem;
+}
+
+.project-card-pct-desc {
+  font-family: var(--font-body);
+  font-size: 1rem;
+  line-height: 1.6;
+  color: var(--ink);
+  opacity: 0.85;
+  max-width: 50ch;
+  margin: 0 0 1.25rem;
+}
+
+.project-card-pct-cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-family: var(--font-display);
+  font-size: 0.98rem;
+  letter-spacing: 0.03em;
+  color: var(--pct-card-purple);
+  font-weight: 700;
+}
+
+.project-card-pct-cta-arrow {
+  transition: transform 0.3s ease;
+}
+
+.project-card-pct:hover .project-card-pct-cta-arrow,
+.project-card-pct:focus-visible .project-card-pct-cta-arrow {
+  transform: translateX(5px);
+}
+
+@media (min-width: 760px) {
+  .project-card-pct {
+    flex-direction: row;
+  }
+  .project-card-pct-emblem {
+    flex: 0 0 38%;
+    border-bottom: none;
+    border-right: 1px solid rgba(203, 178, 122, 0.4);
+  }
+  .project-card-pct-body {
+    flex: 1 1 auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .project-card-pct,
+  .project-card-pct-cta-arrow {
+    transition: none;
+  }
+}
+
 /* ---------- Case-study hero ---------- */
 .case-study-hero {
   background: var(--maroon-deep);
