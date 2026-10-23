@@ -94,6 +94,18 @@
 .pct-theme .gallery-item:hover img,
 .pct-theme .gallery-item:focus-visible img { transform: none; }
 
+/* ============== RETURN LINK (above the board) ============== */
+.pct-theme .pct-return-wrap {
+  max-width: 920px;
+  margin: 0 auto 22px;
+}
+@media (max-width: 860px) {
+  .pct-theme .pct-return-wrap { margin-bottom: 16px; }
+}
+@media (max-width: 480px) {
+  .pct-theme .pct-return-wrap { margin-bottom: 12px; }
+}
+
 /* ============== ALUMINUM FRAME ============== */
 .pct-theme .board-frame {
   max-width: 920px;
@@ -669,10 +681,7 @@
 .pct-theme .stat-divider { width: 2px; height: 72px; background: var(--pct-navy); opacity: 0.2; }
 
 /* ============== SECTION 09 — CLOSING ============== */
-.pct-theme .wb-section-09 {
-  display: flex; flex-direction: column; align-items: flex-start;
-  gap: 10px; padding-bottom: 6px;
-}
+.pct-theme .wb-section-09 { padding-bottom: 6px; }
 .pct-theme .closing-line { font-family: 'Cormorant Garamond', serif; font-size: 1.32rem; color: var(--pct-navy); }
 .pct-theme .closing-line em { color: var(--pct-purple); font-style: italic; font-weight: 600; }
 
