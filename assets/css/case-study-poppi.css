@@ -1,0 +1,233 @@
+/* ==========================================================================
+   Poppi × Product Playground campaign — speculative product art direction.
+   Loaded only on campaigns/poppi.html, after the theme-agnostic
+   assets/css/style.css (navbar/footer, --maroon/--cream/--gold tokens).
+   Scoped under .poppi-theme (set on <body>). The palette (pink, teal, sky,
+   green, rose, red, lime) and the serif display pairing (Fraunces) were
+   sampled/derived directly from the real Poppi Deck.mp4, approved in the
+   scratchpad Artifact preview before integration — nothing here is
+   generated campaign imagery.
+
+   The campaigns-overview entry (.campaign-card-poppi, bottom of this
+   file) is intentionally NOT scoped under .poppi-theme — it is used on
+   marketing-campaigns.html, which carries no theme class.
+   ========================================================================== */
+
+.poppi-theme {
+  --poppi-pink: #cf106f;
+  --poppi-cream: #f6f696;
+  --poppi-teal: #43c9a8;
+  --poppi-sky: #74bfd4;
+  --poppi-green: #65cf85;
+  --poppi-rose: #dc76a5;
+  --poppi-red: #bc1527;
+  --poppi-lime: #b9ee6f;
+  --poppi-ink: #2b0a1a;
+  background: #faf1f4;
+}
+
+.poppi-theme * { box-sizing: border-box; }
+
+.poppi-theme main {
+  padding: clamp(20px, 3.5vw, 44px) 20px 64px;
+}
+
+.poppi-theme img,
+.poppi-theme video { display: block; max-width: 100%; }
+
+.poppi-theme a:focus-visible,
+.poppi-theme button:focus-visible,
+.poppi-theme [tabindex]:focus-visible {
+  outline: 2px solid var(--gold);
+  outline-offset: 3px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .poppi-theme * {
+    animation-duration: 0.001ms !important;
+    transition-duration: 0.001ms !important;
+  }
+}
+
+/* ============== RETURN LINK (above the artwork) ==============
+   A Poppi-specific bubbly pill treatment — cream chip, hot-pink Fraunces
+   text — deliberately distinct from the shared .back-link component and
+   from the Le Labo / Laneige return labels. Nothing here touches those,
+   so every other page's return link is unaffected. */
+.poppi-theme .poppi-return-wrap {
+  max-width: 1440px;
+  margin: 0 auto 28px;
+}
+
+.poppi-theme .poppi-backlabel {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 22px;
+  background: var(--poppi-cream);
+  color: var(--poppi-pink);
+  border-radius: 999px;
+  font-family: 'Fraunces', Georgia, serif;
+  font-weight: 600;
+  font-size: 0.85rem;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  text-decoration: none;
+  box-shadow: 0 3px 0 rgba(207, 16, 111, 0.35);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+.poppi-theme .poppi-backlabel:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 6px 0 rgba(207, 16, 111, 0.35);
+}
+.poppi-theme .poppi-backlabel:focus-visible {
+  outline: 2px solid var(--poppi-pink);
+  outline-offset: 3px;
+}
+@media (prefers-reduced-motion: reduce) {
+  .poppi-theme .poppi-backlabel { transition: none; }
+}
+
+/* ============== PAGE CONTAINER ============== */
+.poppi-theme .poppi-page {
+  max-width: 1440px;
+  margin: 0 auto;
+  width: 100%;
+  background: #fff;
+  box-shadow: 0 30px 70px rgba(43, 10, 26, 0.16);
+}
+
+/* ============== COMPACT INTRODUCTION ==============
+   Plain HTML, not generated artwork. The seven swatches carry the real
+   sampled flavor-card colors instead of any image/gradient/gloss. */
+.poppi-theme .poppi-intro {
+  background: var(--poppi-pink);
+  padding: clamp(28px, 5vw, 48px) clamp(20px, 4vw, 48px);
+}
+.poppi-theme .poppi-intro-swatches {
+  display: flex;
+  gap: 9px;
+  margin-bottom: 20px;
+}
+.poppi-theme .poppi-intro-swatch {
+  width: 15px;
+  height: 15px;
+  border-radius: 50%;
+}
+.poppi-theme .poppi-intro-swatch.strawberry-lemon { background: var(--poppi-cream); }
+.poppi-theme .poppi-intro-swatch.amaya-colada { background: var(--poppi-teal); }
+.poppi-theme .poppi-intro-swatch.wild-berry { background: var(--poppi-sky); }
+.poppi-theme .poppi-intro-swatch.lemon-lime { background: var(--poppi-green); }
+.poppi-theme .poppi-intro-swatch.raspberry-rose { background: var(--poppi-rose); }
+.poppi-theme .poppi-intro-swatch.cherry-limeade { background: var(--poppi-red); }
+.poppi-theme .poppi-intro-swatch.watermelon { background: var(--poppi-lime); }
+
+.poppi-theme .poppi-intro h1 {
+  font-family: 'Fraunces', Georgia, serif;
+  font-weight: 900;
+  font-size: clamp(1.9rem, 4vw, 2.8rem);
+  color: var(--poppi-cream);
+  margin: 0 0 10px;
+  line-height: 1.05;
+}
+.poppi-theme .poppi-intro-eyebrow {
+  display: block;
+  font-family: 'Fraunces', Georgia, serif;
+  font-weight: 600;
+  font-size: 0.82rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--poppi-cream);
+  opacity: 0.85;
+  margin-bottom: 18px;
+}
+.poppi-theme .poppi-intro p {
+  font-family: 'Fraunces', Georgia, serif;
+  font-weight: 500;
+  font-size: 1.08rem;
+  line-height: 1.6;
+  color: #fff;
+  max-width: 640px;
+  margin: 0;
+}
+
+/* ============== VIDEO ==============
+   width:100% + explicit height:auto alongside aspect-ratio — without the
+   height:auto override, the HTML height attribute wins and the box
+   renders too tall, letterboxing the poster/video in black. */
+.poppi-theme .poppi-video-section { width: 100%; display: block; }
+.poppi-theme .poppi-video {
+  width: 100%;
+  height: auto;
+  aspect-ratio: 16 / 9;
+  display: block;
+  background: #000;
+}
+
+/* ============== CLOSING STRIP ============== */
+.poppi-theme .poppi-closing-strip {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px 0;
+  padding: 16px clamp(16px, 4vw, 40px);
+  background: var(--poppi-cream);
+}
+.poppi-theme .poppi-closing-strip-item {
+  font-family: 'Fraunces', Georgia, serif;
+  font-weight: 600;
+  font-size: 0.74rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--poppi-pink);
+  white-space: nowrap;
+}
+.poppi-theme .poppi-closing-strip-divider {
+  color: rgba(207, 16, 111, 0.4);
+  margin: 0 16px;
+  font-size: 0.74rem;
+}
+
+/* Unscoped (not .poppi-theme-prefixed): shared with other campaigns'
+   visually-hidden accessible text, reused here since this file loads
+   only on campaigns/poppi.html where no other .visually-hidden rule is
+   present. */
+.visually-hidden {
+  position: absolute;
+  width: 1px; height: 1px;
+  padding: 0; margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* ============== CAMPAIGNS-PAGE PREVIEW ==============
+   A real unmodified frame from the campaign video is the entire preview
+   — no card chrome, no copy outside the image, same "physical object"
+   treatment as the other campaigns/projects previews. */
+.campaign-card-poppi {
+  display: block;
+  max-width: 1100px;
+  margin: 0 auto 2.5rem;
+  line-height: 0;
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+.campaign-card-poppi img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+.campaign-card-poppi:hover,
+.campaign-card-poppi:focus-visible {
+  transform: translateY(-4px);
+  box-shadow: 0 16px 34px rgba(43, 10, 26, 0.28);
+}
+.campaign-card-poppi:focus-visible {
+  outline: 2px solid var(--gold);
+  outline-offset: 4px;
+  border-radius: 4px;
+}
+@media (prefers-reduced-motion: reduce) {
+  .campaign-card-poppi { transition: none; }
+}
