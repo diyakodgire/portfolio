@@ -1,0 +1,189 @@
+/* ==========================================================================
+   "From My Camera Roll" — Content Creation page visual archive.
+   Scratchpad only.
+
+   Desktop (>=1100px): the approved, fixed four-column sequence — hand
+   placed, 20px gaps, staggered column starts, never recomputed.
+
+   Tablet (601-1099px) and mobile (<=600px): the SAME 18 .gallery-item
+   nodes, height-balanced into 3 or 2 columns by assets/js/cc-responsive.js
+   (a real node move, not a duplicate/clone), so no column trails off
+   dramatically shorter than the rest. Nothing here crops an image; corner
+   rounding and gaps simply scale down with the breakpoint.
+   ========================================================================== */
+
+.cc-page {
+  background: var(--cream);
+}
+
+/* ---------- Header ---------- */
+.cc-header {
+  position: relative;
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 3.25rem 2rem 2.25rem;
+  text-align: center;
+}
+
+.cc-title {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: clamp(1.7rem, 6vw, 2.75rem);
+  letter-spacing: 0.01em;
+  color: var(--maroon);
+  margin: 0 0 0.55rem;
+  line-height: 1.15;
+}
+
+.cc-subline {
+  font-family: var(--font-body);
+  font-style: italic;
+  font-size: clamp(0.88rem, 2.6vw, 1.05rem);
+  color: var(--ink);
+  opacity: 0.68;
+  margin: 0;
+}
+
+@media (max-width: 600px) {
+  .cc-header {
+    padding: 2rem 1.25rem 1.5rem;
+  }
+}
+
+/* ---------- Masonry (shared base) ---------- */
+.cc-masonry {
+  position: relative;
+  max-width: 1440px;
+  margin: 0 auto;
+  padding: 0 1.25rem 3rem;
+  display: flex;
+  align-items: flex-start;
+}
+
+.cc-masonry[hidden] {
+  display: none;
+}
+
+.cc-col {
+  flex: 1 1 0;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+/* ---------- Desktop (>=1100px): the approved fixed sequence ---------- */
+.cc-masonry-desktop {
+  gap: 20px;
+}
+
+.cc-masonry-desktop .cc-col {
+  gap: 20px;
+}
+
+/* Staggered column starts — a real Pinterest board rhythm, not four images
+   lined up in a row. Desktop-only: these classes never appear on the
+   JS-built tablet/mobile columns. */
+.cc-masonry-desktop .cc-col-1 { margin-top: 0; }
+.cc-masonry-desktop .cc-col-2 { margin-top: 130px; }
+.cc-masonry-desktop .cc-col-3 { margin-top: 36px; }
+.cc-masonry-desktop .cc-col-4 { margin-top: 196px; }
+
+/* ---------- Pins: shared by desktop and the responsive board ---------- */
+.cc-masonry .gallery-item {
+  margin: 0;
+}
+
+.cc-masonry .gallery-item-frame {
+  position: relative;
+  display: block;
+  border: none;
+  border-radius: 18px;
+  overflow: hidden;
+}
+
+.cc-masonry .gallery-item-frame img {
+  display: block;
+  transition: transform 0.4s ease;
+}
+
+/* Soft larger radius on the four desktop column-opening "anchor" photos. */
+.cc-anchor .gallery-item-frame {
+  border-radius: 22px;
+}
+
+@media (max-width: 1099px) {
+  .cc-masonry .gallery-item-frame,
+  .cc-anchor .gallery-item-frame {
+    border-radius: 16px;
+  }
+}
+
+@media (max-width: 600px) {
+  .cc-masonry .gallery-item-frame,
+  .cc-anchor .gallery-item-frame {
+    border-radius: 14px;
+  }
+}
+
+/* Hover: gentle zoom + dark translucent overlay with a small view icon,
+   hover-capable pointers only (mouse/trackpad) — touch devices tap straight
+   through to the lightbox with no hover state to get stuck on. Keyboard
+   focus always gets the same visible affordance, on every device. */
+.cc-masonry .gallery-item:focus-visible img {
+  transform: scale(1.06);
+}
+
+.cc-masonry .gallery-item:focus-visible .cc-overlay {
+  background: rgba(36, 18, 16, 0.32);
+  opacity: 1;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .cc-masonry .gallery-item:hover img {
+    transform: scale(1.06);
+  }
+
+  .cc-masonry .gallery-item:hover .cc-overlay {
+    background: rgba(36, 18, 16, 0.32);
+    opacity: 1;
+  }
+}
+
+.cc-overlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(36, 18, 16, 0);
+  opacity: 0;
+  transition: opacity 0.3s ease, background 0.3s ease;
+}
+
+/* Subtle shadow on a few selected photographs only (on the frame itself,
+   not the image, so it isn't clipped by the frame's rounded overflow). */
+.cc-shadow .gallery-item-frame {
+  box-shadow: 0 10px 24px rgba(36, 18, 16, 0.18);
+}
+
+/* A tiny rotation on two or three images only, desktop only — removed
+   below 1100px per column rebalancing so a tilted edge can never push a
+   narrower tablet/mobile column into horizontal overflow. */
+.cc-tilt-a { transform: rotate(-1.3deg); }
+.cc-tilt-b { transform: rotate(1.1deg); }
+.cc-tilt-a:hover,
+.cc-tilt-b:hover { transform: none; }
+
+@media (max-width: 1099px) {
+  .cc-tilt-a,
+  .cc-tilt-b {
+    transform: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cc-masonry .gallery-item img,
+  .cc-overlay {
+    transition: none;
+  }
+}
