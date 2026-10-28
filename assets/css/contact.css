@@ -1,0 +1,365 @@
+/* ==========================================================================
+   Contact — pixel-accurate reconstruction of the approved visual.
+   Scene (desk + envelope + right rail) is one raster region, cropped
+   directly from the source image and untouched here — only minimal live
+   overlays sit on top of it. Header is live HTML, matching the approved
+   header band pixel-for-pixel at 1440px. Page-scoped: does not use the
+   shared .navbar component (reconciliation deferred to a later full-theme
+   pass) and does not modify style.css or main.js.
+   ========================================================================== */
+
+.ct-theme { background: var(--cream); margin: 0; }
+
+/* ---------- Header: live HTML, matches the approved header band ---------- */
+.ct-header-live {
+  position: relative;
+  height: 104px;
+  background: var(--cream);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 38px;
+}
+
+/* ---------- Header: mobile hamburger toggle (hidden ≥861px) ---------- */
+.ct-nav-toggle {
+  display: none;
+  flex-direction: column;
+  gap: 5px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0.5rem;
+}
+.ct-nav-toggle span {
+  width: 24px;
+  height: 2px;
+  background: #1c1712;
+  display: block;
+}
+.ct-nav-toggle:focus-visible {
+  outline: 2px solid var(--maroon-deep);
+  outline-offset: 3px;
+}
+
+.ct-title {
+  font-family: var(--font-display);
+  font-weight: 500;
+  font-size: 3.2rem;
+  letter-spacing: 0.01em;
+  color: #1c1712;
+  margin: 0;
+  line-height: 1;
+}
+
+.ct-nav {
+  display: flex;
+  align-items: center;
+  gap: 2.5rem;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.ct-nav a {
+  font-family: 'Jost', sans-serif;
+  font-weight: 500;
+  font-size: 0.78rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: #1c1712;
+  text-decoration: none;
+  padding-bottom: 3px;
+  border-bottom: 1px solid transparent;
+  transition: border-color 0.15s ease, color 0.15s ease;
+}
+.ct-nav a:hover,
+.ct-nav a:focus-visible {
+  color: var(--maroon-deep);
+  border-bottom-color: var(--maroon);
+}
+.ct-nav a:focus-visible {
+  outline: 2px solid var(--maroon-deep);
+  outline-offset: 3px;
+  border-radius: 2px;
+}
+
+.ct-nav a.ct-nav-active {
+  background: var(--maroon-deep);
+  color: var(--cream);
+  padding: 10px 22px;
+  border-bottom: none;
+}
+.ct-nav a.ct-nav-active:hover,
+.ct-nav a.ct-nav-active:focus-visible {
+  color: var(--cream);
+  background: var(--maroon);
+}
+.ct-nav a.ct-nav-active:focus-visible {
+  outline-offset: 1px;
+}
+
+/* ---------- Scene: raster artwork, untouched; zero gap below header ---------- */
+.ct-scene-img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.ct-scene {
+  position: relative;
+  width: 100%;
+}
+
+.ct-scene a { text-decoration: none; }
+
+/* ---------- Envelope: email / LinkedIn — printed-on-the-line character,
+   not website link styling. Small, normal weight, charcoal at rest. ---------- */
+.ct-field {
+  position: absolute;
+  transform-origin: left center;
+  font-family: 'Jost', sans-serif;
+  font-weight: 500;
+  font-size: 0.833vw;
+  letter-spacing: 0.04em;
+  color: #2e2a26;
+  white-space: nowrap;
+  border-bottom: 1px solid transparent;
+  padding-bottom: 1px;
+  transition: color 0.15s ease, border-color 0.15s ease;
+}
+.ct-field:hover,
+.ct-field:focus-visible {
+  border-bottom-color: var(--maroon);
+  color: var(--maroon-deep);
+}
+.ct-field:focus-visible {
+  outline: 2px solid var(--maroon-deep);
+  outline-offset: 3px;
+  border-radius: 2px;
+}
+
+.ct-email    { left: 37.92%; top: 76.69%; transform: rotate(-9.5deg); }
+.ct-linkedin { left: 38.02%; top: 81.74%; transform: rotate(-9.5deg); }
+
+/* ---------- Transparent anchor over the baked "JUST A HELLO" text only
+   (the arrow beneath it is handled separately, below) ---------- */
+.ct-hello-anchor {
+  position: absolute;
+  left: 82.29%;
+  top: 86.4%;
+  width: 10.6%;
+  height: 3.6%;
+  display: block;
+}
+.ct-hello-anchor:focus-visible {
+  outline: 2px solid var(--maroon-deep);
+  outline-offset: 2px;
+  border-radius: 3px;
+}
+
+/* ---------- Social line: replaces only the decorative arrow beneath
+   "Just a Hello" with a texture-matched patch, then live Instagram /
+   LinkedIn text on top — still inside the rail's own bounding box. ---------- */
+.ct-arrow-patch {
+  position: absolute;
+  left: 81.9%;
+  top: 91.8%;
+  width: 10.1%;
+  height: 4.4%;
+  display: block;
+  pointer-events: none;
+}
+
+.ct-social-line {
+  position: absolute;
+  left: 82.5%;
+  top: 92.7%;
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+  white-space: nowrap;
+}
+
+.ct-social-line a {
+  font-family: 'Jost', sans-serif;
+  font-weight: 500;
+  font-size: 0.68rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: #2e2a26;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  border-bottom: 1px solid transparent;
+  padding-bottom: 1px;
+  transition: color 0.15s ease, border-color 0.15s ease;
+}
+.ct-social-line a:hover,
+.ct-social-line a:focus-visible {
+  color: var(--maroon-deep);
+  border-bottom-color: var(--maroon);
+}
+.ct-social-line a:focus-visible {
+  outline: 2px solid var(--maroon-deep);
+  outline-offset: 2px;
+  border-radius: 2px;
+}
+
+/* ---------- Mobile recomposition block (hidden ≥861px, see media query) ---------- */
+.ct-mobile-contact { display: none; }
+
+/* ==========================================================================
+   Responsive recomposition. ≥861px: the desktop scene scales fluidly on its
+   own (the image is width:100%, the overlays are positioned in %, and the
+   envelope type uses vw) — no extra rule needed there except keeping the
+   live header's nav on one line. ≤860px: the fine overlay text baked to the
+   envelope/rail becomes illegible and untappable at any viewport-scaled
+   size, so it's swapped for a legible, live-HTML contact block instead of
+   being shrunk further. 860px matches the breakpoint the shared .navbar
+   already uses elsewhere on this site, kept here for one consistent "mobile
+   starts here" line across the whole project.
+   ========================================================================== */
+@media (max-width: 860px) {
+  .ct-header-live {
+    height: 72px;
+    padding: 0 20px;
+  }
+
+  .ct-title { font-size: 2rem; }
+
+  .ct-nav-toggle { display: flex; }
+
+  .ct-nav {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background: var(--cream);
+    border-bottom: 1px solid rgba(74, 16, 23, 0.18);
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0;
+    padding: 0.5rem 0;
+    display: none;
+    z-index: 50;
+  }
+  .ct-nav.ct-nav-open { display: flex; }
+
+  .ct-nav li { width: 100%; }
+
+  .ct-nav a {
+    display: block;
+    padding: 0.9rem 1.5rem;
+    text-align: center;
+    border-bottom: none;
+  }
+  .ct-nav a:hover,
+  .ct-nav a:focus-visible { border-bottom-color: transparent; }
+
+  .ct-nav a.ct-nav-active {
+    display: block;
+    margin: 0.25rem 1.5rem;
+    text-align: center;
+  }
+
+  /* The envelope values, the hello anchor, and the rail social line are all
+     tuned for a 1440px raster — hide them rather than let them shrink past
+     the point of being readable or reliably tappable. */
+  .ct-field,
+  .ct-hello-anchor,
+  .ct-arrow-patch,
+  .ct-social-line {
+    display: none;
+  }
+
+  .ct-mobile-contact {
+    display: block;
+    background: var(--cream);
+    padding: 2.25rem 1.5rem 2.75rem;
+  }
+
+  .ct-contact-list {
+    list-style: none;
+    margin: 0 0 1.75rem;
+    padding: 0;
+    max-width: 420px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .ct-contact-list li {
+    display: flex;
+    flex-direction: column;
+    gap: 0.2rem;
+    padding: 0.95rem 0;
+    border-bottom: 1px solid rgba(74, 16, 23, 0.14);
+  }
+  .ct-contact-list li:first-child { padding-top: 0; }
+
+  .ct-contact-label {
+    font-family: 'Jost', sans-serif;
+    font-weight: 500;
+    font-size: 0.7rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--maroon-deep);
+  }
+
+  .ct-contact-value {
+    font-family: 'Jost', sans-serif;
+    font-weight: 400;
+    font-size: 1.05rem;
+    letter-spacing: 0.01em;
+    color: #2e2a26;
+    text-decoration: none;
+    word-break: break-word;
+  }
+  .ct-contact-value:hover,
+  .ct-contact-value:focus-visible {
+    color: var(--maroon-deep);
+    text-decoration: underline;
+  }
+  .ct-contact-value:focus-visible {
+    outline: 2px solid var(--maroon-deep);
+    outline-offset: 3px;
+    border-radius: 2px;
+  }
+
+  .ct-contact-tags {
+    max-width: 420px;
+    margin: 0 auto 1.75rem;
+    font-family: 'Jost', sans-serif;
+    font-weight: 500;
+    font-size: 0.72rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: #6b6456;
+    text-align: center;
+  }
+
+  .ct-contact-cta {
+    display: block;
+    max-width: 420px;
+    margin: 0 auto;
+    background: var(--maroon-deep);
+    color: var(--cream);
+    font-family: 'Jost', sans-serif;
+    font-weight: 500;
+    font-size: 0.85rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    text-align: center;
+    text-decoration: none;
+    padding: 0.95rem 1.5rem;
+    border-radius: 2px;
+    transition: background 0.15s ease;
+  }
+  .ct-contact-cta:hover,
+  .ct-contact-cta:focus-visible { background: var(--maroon); }
+  .ct-contact-cta:focus-visible {
+    outline: 2px solid var(--maroon-deep);
+    outline-offset: 3px;
+  }
+}

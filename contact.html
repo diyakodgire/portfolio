@@ -3,49 +3,88 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Contact Me! | Diya Kodgire</title>
-<meta name="description" content="Get in touch with Diya Kodgire." />
+<title>Contact | Diya Kodgire</title>
+<meta name="description" content="Get in touch with Diya Kodgire by email, LinkedIn, or Instagram." />
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;700;900&family=EB+Garamond:ital,wght@0,400;0,600;1,400&family=Caveat:wght@600;700&family=Special+Elite&display=swap" rel="stylesheet" />
+<link href="https://fonts.googleapis.com/css2?family=Jost:wght@400;500&family=Playfair+Display:wght@500&display=swap" rel="stylesheet" />
 <link rel="stylesheet" href="assets/css/style.css" />
+<link rel="stylesheet" href="assets/css/contact.css" />
 </head>
-<body>
+<body class="ct-theme">
 
-<header class="navbar">
-  <nav class="nav-inner">
-    <a class="nav-brand" href="index.html">DK</a>
-    <button class="nav-toggle" id="navToggle" aria-label="Toggle navigation" aria-expanded="false">
+<main>
+  <!-- Header: live HTML, matches the approved header band pixel-for-pixel
+       at 1440px. Below 860px it collapses to a hamburger menu, same pattern
+       as the shared .navbar used elsewhere on the site. All links real and
+       clickable at every width. -->
+  <header class="ct-header-live">
+    <h1 class="ct-title">Contact</h1>
+    <button class="ct-nav-toggle" id="ctNavToggle" aria-label="Toggle navigation" aria-expanded="false" aria-controls="ctNavLinks">
       <span></span><span></span><span></span>
     </button>
-    <ul class="nav-links" id="navLinks">
+    <ul class="ct-nav" id="ctNavLinks">
       <li><a href="index.html">Home</a></li>
       <li><a href="about.html">About</a></li>
       <li><a href="skills.html">Skills</a></li>
       <li><a href="content-creation.html">Content</a></li>
       <li><a href="projects.html">Projects</a></li>
       <li><a href="marketing-campaigns.html">Campaigns</a></li>
-      <li><a href="contact.html">Contact</a></li>
+      <li><a href="contact.html" class="ct-nav-active">Contact</a></li>
     </ul>
-  </nav>
-</header>
+  </header>
 
-<main>
-  <section class="section contact">
-    <h2 class="section-heading">Contact Me!</h2>
-    <p class="section-note">Send over your email and social/LinkedIn links and I'll wire these up.</p>
-    <div class="contact-links">
-      <a class="contact-link" href="mailto:you@example.com">Email</a>
-      <a class="contact-link" href="#">LinkedIn</a>
-      <a class="contact-link" href="#">Instagram</a>
+  <!-- Scene: desk / envelope / right-rail, raster, untouched crop of the
+       approved visual. Zero gap below the live header. -->
+  <div class="ct-scene">
+    <img
+      class="ct-scene-img"
+      src="assets/images/contact/scene.png"
+      alt="Overhead view of a walnut desk: a burgundy leather travel journal and brass pen at left, a small note reading 'ideas, travel, further' resting in a brass dish, a water glass, a cream envelope reading 'Let's Make Something Meaningful Together' addressed with an oxblood postage stamp and postmark waves, and a bordered photograph of a coastal village with an olive branch at the upper right. To the lower right, a cream panel lists Brands, Collaborations, Opportunities, and Just a Hello."
+    />
+
+    <a class="ct-field ct-email" href="mailto:diyakodgire@gmail.com">diyakodgire@gmail.com</a>
+    <a class="ct-field ct-linkedin" href="https://www.linkedin.com/in/diya-kodgire" target="_blank" rel="noopener noreferrer">linkedin.com/in/diya-kodgire</a>
+
+    <a class="ct-hello-anchor" href="mailto:diyakodgire@gmail.com?subject=Hello%20Diya" aria-label="Just a Hello — email Diya"></a>
+
+    <img class="ct-arrow-patch" src="assets/images/contact/arrow-patch.png" alt="" aria-hidden="true" />
+    <div class="ct-social-line">
+      <a href="https://www.instagram.com/diyakodgire/" target="_blank" rel="noopener noreferrer">Instagram <span aria-hidden="true">&#8599;</span></a>
+      <a href="https://www.linkedin.com/in/diya-kodgire" target="_blank" rel="noopener noreferrer">LinkedIn <span aria-hidden="true">&#8599;</span></a>
     </div>
-  </section>
+  </div>
+
+  <!-- Mobile recomposition (≤860px only): the envelope/rail overlays above
+       become illegible and hard to tap at this size, so they're hidden by
+       CSS and this legible live block takes over — same content, same real
+       links, laid out for reading rather than glued to the raster artwork. -->
+  <div class="ct-mobile-contact">
+    <ul class="ct-contact-list">
+      <li>
+        <span class="ct-contact-label">Email</span>
+        <a class="ct-contact-value" href="mailto:diyakodgire@gmail.com">diyakodgire@gmail.com</a>
+      </li>
+      <li>
+        <span class="ct-contact-label">LinkedIn</span>
+        <a class="ct-contact-value" href="https://www.linkedin.com/in/diya-kodgire" target="_blank" rel="noopener noreferrer">linkedin.com/in/diya-kodgire</a>
+      </li>
+      <li>
+        <span class="ct-contact-label">Instagram</span>
+        <a class="ct-contact-value" href="https://www.instagram.com/diyakodgire/" target="_blank" rel="noopener noreferrer">@diyakodgire</a>
+      </li>
+    </ul>
+
+    <p class="ct-contact-tags">Brands &middot; Collaborations &middot; Opportunities</p>
+
+    <a class="ct-contact-cta" href="mailto:diyakodgire@gmail.com?subject=Hello%20Diya">Just a Hello <span aria-hidden="true">&#8599;</span></a>
+  </div>
 </main>
 
 <footer class="site-footer">
   <p>&copy; <span id="year"></span> Diya Kodgire</p>
 </footer>
 
-<script src="assets/js/main.js"></script>
+<script src="assets/js/contact.js"></script>
 </body>
 </html>
