@@ -1,0 +1,259 @@
+/* ==========================================================================
+   Laneige × Flavor Worlds campaign — speculative product art direction.
+   Loaded only on campaigns/laneige.html, after the theme-agnostic
+   assets/css/style.css (navbar/footer, --maroon/--cream/--gold tokens).
+   Scoped under .laneige-theme (set on <body>). The desktop composition is
+   a three-part approved sequence (hero / original playable animation /
+   Flavor Worlds spread), each already final editorial artwork — every
+   image panel is width:100%/height:auto so the page scales proportionally
+   at any viewport with no separate mobile artwork. The video keeps its
+   native 16:9 box and scales with the same width:100% rule.
+
+   The campaigns-overview entry (.campaign-card-laneige, bottom of this
+   file) is intentionally NOT scoped under .laneige-theme — it is used on
+   marketing-campaigns.html, which carries no theme class.
+   ========================================================================== */
+
+.laneige-theme {
+  --laneige-plum: #4a1332;
+  --laneige-pink-acrylic: rgba(255, 214, 231, 0.55);
+  --laneige-pink-acrylic-edge: rgba(255, 255, 255, 0.65);
+  --laneige-berry: #c8184a;
+  --laneige-peach: #f0813a;
+  --laneige-mango: #f0c23e;
+  --laneige-blueberry: #9089c4;
+  --laneige-gummy-bear: #c77fc3;
+  background: #f6d8e4;
+}
+
+.laneige-theme * { box-sizing: border-box; }
+
+.laneige-theme main {
+  padding: clamp(20px, 3.5vw, 44px) 20px 64px;
+}
+
+.laneige-theme img,
+.laneige-theme video { display: block; max-width: 100%; }
+
+.laneige-theme a:focus-visible,
+.laneige-theme button:focus-visible,
+.laneige-theme [tabindex]:focus-visible {
+  outline: 2px solid var(--gold);
+  outline-offset: 3px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .laneige-theme * {
+    animation-duration: 0.001ms !important;
+    transition-duration: 0.001ms !important;
+  }
+}
+
+/* ============== RETURN LINK (above the artwork) ==============
+   A Laneige-specific "cosmetic tester label" treatment — translucent pink
+   acrylic, dark plum condensed lettering, square/very subtly softened
+   corners. Deliberately NOT the shared gold/maroon .back-link component
+   and NOT the Le Labo .lelabo-backlabel component. Nothing here touches
+   either of those, so every other page's return link is unaffected. */
+.laneige-theme .laneige-return-wrap {
+  max-width: 1440px;
+  margin: 0 auto 28px;
+}
+
+.laneige-theme .laneige-backlabel {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 11px 22px;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.55), var(--laneige-pink-acrylic) 55%, rgba(255, 200, 222, 0.45));
+  border: 1px solid var(--laneige-pink-acrylic-edge);
+  border-radius: 3px;
+  color: var(--laneige-plum);
+  font-family: 'Oswald', var(--font-body), sans-serif;
+  font-size: 0.82rem;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  text-decoration: none;
+  backdrop-filter: blur(2px);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.8),
+    0 1px 2px rgba(74, 19, 50, 0.08),
+    0 6px 16px rgba(74, 19, 50, 0.14);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+.laneige-theme .laneige-backlabel::before {
+  content: "";
+  position: absolute;
+  inset: 1px 1px auto 1px;
+  height: 40%;
+  border-radius: 2px 2px 0 0;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.55), rgba(255, 255, 255, 0));
+  pointer-events: none;
+}
+.laneige-theme .laneige-backlabel-arrow {
+  font-weight: 600;
+}
+.laneige-theme .laneige-backlabel:hover,
+.laneige-theme .laneige-backlabel:focus-visible {
+  transform: translateX(-4px);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.8),
+    0 2px 4px rgba(74, 19, 50, 0.1),
+    0 10px 22px rgba(74, 19, 50, 0.18);
+}
+.laneige-theme .laneige-backlabel:focus-visible {
+  outline: 2px solid var(--laneige-plum);
+  outline-offset: 3px;
+}
+@media (prefers-reduced-motion: reduce) {
+  .laneige-theme .laneige-backlabel { transition: none; }
+}
+
+/* ============== COMPACT INTRODUCTION ==============
+   Plain HTML, not generated artwork. The five flat flavor swatches carry
+   the campaign's color identity instead of any image/gradient/gloss. */
+.laneige-theme .laneige-intro {
+  padding: clamp(28px, 5vw, 48px) clamp(20px, 4vw, 48px);
+}
+.laneige-theme .laneige-intro-swatches {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 20px;
+}
+.laneige-theme .laneige-intro-swatch {
+  width: 14px;
+  height: 14px;
+  border-radius: 2px;
+}
+.laneige-theme .laneige-intro-swatch.berry { background: var(--laneige-berry); }
+.laneige-theme .laneige-intro-swatch.peach { background: var(--laneige-peach); }
+.laneige-theme .laneige-intro-swatch.mango { background: var(--laneige-mango); }
+.laneige-theme .laneige-intro-swatch.blueberry { background: var(--laneige-blueberry); }
+.laneige-theme .laneige-intro-swatch.gummy-bear { background: var(--laneige-gummy-bear); }
+.laneige-theme .laneige-intro h1 {
+  font-family: var(--font-display);
+  font-size: clamp(1.7rem, 3.2vw, 2.4rem);
+  font-weight: 700;
+  color: var(--laneige-plum);
+  margin: 0 0 8px;
+}
+.laneige-theme .laneige-intro-eyebrow {
+  display: block;
+  font-family: 'Oswald', var(--font-body), sans-serif;
+  font-size: 0.78rem;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--laneige-plum);
+  opacity: 0.75;
+  margin-bottom: 16px;
+}
+.laneige-theme .laneige-intro p {
+  font-family: var(--font-body);
+  font-size: 1.05rem;
+  line-height: 1.65;
+  color: var(--laneige-plum);
+  max-width: 640px;
+  margin: 0;
+}
+
+/* ============== PAGE CONTAINER ============== */
+.laneige-theme .laneige-page {
+  max-width: 1440px;
+  margin: 0 auto;
+  width: 100%;
+  background: #fff;
+  box-shadow: 0 30px 70px rgba(74, 19, 50, 0.2);
+}
+
+/* Approved artwork + video panels, stacked with no gap of their own. */
+.laneige-theme .laneige-phase { width: 100%; display: block; }
+.laneige-theme .laneige-phase img {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+.laneige-theme .laneige-video {
+  width: 100%;
+  height: auto;
+  aspect-ratio: 16 / 9;
+  display: block;
+  background: #000;
+}
+
+/* ============== CLOSING STRIP ==============
+   One slim translucent acrylic info strip — a beauty-counter tester-tray
+   label, not an additional full phase. */
+.laneige-theme .laneige-closing-strip {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px 0;
+  padding: 16px clamp(16px, 4vw, 40px);
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.6), var(--laneige-pink-acrylic) 60%, rgba(255, 200, 222, 0.4));
+  border-top: 1px solid var(--laneige-pink-acrylic-edge);
+}
+.laneige-theme .laneige-closing-strip-item {
+  color: var(--laneige-plum);
+  font-family: 'Oswald', var(--font-body), sans-serif;
+  font-size: 0.72rem;
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+.laneige-theme .laneige-closing-strip-divider {
+  color: rgba(74, 19, 50, 0.35);
+  margin: 0 16px;
+  font-size: 0.72rem;
+}
+.laneige-theme .laneige-closing-strip-item:last-child,
+.laneige-theme .laneige-closing-strip-divider:last-child {
+  margin-right: 0;
+}
+
+/* Unscoped (not .laneige-theme-prefixed): shared with other campaigns'
+   visually-hidden accessible text, reused here since this file loads
+   only on campaigns/laneige.html where no other .visually-hidden rule
+   is present. */
+.visually-hidden {
+  position: absolute;
+  width: 1px; height: 1px;
+  padding: 0; margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* ============== CAMPAIGNS-PAGE PREVIEW ==============
+   The supplied tester artwork is the entire preview — no card chrome, no
+   copy outside the image, same "physical object" treatment as the other
+   campaigns/projects previews. */
+.campaign-card-laneige {
+  display: block;
+  max-width: 1100px;
+  margin: 0 auto 2.5rem;
+  line-height: 0;
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+.campaign-card-laneige img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+.campaign-card-laneige:hover,
+.campaign-card-laneige:focus-visible {
+  transform: translateY(-4px);
+  box-shadow: 0 16px 34px rgba(74, 19, 50, 0.28);
+}
+.campaign-card-laneige:focus-visible {
+  outline: 2px solid var(--gold);
+  outline-offset: 4px;
+  border-radius: 4px;
+}
+@media (prefers-reduced-motion: reduce) {
+  .campaign-card-laneige { transition: none; }
+}
