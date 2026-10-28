@@ -1,0 +1,138 @@
+/* ==========================================================================
+   Projects — stamp collection, built from 8 extracted raster assets (real
+   pixels from the approved reference, not redrawn). Page-scoped to
+   projects.html; does not touch assets/css/projects.css or
+   case-study-vocelli.css, which the individual project pages still use.
+   Positions below are measured directly off the approved reference at
+   1440px width, the same way the Skills page bowl/receipt were measured.
+   ========================================================================== */
+
+.pj-theme { background: var(--cream); }
+
+.pj-main { padding: 2.75rem 0 4rem; }
+
+.pj-heading {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: clamp(1.9rem, 3.2vw, 2.7rem);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  text-align: center;
+  color: var(--maroon-deep);
+  margin: 0 0 2.25rem;
+}
+
+/* Fluid down from 1440 — same box, same relative positions, just scaled.
+   left/width are % of the stage's own width; top is % of the stage's own
+   height, and aspect-ratio keeps width:height locked as the stage shrinks,
+   so the two numbers stay in proportion at every size down to ~900px
+   (covers 1440 / 1280 / 1024 as pure scaling, not a different layout). */
+.pj-stage {
+  position: relative;
+  width: 100%;
+  max-width: 1440px;
+  aspect-ratio: 1440 / 760;
+  margin: 0 auto;
+}
+
+.pj-stamp {
+  position: absolute;
+  display: block;
+}
+.pj-stamp img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.pj-stamp--real {
+  cursor: pointer;
+  filter: drop-shadow(0 6px 10px rgba(74, 16, 23, 0.22));
+  transition: transform 0.18s ease, filter 0.18s ease;
+}
+.pj-stamp--real:hover,
+.pj-stamp--real:focus-visible {
+  transform: translateY(-4px);
+  filter: drop-shadow(0 11px 16px rgba(74, 16, 23, 0.32));
+}
+.pj-stamp--real:focus-visible {
+  outline: 3px solid var(--maroon-deep);
+  outline-offset: 5px;
+  border-radius: 6px;
+}
+
+.pj-stamp--placeholder { /* no hover, no focus ring — not interactive */ }
+
+@media (prefers-reduced-motion: reduce) {
+  .pj-stamp--real { transition: none; }
+  .pj-stamp--real:hover,
+  .pj-stamp--real:focus-visible { transform: none; }
+}
+
+.pj-stamp--zeher    { left: 2.222%;  top: 1.579%;  width: 27.222%; }
+.pj-stamp--dispatch { left: 30%;     top: 5.263%;  width: 18.403%; }
+.pj-stamp--pct      { left: 48.333%; top: 0.263%;  width: 26.25%;  }
+.pj-stamp--vocelli  { left: 75.139%; top: 1.974%;  width: 22.986%; }
+
+.pj-stamp--fieldnotes { left: 3.125%;  top: 61.974%; width: 17.361%; }
+.pj-stamp--newroute   { left: 21.875%; top: 55.263%; width: 22.917%; }
+.pj-stamp--nextstop   { left: 45.625%; top: 57.237%; width: 19.861%; }
+.pj-stamp--ontheway   { left: 67.014%; top: 61.184%; width: 31.25%;  }
+
+/* ==========================================================================
+   Tablet (~768px): recompose into a wrapping flow, roughly 3 per row.
+   Real stamps keep more visual weight than placeholders — same hierarchy
+   as desktop, just no longer tied to the exact reference bounding boxes.
+   ========================================================================== */
+@media (max-width: 900px) {
+  .pj-stage {
+    position: static;
+    width: auto;
+    max-width: 640px;
+    aspect-ratio: auto;
+    margin: 0 auto;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: flex-end;
+    gap: 30px 26px;
+    padding: 0 1rem;
+  }
+  .pj-stamp { position: static; left: auto; top: auto; }
+
+  .pj-stamp--zeher      { width: 190px; }
+  .pj-stamp--dispatch   { width: 148px; }
+  .pj-stamp--pct        { width: 184px; }
+  .pj-stamp--vocelli    { width: 168px; }
+  .pj-stamp--fieldnotes { width: 150px; }
+  .pj-stamp--newroute   { width: 178px; }
+  .pj-stamp--nextstop   { width: 160px; }
+  .pj-stamp--ontheway   { width: 224px; }
+}
+
+/* ==========================================================================
+   Mobile (~390px): a fixed 2-column grid so the layout never has to wrap
+   unpredictably, but each stamp keeps its own (smaller) intrinsic width
+   inside its cell — real assets stay the visual anchors, placeholders stay
+   smaller — so it still reads as a varied collection, not a uniform grid.
+   ========================================================================== */
+@media (max-width: 580px) {
+  .pj-stage {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    justify-items: center;
+    align-items: end;
+    gap: 22px 10px;
+    max-width: 420px;
+    padding: 0 0.75rem;
+  }
+
+  .pj-stamp--zeher      { width: 152px; }
+  .pj-stamp--dispatch   { width: 108px; }
+  .pj-stamp--pct        { width: 146px; }
+  .pj-stamp--vocelli    { width: 128px; }
+  .pj-stamp--fieldnotes { width: 102px; }
+  .pj-stamp--newroute   { width: 132px; }
+  .pj-stamp--nextstop   { width: 114px; }
+  .pj-stamp--ontheway   { width: 178px; }
+}
