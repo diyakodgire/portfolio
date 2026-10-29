@@ -1,0 +1,548 @@
+/* ==========================================================================
+   Home — Layout A's three-column proportions (column widths, photo-frame
+   placement) carrying the overall Travel Issue visual's editorial density:
+   an overlapping cover masthead, top micro-nav, left editorial rail, issue
+   details, and a dominant right-rail cover line. Page-scoped — no shared
+   .navbar (Layout A positions nav as its own bottom bar). Colors measured
+   off the approved reference:
+     cream   #F2EBDC   charcoal #1F2220   oxblood #671824   gold #AE8B49
+
+   Responsive approach: 1440px is the approved, authored composition. From
+   1440 down to 861px every structural value below is expressed in vw —
+   computed directly from its approved 1440px pixel value (px/1440*100) —
+   so the whole cover (grid, masthead, overlap, vertical rules) scales as
+   one locked-proportion unit, like a poster shrinking: no element re-wraps
+   or re-flows differently than the approved design, it's the same design
+   at a smaller size. The handful of smallest utility labels (micro-nav,
+   the secondary index, category list, captions) are clamp()'d with a
+   gentle floor so they never scale down to the point of illegibility
+   before the mobile breakpoint. At ≤860px — the same breakpoint the
+   shared .navbar and the Contact page already use, kept here for one
+   consistent "mobile starts here" line across the project — the cover
+   recomposes into a single stacked column with its own fixed (non-vw)
+   type sizes and a hamburger nav, the same recomposition philosophy used
+   on Contact: read for mobile, not shrunk into illegibility.
+   ========================================================================== */
+
+.hm-theme { background: var(--cream-paper); margin: 0; }
+
+:root {
+  --cream-paper: #f2ebdc;
+  --charcoal: #1f2220;
+  --oxblood: #671824;
+  --gold-antique: #ae8b49;
+  --ink-dim: #665c4e;
+}
+
+.hm-landing {
+  position: relative;
+  background: var(--cream-paper) url('../images/home/paper-grain.png');
+  background-size: 220px 220px;
+  color: var(--charcoal);
+  width: 100%;
+  padding-top: 1.8056vw;
+}
+
+/* ---------- Structural chrome: one inset trim around the whole cover,
+   plus two fine vertical hairlines picking out the grid's gutters —
+   typographic/structural devices, not new imagery. ---------- */
+.hm-cover-border {
+  position: absolute;
+  inset: 1.1111vw;
+  border: 1px solid var(--gold-antique);
+  pointer-events: none;
+  z-index: 1;
+}
+
+.hm-vrule {
+  position: absolute;
+  top: 8.1944vw;
+  bottom: 7.5vw;
+  width: 1px;
+  background: rgba(174, 139, 73, 0.55);
+  pointer-events: none;
+  z-index: 1;
+}
+.hm-vrule-a { left: 35.625vw; }
+.hm-vrule-b { left: 73.6806vw; }
+
+/* ---------- Top micro-nav: decorative cover labels, not a nav system ---------- */
+.hm-micronav {
+  list-style: none;
+  margin: 0 2.0833vw 0 0;
+  padding: 0;
+  display: flex;
+  justify-content: flex-end;
+  gap: 2.8889vw;
+  position: relative;
+  z-index: 2;
+}
+
+.hm-micronav li {
+  padding-top: 0.5556vw;
+  border-top: 1px solid var(--gold-antique);
+  font-family: 'Jost', sans-serif;
+  font-weight: 500;
+  font-size: clamp(9px, 0.7333vw, 10.56px);
+  line-height: 1.5;
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
+  color: var(--ink-dim);
+  text-align: center;
+  white-space: nowrap;
+}
+
+/* ---------- Masthead: the primary editorial headline, overlapping the
+   photo frame below it (see .hm-frame's negative margin-top) ---------- */
+.hm-masthead {
+  position: relative;
+  z-index: 2;
+  margin: 0.1389vw 0 0 2.6389vw;
+}
+
+.hm-masthead-eyebrow {
+  margin: 0;
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-style: italic;
+  font-size: 2.3333vw;
+  color: var(--charcoal);
+}
+
+.hm-masthead-title {
+  margin: -0.4167vw 0 0;
+  font-family: var(--font-display);
+  text-transform: uppercase;
+  color: var(--oxblood);
+}
+
+.hm-masthead-main,
+.hm-masthead-sub {
+  display: block;
+  font-weight: 900;
+  letter-spacing: -0.005em;
+  text-shadow: 0.2083vw 0.2083vw 0 rgba(31,34,32,0.08);
+}
+
+.hm-masthead-main {
+  font-size: 9.5556vw;
+  line-height: 0.86;
+}
+
+.hm-masthead-sub {
+  margin-top: -0.1389vw;
+  font-size: 6.2222vw;
+  line-height: 0.92;
+  letter-spacing: -0.04em;
+}
+
+/* ---------- Three-column composition (Layout A's measured proportions,
+   expressed as vw so the grid scales as one unit with everything above
+   and inside it) ---------- */
+.hm-grid {
+  display: grid;
+  grid-template-columns: 31.4583vw 35.5556vw 22.9861vw;
+  column-gap: 2.5vw;
+  padding: 0 2.0833vw 0 2.9167vw;
+}
+
+/* ---- Left column: byline, editorial rail copy, categories, issue details ---- */
+.hm-col-left {
+  display: flex;
+  flex-direction: column;
+  margin-top: 1.8056vw;
+}
+
+.hm-byline {
+  margin: 0;
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 3.5556vw;
+  line-height: 1;
+  letter-spacing: 0.005em;
+  text-transform: uppercase;
+}
+.hm-name-oxblood { color: var(--oxblood); }
+.hm-name-charcoal { color: var(--charcoal); }
+
+.hm-focus {
+  margin: 1.1111vw 0 0;
+  max-width: 31.4583vw;
+  font-family: 'Jost', sans-serif;
+  font-weight: 500;
+  font-size: clamp(10px, 0.8222vw, 11.84px);
+  line-height: 1.8;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--charcoal);
+}
+.hm-focus-line { display: block; }
+.hm-focus-clause { white-space: nowrap; }
+.hm-focus-sep {
+  color: var(--oxblood);
+  font-weight: 600;
+}
+
+.hm-rail-copy {
+  margin: 1.5278vw 0 0;
+  max-width: 10.9722vw;
+  font-family: 'Jost', sans-serif;
+  font-weight: 500;
+  font-size: clamp(9.5px, 0.7778vw, 11.2px);
+  line-height: 1.6;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--ink-dim);
+}
+
+.hm-intro {
+  margin: 1.3889vw 0 0;
+  max-width: 20.1389vw;
+  font-family: var(--font-body);
+  font-style: italic;
+  font-size: clamp(13px, 1.1556vw, 16.64px);
+  line-height: 1.56;
+  color: var(--ink-dim);
+}
+
+.hm-categories {
+  list-style: none;
+  margin: 1.5278vw 0 0;
+  padding: 1.1111vw 0 0;
+  border-top: 1px solid var(--gold-antique);
+  max-width: 10.9722vw;
+  display: flex;
+  flex-direction: column;
+  gap: 0.4861vw;
+}
+.hm-categories li {
+  font-family: 'Jost', sans-serif;
+  font-weight: 500;
+  font-size: clamp(9.5px, 0.7778vw, 11.2px);
+  letter-spacing: 0.11em;
+  text-transform: uppercase;
+  color: var(--charcoal);
+}
+
+.hm-issue-details {
+  margin: 2.3611vw 0 0;
+  padding-top: 1.1111vw;
+  border-top: 1px solid var(--gold-antique);
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.hm-issue-no {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: clamp(15px, 1.3889vw, 20px);
+  color: var(--oxblood);
+}
+.hm-issue-year {
+  font-family: 'Jost', sans-serif;
+  font-weight: 500;
+  font-size: clamp(10px, 0.8667vw, 12.48px);
+  letter-spacing: 0.08em;
+  color: var(--ink-dim);
+}
+
+/* ---- Center column: photo frame — same crop/geometry as before, pulled
+   up via negative margin so the masthead above visually overlaps its top
+   edge. z-index: auto (default) keeps it behind .hm-masthead/.hm-micronav,
+   which are the only elements given a higher stacking level. An
+   aspect-ratio (matching the approved 512:714 box) replaces the old fixed
+   height so the crop stays correctly proportioned as the column's own
+   width scales, instead of needing a separately-scaled height value. ---- */
+.hm-frame {
+  position: relative;
+  margin: -4.0278vw 0 0;
+  padding: 2px;
+  border: 1px solid var(--gold-antique);
+}
+
+.hm-frame::before,
+.hm-frame::after {
+  content: '';
+  position: absolute;
+  width: 1.5278vw;
+  height: 1.5278vw;
+  pointer-events: none;
+}
+.hm-frame::before {
+  top: -1px;
+  left: -1px;
+  border-top: 2px solid var(--gold-antique);
+  border-left: 2px solid var(--gold-antique);
+}
+.hm-frame::after {
+  bottom: -1px;
+  right: -1px;
+  border-bottom: 2px solid var(--gold-antique);
+  border-right: 2px solid var(--gold-antique);
+}
+
+.hm-frame-img {
+  display: block;
+  width: 100%;
+  aspect-ratio: 512 / 714;
+  object-fit: cover;
+  object-position: center;
+}
+
+.hm-frame-caption {
+  position: absolute;
+  left: 1.1111vw;
+  bottom: 0.9722vw;
+  margin: 0;
+  font-family: 'Jost', sans-serif;
+  font-weight: 500;
+  font-size: clamp(9px, 0.7556vw, 10.88px);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--cream-paper);
+  text-shadow: 0 1px 3px rgba(0,0,0,0.55);
+}
+
+/* ---- Right column: a smaller, secondary index, then the dominant
+   "Good Ideas / Move / Further" cover line with its gold rule. ---- */
+.hm-col-right {
+  display: flex;
+  flex-direction: column;
+  margin-top: 1.8056vw;
+}
+
+.hm-index {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.625vw;
+}
+.hm-index li {
+  font-family: 'Jost', sans-serif;
+  font-weight: 500;
+  font-size: clamp(8px, 0.6667vw, 9.6px);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--ink-dim);
+}
+.hm-index-num {
+  color: var(--gold-antique);
+  margin-right: 0.55em;
+}
+
+.hm-coverline {
+  margin: 13.1944vw 0 0;
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 2.6111vw;
+  line-height: 1.08;
+  letter-spacing: 0.005em;
+  text-transform: uppercase;
+  color: var(--charcoal);
+}
+.hm-coverline span { display: block; }
+
+.hm-coverline-rule {
+  margin: 1.3889vw 0 0;
+  border: none;
+  border-top: 2px solid var(--gold-antique);
+  width: 8.8889vw;
+}
+
+/* ---------- Bottom navigation (Layout A's own placement — no shared
+   .navbar on this page, and no second nav system elsewhere on it) ---------- */
+.hm-nav {
+  position: relative;
+  margin-top: 2.0833vw;
+  padding: 0 0 1.8056vw 2.9167vw;
+}
+
+.hm-nav-toggle {
+  display: none;
+}
+
+.hm-nav ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  gap: 3.2222vw;
+}
+
+.hm-nav a {
+  font-family: 'Jost', sans-serif;
+  font-weight: 500;
+  font-size: clamp(11px, 0.8667vw, 12.48px);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--charcoal);
+  text-decoration: none;
+  padding-bottom: 0.2083vw;
+  border-bottom: 1px solid transparent;
+  transition: border-color 0.15s ease, color 0.15s ease;
+}
+.hm-nav a:hover,
+.hm-nav a:focus-visible {
+  color: var(--oxblood);
+  border-bottom-color: var(--oxblood);
+}
+.hm-nav a:focus-visible {
+  outline: 2px solid var(--oxblood);
+  outline-offset: 3px;
+  border-radius: 2px;
+}
+
+.hm-nav a.hm-nav-active {
+  background: var(--oxblood);
+  color: var(--cream-paper);
+  padding: 0.625vw 1.3889vw;
+  border-bottom: none;
+}
+.hm-nav a.hm-nav-active:hover,
+.hm-nav a.hm-nav-active:focus-visible {
+  color: var(--cream-paper);
+  background: #7e2130;
+}
+.hm-nav a.hm-nav-active:focus-visible {
+  outline-offset: 1px;
+}
+
+/* ==========================================================================
+   Mobile recomposition (≤860px — same breakpoint as the shared .navbar and
+   the Contact page). The cover's overlapping multi-column treatment is a
+   desktop/tablet-poster device; stacked at phone width it recomposes into
+   a single readable column instead: grid stacks to one track, the
+   vertical hairlines (tied to the 3-column gutters) are hidden since
+   those gutters no longer exist, the masthead and overlap scale down to
+   fixed mobile sizes rather than continuing the 1440-based vw scale past
+   the point of legibility, and the bottom nav collapses to the same
+   hamburger pattern already used by the shared .navbar and Contact.
+   ========================================================================== */
+@media (max-width: 860px) {
+  .hm-landing { padding-top: 20px; }
+
+  .hm-cover-border { inset: 10px; }
+  .hm-vrule { display: none; }
+
+  .hm-micronav {
+    margin: 0 18px 0 18px;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    gap: 1.5rem;
+    row-gap: 0.75rem;
+  }
+  .hm-micronav li { font-size: 0.62rem; }
+
+  .hm-masthead { margin: 14px 0 0 18px; }
+  .hm-masthead-eyebrow { font-size: 1.4rem; }
+  .hm-masthead-main { font-size: 3.6rem; }
+  .hm-masthead-sub {
+    font-size: 2.3rem;
+    letter-spacing: -0.01em;
+  }
+
+  .hm-grid {
+    display: block;
+    padding: 0 18px;
+  }
+
+  .hm-col-left {
+    margin-top: 28px;
+  }
+  .hm-byline { font-size: 2rem; }
+  .hm-focus {
+    max-width: none;
+    font-size: 0.78rem;
+  }
+  .hm-rail-copy {
+    max-width: none;
+    font-size: 0.72rem;
+  }
+  .hm-intro {
+    max-width: none;
+    font-size: 1rem;
+  }
+  .hm-categories { max-width: none; }
+
+  /* No overlap in the stacked mobile layout — the frame now sits below
+     the left column's own content (issue details included), not beneath
+     the masthead, so the negative-margin overlap trick doesn't apply
+     here; a plain gap replaces it. */
+  .hm-frame {
+    margin-top: 26px;
+  }
+
+  .hm-col-right {
+    margin-top: 32px;
+  }
+  .hm-coverline {
+    margin-top: 26px;
+    font-size: 1.9rem;
+  }
+
+  .hm-nav {
+    margin-top: 0;
+    padding: 18px 20px;
+  }
+
+  .hm-nav-toggle {
+    display: flex;
+    position: absolute;
+    top: 50%;
+    right: 20px;
+    transform: translateY(-50%);
+    flex-direction: column;
+    gap: 5px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0.5rem;
+  }
+  .hm-nav-toggle span {
+    width: 24px;
+    height: 2px;
+    background: var(--charcoal);
+    display: block;
+  }
+  .hm-nav-toggle:focus-visible {
+    outline: 2px solid var(--oxblood);
+    outline-offset: 3px;
+  }
+
+  .hm-nav ul {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background: var(--cream-paper);
+    border-top: 1px solid rgba(174, 139, 73, 0.5);
+    border-bottom: 1px solid rgba(174, 139, 73, 0.5);
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0;
+    padding: 0.5rem 0;
+    display: none;
+    z-index: 50;
+  }
+  .hm-nav ul.hm-nav-open { display: flex; }
+
+  .hm-nav li { width: 100%; }
+
+  .hm-nav a {
+    display: block;
+    padding: 0.9rem 1.5rem;
+    text-align: center;
+    border-bottom: none;
+  }
+  .hm-nav a:hover,
+  .hm-nav a:focus-visible { border-bottom-color: transparent; }
+
+  .hm-nav a.hm-nav-active {
+    display: block;
+    margin: 0.25rem 1.5rem;
+    text-align: center;
+  }
+}

@@ -7,86 +7,126 @@
 <meta name="description" content="Diya Kodgire — Content Creation, Digital Marketing &amp; Advertising portfolio." />
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;700;900&family=EB+Garamond:ital,wght@0,400;0,600;1,400&family=Caveat:wght@600;700&family=Special+Elite&family=Allura&display=swap" rel="stylesheet" />
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;700;800;900&family=EB+Garamond:ital,wght@0,400;0,600;1,400&family=Jost:wght@400;500;600&family=Caveat:wght@600;700&family=Special+Elite&family=Allura&display=swap" rel="stylesheet" />
 <link rel="stylesheet" href="assets/css/style.css" />
 <link rel="stylesheet" href="assets/css/door-transition.css" />
+<link rel="stylesheet" href="assets/css/home.css" />
 </head>
-<body>
-
-<header class="navbar">
-  <nav class="nav-inner">
-    <a class="nav-brand" href="index.html">DK</a>
-    <button class="nav-toggle" id="navToggle" aria-label="Toggle navigation" aria-expanded="false">
-      <span></span><span></span><span></span>
-    </button>
-    <ul class="nav-links" id="navLinks">
-      <li><a href="index.html">Home</a></li>
-      <li><a href="about.html">About</a></li>
-      <li><a href="skills.html">Skills</a></li>
-      <li><a href="content-creation.html">Content</a></li>
-      <li><a href="projects.html">Projects</a></li>
-      <li><a href="marketing-campaigns.html">Campaigns</a></li>
-      <li><a href="contact.html">Contact</a></li>
-    </ul>
-  </nav>
-</header>
+<body class="hm-theme">
 
 <main>
 
-  <section class="section hero hero--landing">
-    <div class="hero-content">
-      <h1 class="hero-title">Diya Kodgire</h1>
-      <p class="hero-subtitle">Content Creation&nbsp;|&nbsp;Digital Marketing&nbsp;|&nbsp;Advertising</p>
-    </div>
-    <a class="scroll-cue" href="#explore">
-      <span class="scroll-cue-label">Explore my work</span>
-      <svg class="scroll-cue-arrow" viewBox="0 0 24 24" width="20" height="20" aria-hidden="true" focusable="false">
-        <path d="M4 9 L12 17 L20 9" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" />
-      </svg>
-    </a>
-  </section>
+  <!-- Home — Layout A supplies the three-column skeleton (column widths,
+       photo frame placement); the overall Travel Issue visual supplies the
+       editorial richness layered onto it: the overlapping cover masthead,
+       top micro-nav, left editorial rail, issue details, and the right
+       rail's cover-line treatment. No shared .navbar on this page: primary
+       navigation is its own bottom bar (.hm-nav below), the page's only
+       nav — the top micro-nav words are decorative cover copy, not a
+       second link system. Responsive: scales as one locked-proportion
+       unit down to 861px, recomposes to a single stacked column with a
+       hamburger nav at ≤860px (see assets/css/home.css). -->
+  <section class="hm-landing">
 
-  <!-- Selected Work: reserved for real project titles/descriptions/images
-       (see assets/images/README.md) — deliberately not rendered until
-       there's real completed work to show, rather than placeholder cards.
-       Once ready, it belongs here, between the hero and .explore below,
-       as a <section class="section selected-work" id="selected-work">
-       matching the section/heading pattern used throughout this page. -->
+    <!-- Structural chrome only — no new copy: the cover's own inset trim
+         and the grid's vertical hairlines. -->
+    <div class="hm-cover-border" aria-hidden="true"></div>
+    <div class="hm-vrule hm-vrule-a" aria-hidden="true"></div>
+    <div class="hm-vrule hm-vrule-b" aria-hidden="true"></div>
 
-  <section class="section explore" id="explore">
-    <h2 class="section-heading center">Take a look around</h2>
-    <div class="explore-grid">
-      <a class="explore-card" href="about.html">
-        <h3>About Me!</h3>
-        <p>My background, what I'm studying, and what drives me.</p>
-        <span class="explore-card-arrow" aria-hidden="true">&rarr;</span>
-      </a>
-      <a class="explore-card" href="skills.html">
-        <h3>Expertise &amp; Skills</h3>
-        <p>What I bring to the table, ranked out of 10.</p>
-        <span class="explore-card-arrow" aria-hidden="true">&rarr;</span>
-      </a>
-      <a class="explore-card" href="content-creation.html">
-        <h3>Content Creation</h3>
-        <p>Pinterest-worthy content and UGC work.</p>
-        <span class="explore-card-arrow" aria-hidden="true">&rarr;</span>
-      </a>
-      <a class="explore-card" href="projects.html">
-        <h3>Projects</h3>
-        <p>Case studies from my marketing and content work.</p>
-        <span class="explore-card-arrow" aria-hidden="true">&rarr;</span>
-      </a>
-      <a class="explore-card" href="marketing-campaigns.html">
-        <h3>Marketing Campaigns</h3>
-        <p>Campaigns I've helped plan, execute, and grow.</p>
-        <span class="explore-card-arrow" aria-hidden="true">&rarr;</span>
-      </a>
-      <a class="explore-card" href="contact.html">
-        <h3>Contact Me!</h3>
-        <p>Let's connect — reach out here.</p>
-        <span class="explore-card-arrow" aria-hidden="true">&rarr;</span>
-      </a>
+    <!-- Decorative editorial labels (not navigation) -->
+    <ul class="hm-micronav">
+      <li>Work</li>
+      <li>Thinking</li>
+      <li>Stories</li>
+      <li>A Curious<br />Practice</li>
+    </ul>
+
+    <!-- Primary editorial headline — overlaps the photo frame below -->
+    <div class="hm-masthead">
+      <p class="hm-masthead-eyebrow">A</p>
+      <h1 class="hm-masthead-title">
+        <span class="hm-masthead-main">Portfolio</span>
+        <span class="hm-masthead-sub">In Motion</span>
+      </h1>
     </div>
+
+    <div class="hm-grid">
+      <div class="hm-col-left">
+        <p class="hm-byline">
+          <span class="hm-name-oxblood">Diya</span> <span class="hm-name-charcoal">Kodgire</span>
+        </p>
+
+        <!-- Professional focus — transferable capability areas, not job
+             titles (no "Product Manager" / "Consultant" claims). -->
+        <p class="hm-focus">
+          <span class="hm-focus-line">
+            <span class="hm-focus-clause">Marketing Strategy</span>
+            <span class="hm-focus-clause"><span class="hm-focus-sep">&middot;</span> Product Thinking</span>
+            <span class="hm-focus-clause"><span class="hm-focus-sep">&middot;</span> Creative Direction</span>
+          </span>
+          <span class="hm-focus-line">
+            <span class="hm-focus-clause">Content + Social</span>
+            <span class="hm-focus-clause"><span class="hm-focus-sep">&middot;</span> Campaign Development</span>
+            <span class="hm-focus-clause"><span class="hm-focus-sep">&middot;</span> Business Strategy</span>
+          </span>
+        </p>
+
+        <p class="hm-rail-copy">A Creative Portfolio for a Wider World</p>
+
+        <p class="hm-intro">Brand stories, visual worlds, and meaningful ideas&mdash;collected along the way.</p>
+
+        <ul class="hm-categories">
+          <li>Marketing</li>
+          <li>Product</li>
+          <li>Strategy</li>
+          <li>Creative</li>
+          <li>Content</li>
+        </ul>
+
+        <p class="hm-issue-details">
+          <span class="hm-issue-no">N&ordm; 01</span>
+          <span class="hm-issue-year">2026</span>
+        </p>
+      </div>
+
+      <figure class="hm-frame">
+        <img
+          class="hm-frame-img"
+          src="assets/images/home/boats-dock.webp"
+          alt="Overhead view of two wooden motorboats moored at a sunlit dock, one white-hulled, one varnished mahogany, with a lantern post and railing in shadow below."
+        />
+        <figcaption class="hm-frame-caption">Photo / 01</figcaption>
+      </figure>
+
+      <div class="hm-col-right">
+        <ol class="hm-index">
+          <li><span class="hm-index-num">01</span>Creative Direction</li>
+          <li><span class="hm-index-num">02</span>Content + Social</li>
+          <li><span class="hm-index-num">03</span>Campaigns</li>
+          <li><span class="hm-index-num">04</span>Projects</li>
+        </ol>
+
+        <p class="hm-coverline"><span>Good Ideas</span><span>Move</span><span>Further</span></p>
+        <hr class="hm-coverline-rule" />
+      </div>
+    </div>
+
+    <nav class="hm-nav" aria-label="Primary">
+      <button class="hm-nav-toggle" id="hmNavToggle" aria-label="Toggle navigation" aria-expanded="false" aria-controls="hmNavLinks">
+        <span></span><span></span><span></span>
+      </button>
+      <ul id="hmNavLinks">
+        <li><a href="index.html" class="hm-nav-active">Home</a></li>
+        <li><a href="about.html">About</a></li>
+        <li><a href="skills.html">Skills</a></li>
+        <li><a href="content-creation.html">Content</a></li>
+        <li><a href="projects.html">Projects</a></li>
+        <li><a href="marketing-campaigns.html">Campaigns</a></li>
+        <li><a href="contact.html">Contact</a></li>
+      </ul>
+    </nav>
+
   </section>
 
 </main>
@@ -100,10 +140,28 @@
      until the intro completes or is skipped — see the script below. -->
 <button type="button" id="replayIntro" class="replay-intro" hidden>Replay intro</button>
 
-<script src="assets/js/main.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
 <script src="assets/js/door-transition.js"></script>
 <script>
+  document.getElementById('year').textContent = new Date().getFullYear();
+
+  // Mobile nav toggle (≤860px) — unrelated to the doorway below; it only
+  // ever touches #hmNavToggle/#hmNavLinks.
+  var hmNavToggle = document.getElementById('hmNavToggle');
+  var hmNavLinks = document.getElementById('hmNavLinks');
+  if (hmNavToggle && hmNavLinks) {
+    hmNavToggle.addEventListener('click', function () {
+      var isOpen = hmNavLinks.classList.toggle('hm-nav-open');
+      hmNavToggle.setAttribute('aria-expanded', String(isOpen));
+    });
+    hmNavLinks.querySelectorAll('a').forEach(function (link) {
+      link.addEventListener('click', function () {
+        hmNavLinks.classList.remove('hm-nav-open');
+        hmNavToggle.setAttribute('aria-expanded', 'false');
+      });
+    });
+  }
+
   var DOOR_ASSETS = {
     frame: 'assets/images/door/frame.png',
     doorLeft: 'assets/images/door/door-left.png',
