@@ -7,11 +7,13 @@
 <meta name="description" content="About Diya Kodgire — business and music industry student, marketing intern, and content creator." />
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;700;900&family=EB+Garamond:ital,wght@0,400;0,600;1,400&family=Caveat:wght@600;700&family=Special+Elite&display=swap" rel="stylesheet" />
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;700;900&family=EB+Garamond:ital,wght@0,400;0,600;1,400&family=Jost:wght@400;500;600&family=Caveat:wght@600;700&family=Special+Elite&display=swap" rel="stylesheet" />
 <link rel="stylesheet" href="assets/css/style.css" />
+<link rel="stylesheet" href="assets/css/about.css" />
 </head>
-<body>
+<body class="ab-theme">
 
+<!-- Shared navbar — unchanged, real component, real links. -->
 <header class="navbar">
   <nav class="nav-inner">
     <a class="nav-brand" href="index.html">DK</a>
@@ -31,41 +33,100 @@
 </header>
 
 <main>
-  <section class="section about">
-    <div class="about-grid">
-      <figure class="polaroid">
-        <div class="polaroid-photo placeholder-photo" data-placeholder="profile.jpg">
-          <span>Add photo:<br>assets/images/profile.jpg</span>
-        </div>
-        <figcaption>PROFILE</figcaption>
+
+  <!-- About — boarding-pass editorial spread, built around the real,
+       full-body photograph. Bio copy is the approved verbatim text.
+       The ticket system is a raster asset extracted directly from the
+       approved reference mockup — decorative/editorial texture, so it's
+       aria-hidden with the real factual content carried as visually
+       hidden text right after it. -->
+  <section class="ab-spread">
+
+    <p class="ab-sidetext" aria-hidden="true">A Portfolio In Motion</p>
+    <p class="ab-folio">02</p>
+
+    <div class="ab-stamp" aria-hidden="true">
+      <svg viewBox="0 0 160 160">
+        <defs>
+          <path id="ab-stamp-circle" d="M 80,80 m -62,0 a 62,62 0 1,1 124,0 a 62,62 0 1,1 -124,0" />
+        </defs>
+        <circle cx="80" cy="80" r="70" fill="none" stroke="var(--ab-gold)" stroke-width="1" />
+        <circle cx="80" cy="80" r="52" fill="none" stroke="var(--ab-gold)" stroke-width="1" />
+        <text font-family="'Jost', sans-serif" font-size="9.2" letter-spacing="2.4" fill="var(--ab-gold)">
+          <textPath href="#ab-stamp-circle" startOffset="2%">A PORTFOLIO IN MOTION &middot; A PORTFOLIO IN MOTION</textPath>
+        </text>
+        <text x="80" y="86" text-anchor="middle" font-family="var(--font-display)" font-weight="700" font-size="26" fill="var(--ab-oxblood)">02</text>
+      </svg>
+    </div>
+
+    <div class="ab-grid">
+
+      <!-- Real photo of Diya — untouched full-body crop (ceiling/side
+           margin trimmed only). See about-restart report for the exact
+           crop box against the source image. -->
+      <figure class="ab-photo">
+        <img
+          class="ab-photo-img"
+          src="assets/images/about/portrait.jpg"
+          alt="Diya Kodgire standing in a sunlit courtyard in a black and white polka-dot dress, looking back over her shoulder and smiling, with a stone fountain, potted plants, and a hanging chandelier behind her."
+        />
       </figure>
 
-      <div class="about-copy">
-        <h2 class="display-heading">HI THERE!</h2>
-        <p class="about-name">My name is Diya!</p>
+      <div class="ab-main">
+        <h1 class="ab-heading"><span class="ab-heading-charcoal">About</span> <span class="ab-heading-oxblood">Diya</span></h1>
 
-        <p>I'm a <strong>business</strong> and <strong>music industry</strong> student at USC emphasizing in
-          <strong>marketing</strong>. I am passionate about branding, digital strategy, content creation, and
-          digital marketing. As the social media co-chair for my competitive dance team, I've worked on digital
-          and campus marketing strategies and brought in several high-profile brand sponsorships, leading to our
-          team earning thousands of dollars. I'm also currently interning as a <strong>Marketing Intern</strong>
-          at <strong>Full Stop Management</strong>. I specialize in creating TikTok content, focusing on social
-          media marketing, influencer partnerships, and <strong>trend-driven</strong> campaigns.</p>
-
-        <p>I thrive on blending <strong>creativity with strategy</strong> to craft impactful brand experiences.
-          With strong <strong>communication, organizational, and strategic thinking skills</strong>, I'm
-          <strong>efficient, detail-oriented, and always eager to learn</strong>. I'm proficient in all Google
-          and Microsoft suites, Canva, social media analytics tools, basic coding in R, and iMovie. My work
-          ethic is fueled by my passion to <strong>learn</strong> more about the field of marketing,
-          <strong>gain</strong> hands-on experience, and <strong>make an impact!</strong></p>
-
-        <div class="about-icons">
-          <span class="icon-circle" title="Music">&#9834;</span>
-          <span class="icon-circle" title="Photography">&#128247;</span>
+        <div class="ab-bio">
+          <p>I&rsquo;m Diya, a business and music industry student at USC who loves blending creativity with
+            strategy. I&rsquo;m especially interested in branding, digital marketing, and content creation, and
+            I&rsquo;ve explored those interests through social media campaigns, campus marketing, and brand
+            partnerships&mdash;from leading marketing for my competitive dance team to working as a Social Media
+            Intern at Love Advertising this past summer.</p>
+          <p>I&rsquo;m curious, detail-oriented, and always thinking about how an idea could connect with people
+            more clearly. More recently, I&rsquo;ve also become interested in applying that same mix of creative
+            and strategic thinking to products and broader business problems.</p>
         </div>
+
+        <!-- Ticket system: three separate assets, each extracted directly
+             from the approved reference mockup (crop only — no redrawing,
+             retyping, recoloring, or reconstruction). Decorative/editorial
+             texture only; all three are aria-hidden since they aren't the
+             accessible source of the factual content below them. -->
+        <img
+          class="ab-pass-img"
+          src="assets/images/about/ticket-pass.png"
+          alt=""
+          aria-hidden="true"
+          width="961"
+          height="255"
+        />
+        <div class="ab-tags-wrap">
+          <img
+            class="ab-tag-usc"
+            src="assets/images/about/tag-usc.png"
+            alt=""
+            aria-hidden="true"
+            width="489"
+            height="149"
+          />
+          <img
+            class="ab-tag-la"
+            src="assets/images/about/tag-la.png"
+            alt=""
+            aria-hidden="true"
+            width="403"
+            height="149"
+          />
+        </div>
+        <p class="ab-ticket-fallback-text">
+          Marketing. Product Thinking. Business Strategy. Creative Direction.
+          USC Marshall. Los Angeles.
+        </p>
       </div>
+
     </div>
+
   </section>
+
 </main>
 
 <footer class="site-footer">
