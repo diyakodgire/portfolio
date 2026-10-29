@@ -187,41 +187,38 @@
     replayBtn.hidden = !introReady || footerInView;
   }
 
-  // Once-per-session gate: set the instant the visitor has actually
-  // entered the portfolio — the real door-open finishing, Skip Intro, and
-  // the reduced-motion fade all funnel through DoorTransition's single
-  // onComplete callback (see door-transition.js's finish()), so marking
-  // entered there covers all three triggers identically. sessionStorage
-  // (not localStorage, no query param) means a genuinely new browser
-  // session is eligible again, while reloads, internal navigation, and
-  // back/forward within this session all stay gated — none of those
-  // mechanisms touch sessionStorage, so the flag persists through all of
-  // them automatically. Only ever set, never cleared — Replay Intro calls
-  // startDoorIntro() directly (below) and re-marking an already-entered
-  // session is a harmless no-op, so replaying can never un-gate later
-  // normal Home visits.
-  var DOOR_ENTERED_KEY = 'doorIntroEntered';
-  function markEntered() {
-    try { sessionStorage.setItem(DOOR_ENTERED_KEY, '1'); } catch (e) {}
-  }
-  function hasEnteredThisSession() {
-    try { return sessionStorage.getItem(DOOR_ENTERED_KEY) === '1'; } catch (e) { return false; }
-  }
+  // No persistence, by design: the doorway plays on every visit to Home —
+  // first load, normal/hard reload, internal nav back to Home, and browser
+  // Back/Forward alike (the last of those via the pageshow/bfcache handler
+  // below). Skip, a full completion, and the reduced-motion fade all funnel
+  // through DoorTransition's single onComplete callback (see
+  // door-transition.js's finish()) purely to reset this page's own
+  // Replay-button state — nothing here is written to storage. A stale
+  // value from the old once-per-session gate (removed) would otherwise
+  // sit in storage forever for returning visitors, so it's deleted once,
+  // up front, for anyone arriving with it still set from before.
+  try { sessionStorage.removeItem('doorIntroEntered'); } catch (e) {}
+
+  // Guards against two overlays ever existing at once — e.g. a pageshow
+  // bfcache-restore event arriving while a just-started run hasn't finished
+  // yet. Sits for the lifetime of exactly one doorway run: set the instant
+  // that run starts, cleared the instant it finishes (real completion,
+  // Skip, or the reduced-motion fade), never touched by storage.
+  var doorwayActive = false;
 
   // Starts (or restarts) the intro. init() builds an entirely fresh
   // overlay/listeners each call and tears its own down on completion
   // (see door-transition.js), so calling this again for a replay never
-  // leaves a duplicate overlay or duplicate listeners behind. The Replay
-  // button stays hidden for the whole run and only reappears once this
-  // run's onComplete fires — whether from a real finish, Skip, or a
-  // reduced-motion fade.
+  // leaves a duplicate overlay or duplicate listeners behind.
   function startDoorIntro() {
+    if (doorwayActive) return;
+    doorwayActive = true;
     introReady = false;
     updateReplayVisibility();
     DoorTransition.init({
       assets: DOOR_ASSETS,
       onComplete: function () {
-        markEntered();
+        doorwayActive = false;
         introReady = true;
         updateReplayVisibility();
       },
@@ -242,16 +239,19 @@
     footerObserver.observe(footerEl);
   }
 
-  if (hasEnteredThisSession()) {
-    // Go straight to the landing page — DoorTransition.init() is never
-    // called, so no overlay, no scroll-lock, no flash of the facade,
-    // nothing to tear down. Covers reload, internal nav back to Home, and
-    // browser back/forward alike, since none of them clear sessionStorage.
-    introReady = true;
-    updateReplayVisibility();
-  } else {
-    startDoorIntro();
-  }
+  startDoorIntro();
+
+  // bfcache restore: the page's JS does not re-run from the top in this
+  // case (the whole document/JS state is frozen and resumed exactly as it
+  // was, including the doorway already gone and Replay already showing) —
+  // pageshow with event.persisted === true is the one signal that a visit
+  // came back this way, so it's the only place a bfcache return needs
+  // handling. A normal first load/reload also fires pageshow, but with
+  // persisted === false, so it never double-triggers the startDoorIntro()
+  // call above.
+  window.addEventListener('pageshow', function (event) {
+    if (event.persisted) startDoorIntro();
+  });
 </script>
 </body>
 </html>
