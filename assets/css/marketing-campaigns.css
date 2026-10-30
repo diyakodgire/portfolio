@@ -1,12 +1,11 @@
 /* ==========================================================================
-   Campaigns — the entire spread below the navbar is a single flattened,
-   deterministically-composited production image (built with Pillow from
-   the approved master visual, with the three product photos replaced by
-   real, native-resolution campaign assets — see the repo's working notes
-   for the compositing script). This file only places that image full-
-   width at its intrinsic ratio and overlays three precisely-clipped
-   transparent hotspots on top of it. Nothing about the tickets themselves
-   is drawn here, and nothing here redraws or recreates them.
+   Campaigns — the entire spread below the navbar is a single flattened
+   production image: the approved master visual with only its own live
+   navbar band cropped off and the remainder scaled proportionally. This
+   file only places that image full-width at its intrinsic ratio and
+   overlays three precisely-clipped transparent hotspots on top of it.
+   Nothing about the tickets themselves is drawn here, and nothing here
+   redraws or recreates them.
    ========================================================================== */
 
 .cf-theme { background: var(--cream); margin: 0; }
