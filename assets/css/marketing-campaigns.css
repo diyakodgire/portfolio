@@ -1,0 +1,60 @@
+/* ==========================================================================
+   Campaigns — the entire spread below the navbar is a single flattened,
+   deterministically-composited production image (built with Pillow from
+   the approved master visual, with the three product photos replaced by
+   real, native-resolution campaign assets — see the repo's working notes
+   for the compositing script). This file only places that image full-
+   width at its intrinsic ratio and overlays three precisely-clipped
+   transparent hotspots on top of it. Nothing about the tickets themselves
+   is drawn here, and nothing here redraws or recreates them.
+   ========================================================================== */
+
+.cf-theme { background: var(--cream); margin: 0; }
+
+.cf-wrap {
+  position: relative;
+  width: 100%;
+  line-height: 0;
+}
+
+.cf-art {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+/* Hotspots: an SVG overlay, one <polygon> per object, in the artwork's
+   own pixel coordinates (viewBox="0 0 2880 1701" matches the PNG 1:1).
+   An SVG shape's own `stroke` draws a clean outline around its true
+   rotated silhouette on focus — unlike an HTML element clipped with
+   clip-path, whose outline/filter effects get clipped away too in this
+   engine, an SVG polygon's stroke isn't subject to that at all. The
+   viewBox scaling (rather than fixed pixels) is also what keeps the
+   hotspots aligned to the artwork at every width, including mobile. */
+.cf-hotspots {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+.cf-hotspots a {
+  cursor: pointer;
+}
+.cf-hotspot {
+  fill: rgba(255, 255, 255, 0.001);
+  stroke: transparent;
+  stroke-width: 6;
+  paint-order: stroke;
+  vector-effect: non-scaling-stroke;
+  transition: stroke 0.15s ease;
+}
+.cf-hotspots a:hover .cf-hotspot {
+  stroke: rgba(174, 139, 73, 0.55);
+}
+.cf-hotspots a:focus-visible .cf-hotspot {
+  outline: none;
+  stroke: var(--gold);
+}
+.cf-hotspots a:focus-visible {
+  outline: none;
+}

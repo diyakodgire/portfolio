@@ -7,13 +7,11 @@
 <meta name="description" content="Marketing campaigns Diya Kodgire has planned, executed, and grown." />
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;700;900&family=EB+Garamond:ital,wght@0,400;0,600;1,400&family=Caveat:wght@600;700&family=Special+Elite&family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,900&display=swap" rel="stylesheet" />
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;700&display=swap" rel="stylesheet" />
 <link rel="stylesheet" href="assets/css/style.css" />
-<link rel="stylesheet" href="assets/css/case-study-lelabo.css" />
-<link rel="stylesheet" href="assets/css/case-study-laneige.css" />
-<link rel="stylesheet" href="assets/css/case-study-poppi.css" />
+<link rel="stylesheet" href="assets/css/marketing-campaigns.css" />
 </head>
-<body>
+<body class="cf-theme">
 
 <header class="navbar">
   <nav class="nav-inner">
@@ -34,43 +32,43 @@
 </header>
 
 <main>
-  <section class="section marketing-campaigns">
-    <h2 class="section-heading">Marketing Campaigns</h2>
+  <!-- The entire Campaigns spread below the navbar is one flattened,
+       deterministically-composited production image (Pillow), built
+       from the approved master visual with only the three product
+       photos swapped in from real, native-resolution campaign assets.
+       Nothing here is redrawn in HTML/CSS — the three SVG hotspots
+       below are precisely-clipped transparent overlays, nothing more. -->
+  <div class="cf-wrap">
+    <img
+      class="cf-art"
+      src="assets/images/campaigns/campaigns-flattened.png"
+      width="2880"
+      height="1701"
+      alt="Campaigns — three campaign boarding-pass tickets: Le Labo × Formula 1, Laneige Flavor Worlds, and Poppi Product Playground."
+    />
 
-    <a class="campaign-card-lelabo" href="campaigns/le-labo-f1.html">
-      <span class="visually-hidden">View Le Labo × Formula 1 campaign</span>
-      <img src="assets/images/campaigns/le-labo/le-labo-credential.png" alt="" width="2000" height="668" />
-    </a>
-
-    <a class="campaign-card-laneige" href="campaigns/laneige.html">
-      <span class="visually-hidden">View Laneige Flavor Worlds campaign</span>
-      <img src="assets/images/campaigns/laneige/laneige-tester.png" alt="" width="2000" height="667" />
-    </a>
-
-    <a class="campaign-card-poppi" href="campaigns/poppi.html">
-      <span class="visually-hidden">View Poppi Product Playground campaign</span>
-      <span class="poppi-label" aria-hidden="true">
-        <svg class="poppi-label-bg" viewBox="-10 -30 840 360" preserveAspectRatio="xMidYMid meet">
-          <path d="M 16,0 A 22,22 0 0 0 59.78,0 A 22,22 0 0 0 103.56,0 A 22,22 0 0 0 147.33,0 A 22,22 0 0 0 191.11,0 A 22,22 0 0 0 234.89,0 A 22,22 0 0 0 278.67,0 A 22,22 0 0 0 322.44,0 A 22,22 0 0 0 366.22,0 A 22,22 0 0 0 410,0 A 22,22 0 0 0 453.78,0 A 22,22 0 0 0 497.56,0 A 22,22 0 0 0 541.33,0 A 22,22 0 0 0 585.11,0 A 22,22 0 0 0 628.89,0 A 22,22 0 0 0 672.67,0 A 22,22 0 0 0 716.44,0 A 22,22 0 0 0 760.22,0 A 22,22 0 0 0 804,0 A 16,16 0 0 1 820,16 L 820,284 A 16,16 0 0 1 804,300 A 22,22 0 0 0 760.22,300 A 22,22 0 0 0 716.44,300 A 22,22 0 0 0 672.67,300 A 22,22 0 0 0 628.89,300 A 22,22 0 0 0 585.11,300 A 22,22 0 0 0 541.33,300 A 22,22 0 0 0 497.56,300 A 22,22 0 0 0 453.78,300 A 22,22 0 0 0 410,300 A 22,22 0 0 0 366.22,300 A 22,22 0 0 0 322.44,300 A 22,22 0 0 0 278.67,300 A 22,22 0 0 0 234.89,300 A 22,22 0 0 0 191.11,300 A 22,22 0 0 0 147.33,300 A 22,22 0 0 0 103.56,300 A 22,22 0 0 0 59.78,300 A 22,22 0 0 0 16,300 A 16,16 0 0 1 0,284 L 0,16 A 16,16 0 0 1 16,0 Z" />
-        </svg>
-        <span class="poppi-label-content">
-          <span class="poppi-label-title">POPPI</span>
-          <span class="poppi-label-subtitle">Product Playground</span>
-          <span class="poppi-label-swatches">
-            <span class="poppi-label-swatch strawberry-lemon"></span>
-            <span class="poppi-label-swatch amaya-colada"></span>
-            <span class="poppi-label-swatch wild-berry"></span>
-            <span class="poppi-label-swatch lemon-lime"></span>
-            <span class="poppi-label-swatch raspberry-rose"></span>
-            <span class="poppi-label-swatch cherry-limeade"></span>
-            <span class="poppi-label-swatch watermelon"></span>
-          </span>
-          <span class="poppi-label-meta">Speculative Campaign &middot; Spring 2025</span>
-          <span class="poppi-label-detail">7 Flavors / 1 Visual System</span>
-        </span>
-      </span>
-    </a>
-  </section>
+    <!-- Hotspots as an SVG overlay, viewBox matched 1:1 to the artwork's
+         own pixel grid so each <polygon> uses the exact same coordinates
+         the compositing script placed each object at. SVG <a>/<polygon>
+         is used instead of an HTML <a> with clip-path: a clipped HTML
+         element's focus outline gets clipped away too in this engine,
+         while an SVG shape's own stroke draws cleanly around the true
+         object outline regardless. -->
+    <svg class="cf-hotspots" viewBox="0 0 2880 1701" preserveAspectRatio="none" aria-hidden="false">
+      <a href="campaigns/le-labo-f1.html">
+        <title>View Le Labo × Formula 1 campaign</title>
+        <polygon class="cf-hotspot" points="212.5,886.2 913.4,826.2 913.4,1434.6 237.9,1440.0" />
+      </a>
+      <a href="campaigns/laneige.html">
+        <title>View Laneige Flavor Worlds campaign</title>
+        <polygon class="cf-hotspot" points="1667.0,365.0 2502.3,296.0 2542.2,802.6 1719.6,868.0" />
+      </a>
+      <a href="campaigns/poppi.html">
+        <title>View Poppi Product Playground campaign</title>
+        <polygon class="cf-hotspot" points="1797.7,1011.5 2600.4,946.1 2633.0,1525.3 1752.3,1598.0" />
+      </a>
+    </svg>
+  </div>
 </main>
 
 <footer class="site-footer">
