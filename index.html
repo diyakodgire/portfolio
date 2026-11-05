@@ -55,42 +55,56 @@
     </div>
 
     <div class="hm-grid">
+      <!-- hm-col-left is split into two inner blocks (top: byline+focus,
+           bottom: rail-copy/intro/categories/issue) purely so the mobile
+           layout can slot the photo between them via order — see the
+           ≤860px rules in home.css. At desktop/tablet this wrapper stays
+           a normal flex column exactly as the single original block was;
+           wrapping with no margin/padding of its own on the two inner
+           divs is visually transparent (a flex item establishes its own
+           formatting context, so the inner divs' own margins behave the
+           same as the original flat children's margins did), so nothing
+           above 860px changes. -->
       <div class="hm-col-left">
-        <p class="hm-byline">
-          <span class="hm-name-oxblood">Diya</span> <span class="hm-name-charcoal">Kodgire</span>
-        </p>
+        <div class="hm-col-left-top">
+          <p class="hm-byline">
+            <span class="hm-name-oxblood">Diya</span> <span class="hm-name-charcoal">Kodgire</span>
+          </p>
 
-        <!-- Professional focus — transferable capability areas, not job
-             titles (no "Product Manager" / "Consultant" claims). -->
-        <p class="hm-focus">
-          <span class="hm-focus-line">
-            <span class="hm-focus-clause">Marketing Strategy</span>
-            <span class="hm-focus-clause"><span class="hm-focus-sep">&middot;</span> Product Thinking</span>
-            <span class="hm-focus-clause"><span class="hm-focus-sep">&middot;</span> Creative Direction</span>
-          </span>
-          <span class="hm-focus-line">
-            <span class="hm-focus-clause">Content + Social</span>
-            <span class="hm-focus-clause"><span class="hm-focus-sep">&middot;</span> Campaign Development</span>
-            <span class="hm-focus-clause"><span class="hm-focus-sep">&middot;</span> Business Strategy</span>
-          </span>
-        </p>
+          <!-- Professional focus — transferable capability areas, not job
+               titles (no "Product Manager" / "Consultant" claims). -->
+          <p class="hm-focus">
+            <span class="hm-focus-line">
+              <span class="hm-focus-clause">Marketing Strategy</span>
+              <span class="hm-focus-clause"><span class="hm-focus-sep">&middot;</span> Product Thinking</span>
+              <span class="hm-focus-clause"><span class="hm-focus-sep">&middot;</span> Creative Direction</span>
+            </span>
+            <span class="hm-focus-line">
+              <span class="hm-focus-clause">Content + Social</span>
+              <span class="hm-focus-clause"><span class="hm-focus-sep">&middot;</span> Campaign Development</span>
+              <span class="hm-focus-clause"><span class="hm-focus-sep">&middot;</span> Business Strategy</span>
+            </span>
+          </p>
+        </div>
 
-        <p class="hm-rail-copy">A Creative Portfolio for a Wider World</p>
+        <div class="hm-col-left-bottom">
+          <p class="hm-rail-copy">A Creative Portfolio for a Wider World</p>
 
-        <p class="hm-intro">Brand stories, visual worlds, and meaningful ideas&mdash;collected along the way.</p>
+          <p class="hm-intro">Brand stories, visual worlds, and meaningful ideas&mdash;collected along the way.</p>
 
-        <ul class="hm-categories">
-          <li>Marketing</li>
-          <li>Product</li>
-          <li>Strategy</li>
-          <li>Creative</li>
-          <li>Content</li>
-        </ul>
+          <ul class="hm-categories">
+            <li>Marketing</li>
+            <li>Product</li>
+            <li>Strategy</li>
+            <li>Creative</li>
+            <li>Content</li>
+          </ul>
 
-        <p class="hm-issue-details">
-          <span class="hm-issue-no">N&ordm; 01</span>
-          <span class="hm-issue-year">2026</span>
-        </p>
+          <p class="hm-issue-details">
+            <span class="hm-issue-no">N&ordm; 01</span>
+            <span class="hm-issue-year">2026</span>
+          </p>
+        </div>
       </div>
 
       <figure class="hm-frame">
@@ -116,6 +130,7 @@
     </div>
 
     <nav class="hm-nav" aria-label="Primary">
+      <a class="hm-nav-brand" href="index.html">DK</a>
       <button class="hm-nav-toggle" id="hmNavToggle" aria-label="Toggle navigation" aria-expanded="false" aria-controls="hmNavLinks">
         <span></span><span></span><span></span>
       </button>

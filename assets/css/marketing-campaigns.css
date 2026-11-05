@@ -57,3 +57,78 @@
 .cf-hotspots a:focus-visible {
   outline: none;
 }
+
+/* Mobile-only stacked presentation (≤600px). Hidden above that width so
+   the approved desktop/tablet artwork and hotspots are completely
+   untouched; .cf-wrap is hidden in the same breakpoint so only one
+   presentation is ever visible at a time. */
+.cf-mobile {
+  display: none;
+}
+
+@media (max-width: 600px) {
+  .cf-wrap {
+    display: none;
+  }
+
+  .cf-mobile {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 28px;
+    padding: 28px 18px 36px;
+  }
+
+  .cf-mobile-heading {
+    width: 100%;
+  }
+
+  .cf-mobile-folio {
+    margin: 0 0 6px;
+    font-family: var(--font-display);
+    font-size: 0.8rem;
+    letter-spacing: 0.12em;
+    color: var(--ink);
+    border-top: 1px solid var(--gold);
+    padding-top: 8px;
+    width: 2.5em;
+  }
+
+  .cf-mobile-title {
+    margin: 0 0 10px;
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 2.6rem;
+    line-height: 1;
+    color: var(--ink);
+  }
+
+  .cf-mobile-sub {
+    margin: 0;
+    font-size: 0.78rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--ink);
+    opacity: 0.75;
+  }
+
+  .cf-mobile-card {
+    display: block;
+    width: 100%;
+    max-width: 480px;
+    line-height: 0;
+    border-radius: 2px;
+    overflow: hidden;
+  }
+
+  .cf-mobile-card img {
+    display: block;
+    width: 100%;
+    height: auto;
+  }
+
+  .cf-mobile-card:focus-visible {
+    outline: 2px solid var(--gold);
+    outline-offset: 3px;
+  }
+}

@@ -146,11 +146,20 @@
   padding: 0 2.0833vw 0 2.9167vw;
 }
 
-/* ---- Left column: byline, editorial rail copy, categories, issue details ---- */
+/* ---- Left column: byline, editorial rail copy, categories, issue details ----
+   Split into two inner flex-column blocks (top/bottom) purely so the
+   mobile layout can slot the photo between them (see ≤860px rules below);
+   at desktop/tablet .hm-col-left itself is still the one flex column it
+   always was, so this split changes nothing here. ---- */
 .hm-col-left {
   display: flex;
   flex-direction: column;
   margin-top: 1.8056vw;
+}
+.hm-col-left-top,
+.hm-col-left-bottom {
+  display: flex;
+  flex-direction: column;
 }
 
 .hm-byline {
@@ -359,6 +368,13 @@
   padding: 0 0 1.8056vw 2.9167vw;
 }
 
+/* Desktop/tablet: no brand mark in this bar, unchanged from the approved
+   design — only the mobile recomposition below shows it, at the top of
+   the page alongside the hamburger. */
+.hm-nav-brand {
+  display: none;
+}
+
 .hm-nav-toggle {
   display: none;
 }
@@ -422,7 +438,17 @@
    hamburger pattern already used by the shared .navbar and Contact.
    ========================================================================== */
 @media (max-width: 860px) {
-  .hm-landing { padding-top: 20px; }
+  /* Reorders .hm-landing's direct children with a single flex `order` on
+     .hm-nav (-1 moves it first; everything else keeps default order 0,
+     so it falls back to normal DOM order among itself) — the shared
+     mobile navbar now leads the page instead of trailing it, and the
+     bottom nav bar no longer exists as a separate thing: it's the same
+     single nav element, just repositioned, with its markup/JS untouched. */
+  .hm-landing {
+    display: flex;
+    flex-direction: column;
+    padding-top: 20px;
+  }
 
   .hm-cover-border { inset: 10px; }
   .hm-vrule { display: none; }
@@ -444,19 +470,27 @@
     letter-spacing: -0.01em;
   }
 
+  /* .hm-grid becomes the flex context that actually places the photo
+     between the two halves of the left column: .hm-col-left (desktop's
+     single wrapper) is dissolved with display:contents so its two inner
+     blocks become direct flex items here, ordered alongside the photo
+     and the right column. */
   .hm-grid {
-    display: block;
+    display: flex;
+    flex-direction: column;
     padding: 0 18px;
   }
 
-  .hm-col-left {
-    margin-top: 28px;
-  }
+  .hm-col-left { display: contents; }
+
+  .hm-col-left-top { order: 1; margin-top: 28px; }
   .hm-byline { font-size: 2rem; }
   .hm-focus {
     max-width: none;
     font-size: 0.78rem;
   }
+
+  .hm-col-left-bottom { order: 3; margin-top: 26px; }
   .hm-rail-copy {
     max-width: none;
     font-size: 0.72rem;
@@ -472,10 +506,12 @@
      the masthead, so the negative-margin overlap trick doesn't apply
      here; a plain gap replaces it. */
   .hm-frame {
+    order: 2;
     margin-top: 26px;
   }
 
   .hm-col-right {
+    order: 4;
     margin-top: 32px;
   }
   .hm-coverline {
@@ -484,8 +520,31 @@
   }
 
   .hm-nav {
+    order: -1;
     margin-top: 0;
     padding: 18px 20px;
+  }
+
+  .hm-nav-brand {
+    display: block;
+    position: absolute;
+    top: 50%;
+    left: 20px;
+    transform: translateY(-50%);
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 1.15rem;
+    color: var(--oxblood);
+    text-decoration: none;
+  }
+  .hm-nav-brand:hover,
+  .hm-nav-brand:focus-visible {
+    color: #7e2130;
+  }
+  .hm-nav-brand:focus-visible {
+    outline: 2px solid var(--oxblood);
+    outline-offset: 3px;
+    border-radius: 2px;
   }
 
   .hm-nav-toggle {
